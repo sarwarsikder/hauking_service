@@ -24,25 +24,34 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/service', [ServiceController::class, 'index'])->name('service');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__ . '/auth.php';
 
 
-Route::get('/serviceOne', [ServiceOneController::class, 'index'])->name('serviceOne');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/service', [ServiceController::class, 'index'])->name('service');
+
+    Route::get('/serviceOne', [ServiceOneController::class, 'index'])->name('serviceOne');
 
 
-Route::get('/serviceTwo', [ServiceOneController::class, 'index'])->name('serviceTwo');
+    Route::get('/serviceTwo', [ServiceOneController::class, 'index'])->name('serviceTwo');
 
 
-Route::get('/users', [UserController::class, 'index'])->name('users');
+    Route::get('/users', [UserController::class, 'index'])->name('users');
 
 
-Route::get('/order', [OrderController::class, 'index'])->name('order');
+    Route::get('/order', [OrderController::class, 'index'])->name('order');
 
 
-Route::get('/subscriber', [SubscriberController::class, 'index'])->name('subscriber');
+    Route::get('/subscriber', [SubscriberController::class, 'index'])->name('subscriber');
 
 
-Route::get('/frequencys', [FrequencysController::class, 'index'])->name('frequencys');
+    Route::get('/frequencys', [FrequencysController::class, 'index'])->name('frequencys');
 
 
-Route::get('/taxSystem', [TaxSystemController::class, 'index'])->name('taxSystem');
+    Route::get('/taxSystem', [TaxSystemController::class, 'index'])->name('taxSystem');
+});
+
