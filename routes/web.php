@@ -1,5 +1,12 @@
 <?php
 
+use App\Http\Controllers\Dashbroad\OrderController;
+use App\Http\Controllers\Dashbroad\ServiceController;
+use App\Http\Controllers\Dashbroad\Settings\FrequencysController;
+use App\Http\Controllers\Dashbroad\Settings\TaxSystemController;
+use App\Http\Controllers\Dashbroad\SubscriberController;
+use App\Http\Controllers\Dashbroad\SubService\ServiceOneController;
+use App\Http\Controllers\Dashbroad\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +23,26 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/service', [ServiceController::class, 'index'])->name('service');
+
+
+Route::get('/serviceOne', [ServiceOneController::class, 'index'])->name('serviceOne');
+
+
+Route::get('/serviceTwo', [ServiceOneController::class, 'index'])->name('serviceTwo');
+
+
+Route::get('/users', [UserController::class, 'index'])->name('users');
+
+
+Route::get('/order', [OrderController::class, 'index'])->name('order');
+
+
+Route::get('/subscriber', [SubscriberController::class, 'index'])->name('subscriber');
+
+
+Route::get('/frequencys', [FrequencysController::class, 'index'])->name('frequencys');
+
+
+Route::get('/taxSystem', [TaxSystemController::class, 'index'])->name('taxSystem');
