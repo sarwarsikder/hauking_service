@@ -1,11 +1,13 @@
 <div class="sidebar-menu">
     <div class="sidebar-header">
         <div class="logo">
-            <a href="index.html"> <img src="{{asset('assets/dashboard/img/290018488_1110770999821005_2691879510461168954_n.png')}}" alt=""></a>
+            <a href="{{ route('dashboard') }}"> <img
+                    src="{{ asset('assets/dashboard/img/290018488_1110770999821005_2691879510461168954_n.png') }}"
+                    alt=""></a>
         </div>
     </div>
     <div class="header-text">
-        <a href="index.html"><i class="bi bi-house-door"></i>Dashboard</a>
+        <a href="{{ route('dashboard') }}"><i class="bi bi-house-door"></i>Dashboard</a>
     </div>
     <div class="main-menu">
         <div class="menu-inner">
@@ -13,14 +15,16 @@
                 <ul class="metismenu" id="menu">
                     <li class="management">Management</li>
                     <li>
-                        <a href="{{ route('service') }}" data-bs-toggle="collapse show" data-bs-target="#Service"
+                                                                            {{-- show --}}
+                        <a href="{{ route('service') }}" data-bs-toggle="collapse" data-bs-target="#Service"
                             aria-controls="Service" aria-expanded="true"><i class="bi bi-graph-up"></i><span>Service
                             </span>
                         </a>
 
                         <ul class="collapse  " id="Service">
-                            <li><a href="service1.html"> Service 1</a></li>
-                            <li><a href="service2.html"> Service 2</a></li>
+                            <li><a href="{{ route('service')}}"> Service</a></li>
+                            <li><a href="{{ route('serviceOne')}}"> Service 1</a></li>
+                            <li><a href="{{ route('serviceTwo')}}"> Service 2</a></li>
                         </ul>
                     </li>
                     <li id="user">
@@ -28,11 +32,13 @@
                                 class="bi bi-people"></i><span>Users</span></a>
                     </li>
                     <li>
-                        <a href="{{ route('order') }}" data-bs-toggle="collapse show" data-bs-target="#Orders"
+                                                                            {{-- show --}}
+                        <a href="{{ route('order') }}" data-bs-toggle="collapse" data-bs-target="#Orders"
                             aria-controls="Orders" aria-expanded="true" <i class="bi bi-cart"></i><span>Orders </span>
                         </a>
-                        <ul class="collapse " id="orders">
-                            <li><a href="subscriber.html">Subscriber </a></li>
+                        <ul class="collapse " id="Orders">
+                            <li><a href="{{ route('order')}}">Order </a></li>
+                            <li><a href="{{ route('subscriber')}}">Subscriber </a></li>
                         </ul>
                     </li>
                     <li>
@@ -52,4 +58,3 @@
         </div>
     </div>
 </div>
-
