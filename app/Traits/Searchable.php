@@ -35,7 +35,7 @@ trait Searchable
         $keys = explode(' ', $this->search);
         return $builder->where(function (Builder $builder) use ($keys, $searchFrom) {
             foreach ($keys as $key) {
-                foreach($searchFrom as $s) {
+                foreach ($searchFrom as $s) {
                     $builder->orWhere($s, 'like', '%' . $key . '%');
                 }
             }

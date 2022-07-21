@@ -5,11 +5,15 @@ namespace App\Http\Controllers\backends\user;
 use App\Http\Controllers\Controller;
 use App\Models\ProductsRegister;
 use App\Service\UserService;
+use App\Traits\Statusable;
 use Illuminate\Http\Request;
+use Response;
 
 
 class UserController extends Controller
 {
+    use Statusable;
+
     private array $data = [];
 
     /**
@@ -92,7 +96,37 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus(Request $request)
+    {
+        try {
+            if ($request->ajax()) {
+                $user_service = new UserService($request->toArray());
+                $this->data['users'] = $user_service->statusUpdate();
+            }
+        } catch (\Exception $exception) {
+            return Response::json(array(
+                'status' => false,
+                'data' => [],
+                'message' => 'Something went wrong!'
+            ), 400);
+        }
+
+        return Response::json(array(
+            'status' => true,
+            'data' => [],
+            'message' => 'Status updated successfully!'
+        ), 200);
+
     }
 
     /**
@@ -101,8 +135,26 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        try {
+            if ($request->ajax()) {
+                $user_service = new UserService($request->toArray());
+                $this->data['users'] = $user_service->userDelete();
+            }
+        } catch (\Exception $exception) {
+            return Response::json(array(
+                'status' => false,
+                'data' => [],
+                'message' => 'Something went wrong!'
+            ), 400);
+        }
+
+        return Response::json(array(
+            'status' => true,
+            'data' => [],
+            'message' => 'User deleted successfully!'
+        ), 200);
+
     }
 }

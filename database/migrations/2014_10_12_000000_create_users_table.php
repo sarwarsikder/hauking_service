@@ -22,9 +22,13 @@ return new class extends Migration {
             $table->date('date_of_birth')->nullable();
             $table->enum('gender', ['Male', 'Female', 'Other'])->nullable();
             $table->timestamp('email_verified_at')->nullable();
+
+
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+
         });
     }
 

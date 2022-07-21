@@ -33,6 +33,8 @@ require __DIR__ . '/auth.php';
 Route::group(['prefix' => 'admin'], function () {
     Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/users', [UserController::class, 'index'])->name('users');
+        Route::post('/users/status', [UserController::class, 'updateStatus'])->name('users-status');
+        Route::post('/users/delete', [UserController::class, 'destroy'])->name('users-status');
 
 
         Route::get('/services', [ServiceController::class, 'index'])->name('service');
