@@ -38,8 +38,6 @@ Route::group(['prefix' => 'admin'], function () {
 
 
         Route::get('/services', [ServiceController::class, 'index'])->name('service');
-        Route::get('/serviceOne', [ServiceOneController::class, 'index'])->name('serviceOne');
-        Route::get('/serviceTwo', [ServiceOneController::class, 'index'])->name('serviceTwo');
         Route::get('/orders', [OrderController::class, 'index'])->name('order');
         Route::get('/subscriber', [SubscriberController::class, 'index'])->name('subscriber');
         Route::get('/frequencys', [FrequencysController::class, 'index'])->name('frequencys');
