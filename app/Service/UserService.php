@@ -9,15 +9,18 @@ use App\Traits\Searchable;
 use App\Traits\Sortable;
 use App\Traits\Statusable;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
     use Searchable, Sortable, Statusable, Deletable;
 
     private ?int $perPage;
+    private ?array $request;
 
     public function __construct(array $request)
     {
+        $this->request = $request;
         $this->perPage = empty($request['per_page']) ? null : (int)$request['per_page'];
         $this->setSearch(optional($request)['search']);
         $this->setSortBy(optional($request)['sort_by'], optional($request)['is_descending']);
@@ -48,6 +51,5 @@ class UserService
         $userBuilder = User::query();
         return $this->applyDelete($userBuilder);
     }
-
 
 }

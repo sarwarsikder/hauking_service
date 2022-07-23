@@ -9,13 +9,18 @@
         </div>
         <div class="row" data-aos="fade-up">
             <div class="col-md-12 position-relative">
+                @if (session('redirect-message'))
+                    <div class="alert alert-success">
+                        {{ session('redirect-message') }}
+                    </div>
+                @endif
                 <div class="recentUser">
                     <div class="card shadow">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="table-left">
-                                        <a href="#" class="add-user"> <span><i class="bi bi-person-plus"></i></span> Add
+                                        <a href="{{route('users-create')}}" class="add-user"> <span><i class="bi bi-person-plus"></i></span> Add
                                             User</a>
                                     </div>
                                 </div>

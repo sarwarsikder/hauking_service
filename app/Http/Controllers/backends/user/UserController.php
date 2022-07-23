@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\backends\user;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\Models\ProductsRegister;
+use App\Models\User;
 use App\Service\UserService;
 use App\Traits\Statusable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Response;
 
 
@@ -51,7 +54,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view("backends.user.create", $this->data);
     }
 
     /**
@@ -60,9 +63,38 @@ class UserController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        try {
+
+            $userObject = new User();
+
+            $userObject->first_name = $request['first_name'];
+            $userObject->last_name = $request['last_name'];
+            $userObject->email = $request['email'];
+            $userObject->password = Hash::make($request['password']);
+            $userObject->primary_address = $request['primary_address'];
+            $userObject->city = $request['city'];
+            $userObject->state = $request['state'];
+            $userObject->zipcode = $request['zipcode'];
+            $userObject->country = $request['country'];
+            $userObject->email = $request['email'];
+
+            if ($request->file('user_profile')) {
+                $file = $request->file('user_profile');
+                $filename = date('YmdHi') . $file->getClientOriginalName();
+                $file->move(public_path('public/images/services'), $filename);
+                $userObject->user_profile = $request['user_profile'];
+            }
+
+            if ($userObject->save()) {
+                return redirect(route('users-list'))->with('redirect-message', 'User successfully added!');
+            } else {
+                return redirect()->back()->with('redirect-message', 'Something wrong!');
+            }
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        }
     }
 
     /**

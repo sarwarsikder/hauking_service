@@ -32,9 +32,11 @@ require __DIR__ . '/auth.php';
 
 Route::group(['prefix' => 'admin'], function () {
     Route::middleware(['auth', 'admin'])->group(function () {
-        Route::get('/users', [UserController::class, 'index'])->name('users');
+        Route::get('/users', [UserController::class, 'index'])->name('users-list');
+        Route::get('/users/create', [UserController::class, 'create'])->name('users-create');
+        Route::post('/users/create', [UserController::class, 'store'])->name('users-submit');
         Route::post('/users/status', [UserController::class, 'updateStatus'])->name('users-status');
-        Route::post('/users/delete', [UserController::class, 'destroy'])->name('users-status');
+        Route::post('/users/delete', [UserController::class, 'destroy'])->name('users-delete');
 
         /**
          * Frequency
@@ -43,8 +45,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/frequencys', [FrequencyController::class, 'index'])->name('frequency');
         Route::post('/frequency/create', [FrequencyController::class, 'create'])->name('frequecy-create');
 
-        Route::get('/services', [HaukingServiceController::class, 'index'])->name('service');
-        Route::get('/orders', [OrderController::class, 'index'])->name('order');
+        Route::get('/services', [HaukingServiceController::class, 'index'])->name('service-list');
+        Route::get('/orders', [OrderController::class, 'index'])->name('order-list');
         Route::get('/subscriber', [SubscriberController::class, 'index'])->name('subscriber');
         
         Route::get('/taxSystem', [TaxSystemController::class, 'index'])->name('taxSystem');
