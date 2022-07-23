@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Service;
 use App\Models\User;
 use Database\Factories\AdminFactory;
 use Illuminate\Database\Seeder;
@@ -35,5 +36,9 @@ class DatabaseSeeder extends Seeder
          *  Seed users fak data
          ***/
         User::factory(1000)->create();
+        /***
+         *  Seed services fak data
+         ***/
+        Service::factory(20)->create();
     }
 }

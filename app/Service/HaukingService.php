@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Models\ProductsRegister;
+use App\Models\Service;
 use App\Models\User;
 use App\Traits\Deletable;
 use App\Traits\Searchable;
@@ -10,7 +11,7 @@ use App\Traits\Sortable;
 use App\Traits\Statusable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class UserService
+class HaukingService
 {
     use Searchable, Sortable, Statusable, Deletable;
 
@@ -29,8 +30,7 @@ class UserService
 
     public function get(): LengthAwarePaginator
     {
-        $searchProductBuilder = User::query();
-        $searchProductBuilder->whereNull("deleted_at");
+        $searchProductBuilder = Service::query();
         $searchProductBuilder = $this->applySearch($searchProductBuilder, ['first_name']);
         $searchProductBuilder = $this->applySorting($searchProductBuilder);
 
@@ -45,7 +45,7 @@ class UserService
 
     public function userDelete()
     {
-        $userBuilder = User::query();
+        $userBuilder = Service::query();
         return $this->applyDelete($userBuilder);
     }
 

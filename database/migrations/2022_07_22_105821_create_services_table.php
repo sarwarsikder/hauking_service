@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->json('default_value_day');
             $table->json('default_value_night');
             $table->json('default_value_booster');
-            $table->json('default_special_feq');
+            $table->string('default_special_feq');
             $table->string('service_image_url');
             $table->boolean('status')->nullable();
 

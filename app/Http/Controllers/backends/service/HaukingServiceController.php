@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\backends\service;
 
 use App\Http\Controllers\Controller;
+use App\Service\HaukingService;
 use Illuminate\Http\Request;
 
-class ServiceController extends Controller
+class HaukingServiceController extends Controller
 {
+    private array $data = [];
+
     /**
      * Create a new controller instance.
      *
@@ -21,9 +24,16 @@ class ServiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view("backends.service.index");
+        try {
+            $hauking_service = new HaukingService($request->toArray());
+            $this->data['haukings'] = $hauking_service->get();
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
+        }
+
+        return view("backends.service.index", $this->data);
     }
 
     /**
