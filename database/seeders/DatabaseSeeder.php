@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
         /***
          *  Seed users fak data
          ***/
-        User::factory(1000)->create();
+        User::factory(100)->create();
         /***
          *  Seed services fak data
          ***/

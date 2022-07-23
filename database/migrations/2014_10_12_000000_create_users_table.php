@@ -17,6 +17,18 @@ return new class extends Migration {
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
+
+            $table->string('primary_address');
+            $table->string('secondary_address')->nullable();
+
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('zipcode')->nullable();
+            $table->string('country')->nullable();
+
+            $table->string('phone')->nullable();
+
+
             $table->enum('role', ['user', 'admin'])->default('user');
             $table->boolean('status')->default(0);
             $table->date('date_of_birth')->nullable();

@@ -13,7 +13,7 @@
                 <ul class="metismenu" id="menu">
                     <li class="management">Management</li>
                     <li>
-                        <a href="{{ url('admin/services') }}" data-bs-toggle="collapse show" data-bs-target="#Service"
+                        <a href="{{ route('service-list') }}" data-bs-toggle="collapse show" data-bs-target="#Service"
                            aria-controls="Service"
                            aria-expanded="true"><i class="bi bi-graph-up"></i><span>Service </span>
                         </a>
@@ -24,11 +24,11 @@
                         </ul>
                     </li>
                     <li id="user">
-                        <a href="{{ url('admin/users') }}" aria-expanded="true"><i
+                        <a href="{{ route('users-list') }}" aria-expanded="true"><i
                                 class="bi bi-people"></i><span>Users</span></a>
                     </li>
                     <li>
-                        <a href="{{ url('admin/orders') }}" data-bs-toggle="collapse show" data-bs-target="#Orders"
+                        <a href="{{ route('order-list') }}" data-bs-toggle="collapse show" data-bs-target="#Orders"
                            aria-controls="Orders" aria-expanded="true"><i class="bi bi-cart"></i><span>Orders </span>
                         </a>
                         <ul class="collapse {{ (Request::segment(2)=='orders')?"show":"" }}" id="orders">
