@@ -1,22 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\backends\Settings;
+namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class TaxSystemController extends Controller
+class CouponController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +14,7 @@ class TaxSystemController extends Controller
      */
     public function index()
     {
-        return view("dashboard.settings.tax-system.tax_system");
+        //
     }
 
     /**
