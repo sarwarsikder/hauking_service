@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('frequency', function (Blueprint $table) {
             $table->id();
             $table->string('frequency_name');
-            $table->boolean('status')->default(0);
+            $table->boolean('status')->default(1);
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });

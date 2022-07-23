@@ -40,7 +40,7 @@
                            aria-expanded="true"><i class="bi bi-file-lock"></i><span>Settings </span>
                         </a>
                         <ul class="collapse" id="settings">
-                            <li><a href="frequencys.html">Frequency </a></li>
+                            <li><a href="{{ route('frequency') }}">Frequency </a></li>
                             <li><a href="#">Tax System </a></li>
                             <li><a href="#">Languages </a></li>
                             <li><a href="#">E-mail Settings </a></li>

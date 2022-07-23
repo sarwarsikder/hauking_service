@@ -13,11 +13,13 @@
                     <div class="card shadow">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="frequencyAddBtn">
                                         <button class="add-user " id="add-frequency"> Add Frequency</button>
                                         <input type="text" placeholder="Enter Frequency Name.." id="frequency" class="hide">
                                         <span class="hide" id="addFrequencyBtn"><i class="bi bi-plus"></i></span>
+                                        <span class="hide" id="updateFrequencyBtn"><i class="bi bi-plus"></i></span>
+                                        <span class="hide" id="cancelFrequencyBtn"><i class="bi bi-x-circle"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -48,7 +50,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="add-userTable-btn">
-                                                        <a href="addUser.html" class="edit-btn"><i
+                                                        <a href="javascrpit:void()" class="edit-btn" data-id="{{$f->id}}" data-name="{{$f->frequency_name}}"><i
                                                                 class="bi bi-pencil-square"></i></a>
                                                         <a href="javascrit:void()" class="del-btn"
                                                            data-id="{{$f->id}}"><i
@@ -84,6 +86,100 @@
                 src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
         <script>
             $(function () {
+
+                let frequencyBtn = document.querySelector("#addFrequencyBtn");
+                let updateFrequencyBtn = document.querySelector("#updateFrequencyBtn");
+                let cancelFrequencyBtn = document.querySelector("#cancelFrequencyBtn");
+                let addfrequency = document.querySelector("#add-frequency");
+                let frequency_id="";
+                addfrequency.onclick = function () {
+                    updateFrequencyBtn.classList.add("hide");
+                    cancelFrequencyBtn.classList.remove("hide");
+                    frequency.classList.remove("hide")
+                    frequencyBtn.classList.remove("hide");
+                };
+                frequencyBtn.onclick = function () { 
+                     
+                let frequencyName = document.getElementById("frequency").value;
+                $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: "POST",
+                        dataType: "json",
+                        url: '/admin/frequency/create/',
+                        data: {'frequency_name': frequencyName},
+                        success: function (data) {
+                            console.log(data.success)
+                            if (data.status == true) {
+                                $("#frequency").val('');
+                                toastr.success(data.message);
+                                setInterval(function () {
+                                    window.location.reload();
+                                }, 3000);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        },
+                        error: function (err) {
+                            toastr.error(data.message);
+                        }
+                    });
+                };
+
+                $('.edit-btn').on('click', function (e) {
+                    e.preventDefault();
+                    var button = $(this);
+                    frequency_id = $(this).data('id');
+                    var frequency_name = $(this).data('name');
+                    frequency.value = frequency_name; 
+                    frequency.classList.remove("hide")
+                    frequencyBtn.classList.add("hide");
+                    updateFrequencyBtn.classList.remove("hide");
+                    cancelFrequencyBtn.classList.remove("hide");
+                })
+
+                cancelFrequencyBtn.onclick = function () {
+                    frequency.classList.add("hide")
+                    frequencyBtn.classList.add("hide");
+                    updateFrequencyBtn.classList.add("hide");
+                    cancelFrequencyBtn.classList.add("hide");
+                    frequency.value = ""
+                    frequency_id=""
+                }
+
+                updateFrequencyBtn.onclick = function () { 
+                     
+                     let frequencyName = document.getElementById("frequency").value;
+                     $.ajax({
+                             headers: {
+                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                             },
+                             type: "POST",
+                             dataType: "json",
+                             url: '/admin/frequency/update/',
+                             data: {'frequency_name': frequencyName,'id':frequency_id},
+                             success: function (data) {
+                                 console.log(data.success)
+                                 if (data.status == true) {
+                                     $("#frequency").val('');
+                                     frequency_id="";
+                                     toastr.success(data.message);
+                                     setInterval(function () {
+                                         window.location.reload();
+                                     }, 3000);
+                                 } else {
+                                     toastr.error(data.message);
+                                 }
+                             },
+                             error: function (err) {
+                                 toastr.error(data.message);
+                             }
+                         });
+                     };
+
+            });
+
                 $('.toggle-class').change(function () {
                     var status = $(this).prop('checked') == true ? 1 : 0;
                     var frequency_id = $(this).data('id');
@@ -110,6 +206,7 @@
                     });
                 });
 
+                
                 $('.del-btn').on('click', function (e) {
                     e.preventDefault();
                     var button = $(this);
@@ -137,13 +234,13 @@
                                     type: "POST",
                                     dataType: "json",
                                     url: '/admin/frequency/delete/',
-                                    data: {'id': frequency_id},
+                                    data: {'id': parseInt(frequency_id)},
                                     success: function (data) {
                                         if (data.status == true) {
                                             toastr.success(data.message);
                                             setInterval(function () {
                                                 window.location.reload();
-                                            }, 5000);
+                                            }, 3000);
                                         } else {
                                             toastr.error(data.message);
                                         }
@@ -158,37 +255,10 @@
                     });
                 });
 
-                let frequencyBtn = document.querySelector("#addFrequencyBtn");
-                let addfrequency = document.querySelector("#add-frequency");
-                addfrequency.onclick = function () {
-                frequency.classList.remove("hide")
-                frequencyBtn.classList.remove("hide");
-                };
-                frequencyBtn.onclick = function () { 
-                     
-                let frequencyName = document.getElementById("frequency").value;
-                $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        type: "POST",
-                        dataType: "json",
-                        url: '/admin/frequency/create/',
-                        data: {'frequency_name': frequencyName},
-                        success: function (data) {
-                            console.log(data.success)
-                            if (data.status == true) {
-                                toastr.success(data.message);
-                            } else {
-                                toastr.error(data.message);
-                            }
-                        },
-                        error: function (err) {
-                            toastr.error(data.message);
-                        }
-                    });
-                };
-            });
+                
+
+            
+            
         </script>
     @endsection
 @endsection

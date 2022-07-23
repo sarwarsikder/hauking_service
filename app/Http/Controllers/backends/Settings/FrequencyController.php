@@ -4,7 +4,14 @@ namespace App\Http\Controllers\backends\Settings;
 
 use App\Http\Controllers\Controller;
 use App\Service\FrequencyService;
+use App\Http\Requests\UserRequest;
+use App\Models\ProductsRegister;
+use App\Models\Frequency;
+use App\Service\UserService;
+use App\Traits\Statusable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Response;
 
 class FrequencyController extends Controller
 {
@@ -46,12 +53,15 @@ class FrequencyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         try {
             if ($request->ajax()) {
-                $frequency_service = new FrequencyService($request->toArray());
-                $this->data['frequency'] = $frequency_service->create();
+                if($request->frequency_name!='' && $request->frequency_name!=NULL){
+                    $frequencyObject = new Frequency();
+                    $frequencyObject->frequency_name = $request->frequency_name;
+                    $frequencyObject->save();
+                }
             }
         } catch (\Exception $exception) {
             return Response::json(array(
@@ -63,7 +73,7 @@ class FrequencyController extends Controller
 
         return Response::json(array(
             'status' => true,
-            'data' => [],
+            'data' => $frequencyObject,
             'message' => 'Frequency Created successfully!'
         ), 200);
     }
@@ -76,7 +86,27 @@ class FrequencyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            if ($request->ajax()) {
+                if($request->frequency_name!='' && $request->frequency_name!=NULL){
+                    $frequencyObject = new Frequency();
+                    $frequencyObject->frequency_name = $request->frequency_name;
+                    $frequencyObject->save();
+                }
+            }
+        } catch (\Exception $exception) {
+            return Response::json(array(
+                'status' => false,
+                'data' => [],
+                'message' => 'Something went wrong!'
+            ), 400);
+        }
+
+        return Response::json(array(
+            'status' => true,
+            'data' => $frequencyObject,
+            'message' => 'Frequency Created successfully!'
+        ), 200);
     }
 
     /**
@@ -108,9 +138,63 @@ class FrequencyController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        try {
+            if ($request->ajax()) {
+                if($request->frequency_name!='' && $request->frequency_name!=NULL
+                && $request->id!='' && $request->id!=NULL){
+                    $frequencyObject = Frequency::where('id',$request->id)->first();
+                    if($frequencyObject!=''){
+                        $frequencyObject->frequency_name = $request->frequency_name;
+                        $frequencyObject->save();
+                    }else{
+                        return Response::json(array(
+                            'status' => false,
+                            'data' => [],
+                            'message' => 'Frequency not found'
+                        ), 400);
+                    }
+                   
+                }
+            }
+        } catch (\Exception $exception) {
+            return Response::json(array(
+                'status' => false,
+                'data' => [],
+                'message' => 'Something went wrong!'
+            ), 400);
+        }
+
+        return Response::json(array(
+            'status' => true,
+            'data' => $frequencyObject,
+            'message' => 'Frequency Updated successfully!'
+        ), 200);
+        
+    }
+
+    public function updateStatus(Request $request)
+    {
+        try {
+            if ($request->ajax()) {
+                $frequency_service = new FrequencyService($request->toArray());
+                $this->data['frequency'] = $frequency_service->statusUpdate();
+            }
+        } catch (\Exception $exception) {
+            return Response::json(array(
+                'status' => false,
+                'data' => [],
+                'message' => 'Something went wrong!'
+            ), 400);
+        }
+
+        return Response::json(array(
+            'status' => true,
+            'data' => [],
+            'message' => 'Status updated successfully!'
+        ), 200);
+
     }
 
     /**
@@ -119,8 +203,26 @@ class FrequencyController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        try {
+            if ($request->ajax()) {
+                $frequency_service = new FrequencyService($request->toArray());
+                $this->data['frequency'] = $frequency_service->delete();
+            }
+        } catch (\Exception $exception) {
+            return Response::json(array(
+                'status' => false,
+                'data' => [],
+                'message' => 'Something went wrong!'
+            ), 400);
+        }
+
+        return Response::json(array(
+            'status' => true,
+            'data' => [],
+            'message' => 'Frequency deleted successfully!'
+        ), 200);
+
     }
 }

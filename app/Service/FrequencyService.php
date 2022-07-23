@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Models\ProductsRegister;
 use App\Models\Frequency;
-use App\Models\User;
 use App\Traits\Deletable;
 use App\Traits\Searchable;
 use App\Traits\Sortable;
@@ -31,6 +30,7 @@ class FrequencyService
     public function get(): LengthAwarePaginator
     {
         $searchProductBuilder = Frequency::query();
+        $searchProductBuilder->whereNull("deleted_at");
         $searchProductBuilder = $this->applySearch($searchProductBuilder, ['frequency_name']);
         $searchProductBuilder = $this->applySorting($searchProductBuilder);
 
@@ -43,7 +43,7 @@ class FrequencyService
         return $this->applyStatus($frequencyBuilder);
     }
 
-    public function frequencyDelete()
+    public function delete()
     {
         $frequencyBuilder = Frequency::query();
         return $this->applyDelete($frequencyBuilder);

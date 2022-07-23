@@ -44,6 +44,9 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::get('/frequencys', [FrequencyController::class, 'index'])->name('frequency');
         Route::post('/frequency/create', [FrequencyController::class, 'create'])->name('frequecy-create');
+        Route::post('/frequency/status', [FrequencyController::class, 'updateStatus'])->name('frequency-status');
+        Route::post('/frequency/delete', [FrequencyController::class, 'destroy'])->name('frequency-delete');
+        Route::post('/frequency/update', [FrequencyController::class, 'update'])->name('frequency-update');
 
         Route::get('/services', [HaukingServiceController::class, 'index'])->name('service-list');
         Route::get('/orders', [OrderController::class, 'index'])->name('order-list');
