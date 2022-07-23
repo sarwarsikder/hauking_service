@@ -12,7 +12,7 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('coupon', function (Blueprint $table) {
+        Schema::create('coupons', function (Blueprint $table) {
             $table->id();
             $table->string('coupon_name');
             $table->enum('coupon_type', ['fixed', 'percent', 'days']);
@@ -39,6 +39,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('coupon');
+        Schema::dropIfExists('coupons');
     }
 };
