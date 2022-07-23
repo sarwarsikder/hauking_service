@@ -18,9 +18,10 @@ return new class extends Migration {
             $table->string('last_name');
             $table->string('email')->unique();
             $table->enum('role', ['user', 'admin'])->default('user');
-            $table->boolean('status')->nullable();
+            $table->boolean('status')->default(0);
             $table->date('date_of_birth')->nullable();
             $table->enum('gender', ['Male', 'Female', 'Other'])->nullable();
+            $table->boolean('trail_used')->default(0);
             $table->timestamp('email_verified_at')->nullable();
 
 

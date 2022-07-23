@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\backends\order\OrderController;
-use App\Http\Controllers\backends\service\ServiceController;
+use App\Http\Controllers\backends\service\HaukingServiceController;
 use App\Http\Controllers\backends\service\SubService\ServiceOneController;
 use App\Http\Controllers\backends\Settings\FrequencysController;
 use App\Http\Controllers\backends\Settings\TaxSystemController;
@@ -37,9 +37,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/users/delete', [UserController::class, 'destroy'])->name('users-status');
 
 
-        Route::get('/services', [ServiceController::class, 'index'])->name('service');
-        Route::get('/serviceOne', [ServiceOneController::class, 'index'])->name('serviceOne');
-        Route::get('/serviceTwo', [ServiceOneController::class, 'index'])->name('serviceTwo');
+        Route::get('/services', [HaukingServiceController::class, 'index'])->name('service');
         Route::get('/orders', [OrderController::class, 'index'])->name('order');
         Route::get('/subscriber', [SubscriberController::class, 'index'])->name('subscriber');
         Route::get('/frequencys', [FrequencysController::class, 'index'])->name('frequencys');

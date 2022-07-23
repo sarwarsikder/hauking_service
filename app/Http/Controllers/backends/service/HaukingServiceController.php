@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\backends\service\SubService;
+namespace App\Http\Controllers\backends\service;
 
 use App\Http\Controllers\Controller;
+use App\Service\HaukingService;
 use Illuminate\Http\Request;
 
-class ServiceOneController extends Controller
+class HaukingServiceController extends Controller
 {
+    private array $data = [];
+
     /**
      * Create a new controller instance.
      *
@@ -14,7 +17,6 @@ class ServiceOneController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
     }
 
     /**
@@ -22,9 +24,16 @@ class ServiceOneController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view("dashboard.service.service_1");
+        try {
+            $hauking_service = new HaukingService($request->toArray());
+            $this->data['haukings'] = $hauking_service->get();
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
+        }
+
+        return view("backends.service.index", $this->data);
     }
 
     /**
@@ -40,7 +49,7 @@ class ServiceOneController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -51,7 +60,7 @@ class ServiceOneController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -62,7 +71,7 @@ class ServiceOneController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -73,8 +82,8 @@ class ServiceOneController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -85,7 +94,7 @@ class ServiceOneController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
