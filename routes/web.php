@@ -3,7 +3,7 @@
 use App\Http\Controllers\backends\order\OrderController;
 use App\Http\Controllers\backends\service\HaukingServiceController;
 use App\Http\Controllers\backends\service\SubService\ServiceOneController;
-use App\Http\Controllers\backends\Settings\FrequencysController;
+use App\Http\Controllers\backends\Settings\FrequencyController;
 use App\Http\Controllers\backends\Settings\TaxSystemController;
 use App\Http\Controllers\backends\SubscriberController;
 use App\Http\Controllers\backends\user\UserController;
@@ -36,11 +36,17 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/users/status', [UserController::class, 'updateStatus'])->name('users-status');
         Route::post('/users/delete', [UserController::class, 'destroy'])->name('users-status');
 
+        /**
+         * Frequency
+         */
+
+        Route::get('/frequencys', [FrequencyController::class, 'index'])->name('frequency');
+        Route::post('/frequency/create', [FrequencyController::class, 'create'])->name('frequecy-create');
 
         Route::get('/services', [HaukingServiceController::class, 'index'])->name('service');
         Route::get('/orders', [OrderController::class, 'index'])->name('order');
         Route::get('/subscriber', [SubscriberController::class, 'index'])->name('subscriber');
-        Route::get('/frequencys', [FrequencysController::class, 'index'])->name('frequencys');
+        
         Route::get('/taxSystem', [TaxSystemController::class, 'index'])->name('taxSystem');
     });
 });
