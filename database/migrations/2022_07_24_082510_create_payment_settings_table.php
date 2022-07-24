@@ -23,7 +23,12 @@ return new class extends Migration {
             $table->boolean('default_payment')->default(0);
             $table->boolean('status')->default(0);
             $table->enum('display_order', [0, 1])->default(0);
-            $table->
+
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->foreign('updated_by')->references('id')->on('users');
+
             $table->timestamps();
         });
     }
