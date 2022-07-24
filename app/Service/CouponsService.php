@@ -40,14 +40,14 @@ class CouponsService
 
     public function statusUpdate()
     {
-        $userBuilder = Coupons::query();
-        return $this->applyStatus($userBuilder);
+        $couponsBuilder = Coupons::query();
+        return $this->applyStatus($couponsBuilder);
     }
 
     public function couponsDelete()
     {
-        $userBuilder = Coupons::query();
-        return $this->applyDelete($userBuilder);
+        $couponsBuilder = Coupons::query();
+        return $this->applyDelete($couponsBuilder);
     }
 
 }
