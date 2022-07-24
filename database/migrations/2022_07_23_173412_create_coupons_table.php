@@ -12,7 +12,7 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('coupon', function (Blueprint $table) {
+        Schema::create('coupons', function (Blueprint $table) {
             $table->id();
             $table->string('coupon_name');
             $table->enum('coupon_type', ['fixed', 'percent', 'days']);
@@ -29,6 +29,8 @@ return new class extends Migration {
 
             $table->index('created_by');
             $table->index('updated_by');
+            $table->timestamp('deleted_at')->nullable();
+
         });
     }
 
@@ -39,6 +41,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('coupon');
+        Schema::dropIfExists('coupons');
     }
 };

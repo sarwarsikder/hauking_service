@@ -42,6 +42,7 @@
                         <ul class="collapse" id="settings">
                             <li><a href="{{ route('frequency') }}">Frequency </a></li>
                             <li><a href="#">Tax System </a></li>
+                            <li><a href="{{ route('coupons') }}">Coupons </a></li>
                             <li><a href="#">Languages </a></li>
                             <li><a href="#">E-mail Settings </a></li>
                         </ul>
