@@ -23,7 +23,6 @@ return new class extends Migration {
             $table->boolean('default_payment')->default(0);
             $table->boolean('status')->default(0);
             $table->enum('display_order', [0, 1])->default(0);
-            $table->
             $table->timestamps();
         });
     }
