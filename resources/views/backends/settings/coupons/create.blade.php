@@ -20,7 +20,7 @@
                                         <select name="coupon_type" id="">
                                             <option value="percent">Percent</option>
                                             <option value="fixed">Fixed</option>
-                                            <option value="Days">Days</option>
+                                            <option value="days">Days</option>
                                         </select>
                                     </td>
                                 </tr>

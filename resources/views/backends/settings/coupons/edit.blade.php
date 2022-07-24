@@ -18,9 +18,9 @@
                                     <th>Type:</th>
                                     <td>
                                         <select name="coupon_type" id="">
-                                                <option value="percent">Percent</option>
-                                                <option value="fixed">Fixed</option>
-                                                <option value="Days">Days</option>
+                                            <option value="percent" {{ ($coupon_service->coupon_type === 'percent') ? 'selected' : '' }}>Percent</option>
+                                                <option value="fixed" {{ ($coupon_service->coupon_type === 'fixed') ? 'selected' : '' }}>Fixed</option>
+                                                <option value="days" {{ ($coupon_service->coupon_type === 'days') ? 'selected' : '' }}>Days</option>
                                         </select>
                                     </td>
                                 </tr>
