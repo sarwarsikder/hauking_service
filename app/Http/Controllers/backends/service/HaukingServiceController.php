@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\backends\service;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ServiceRequest;
 use App\Service\HaukingService;
 use Illuminate\Http\Request;
+use App\Models\Service;
+use Response;
 
 class HaukingServiceController extends Controller
 {
@@ -43,7 +46,7 @@ class HaukingServiceController extends Controller
      */
     public function create()
     {
-        //
+        return view("backends.service.create");
     }
 
     /**
@@ -52,9 +55,30 @@ class HaukingServiceController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ServiceRequest $request)
     {
-        //
+        try {
+            
+            $serviceObject = new Service();
+
+            $serviceObject->service_name = $request->service_name;
+            
+
+            // if ($request->file('user_profile')) {
+            //     $file = $request->file('user_profile');
+            //     $filename = date('YmdHi') . $file->getClientOriginalName();
+            //     $file->move(public_path('public/images/services'), $filename);
+            //     $userObject->user_profile = $request['user_profile'];
+            // }
+
+            if ($serviceObject->save()) {
+                return redirect(route('service-list'))->with('redirect-message', 'Service successfully added!');
+            } else {
+                return redirect()->back()->with('redirect-message', 'Something wrong!');
+            }
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        }
     }
 
     /**

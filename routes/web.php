@@ -39,7 +39,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/users/delete', [UserController::class, 'destroy'])->name('users-delete');
 
         /**
-         * Frequency
+         * Frequency start
          */
 
         Route::get('/frequencys', [FrequencyController::class, 'index'])->name('frequency');
@@ -47,8 +47,19 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/frequency/status', [FrequencyController::class, 'updateStatus'])->name('frequency-status');
         Route::post('/frequency/delete', [FrequencyController::class, 'destroy'])->name('frequency-delete');
         Route::post('/frequency/update', [FrequencyController::class, 'update'])->name('frequency-update');
+        /**
+         * Frequency end
+         */
 
+        /**
+        * Service start
+        */
         Route::get('/services', [HaukingServiceController::class, 'index'])->name('service-list');
+        Route::get('/services/create', [HaukingServiceController::class, 'create'])->name('service-create');
+        Route::post('/services/create', [HaukingServiceController::class, 'store'])->name('service-submit');
+        /**
+        * Service end
+        */
         Route::get('/orders', [OrderController::class, 'index'])->name('order-list');
         Route::get('/subscriber', [SubscriberController::class, 'index'])->name('subscriber');
         

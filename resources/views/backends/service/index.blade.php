@@ -16,7 +16,7 @@
                             <div class="row pt-4 pb-4 px-2">
                                 <div class="col-md-12">
                                     <div class="service-add-btn">
-                                        <a href="service1.html" class="add-user">Add Service</a>
+                                        <a href="{{route('service-create')}}" class="add-service">Add Service</a>
                                     </div>
                                     @foreach ($haukings as $hauking)
                                         <div class="service-wrapper">
