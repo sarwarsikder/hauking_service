@@ -30,6 +30,8 @@ return new class extends Migration {
             $table->foreign('updated_by')->references('id')->on('users');
 
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+
         });
     }
 

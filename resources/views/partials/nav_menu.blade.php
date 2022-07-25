@@ -37,13 +37,14 @@
                     </li>
                     <li>
                         <a href="#" data-bs-toggle="collapse" data-bs-target="#settings" aria-controls="settings"
-                           aria-expanded="true"><i class="bi bi-file-lock"></i><span>Settings </span>
+                           aria-expanded="true"><i class="bi bi-file-lock"></i><span>Settings</span>
                         </a>
-                        <ul class="collapse" id="settings">
-                            <li><a href="{{ route('frequency') }}">Frequency </a></li>
-                            <li><a href="#">Tax System </a></li>
-                            <li><a href="#">Languages </a></li>
-                            <li><a href="#">E-mail Settings </a></li>
+                        <ul class="collapse {{ (Request::segment(2)=='settings')?"show":"" }}" id="settings">
+                            <li><a href="{{ route('frequency') }}">Frequencies</a></li>
+                            <li><a href="{{ route('taxes-list') }}">Taxes</a></li>
+                            <li><a href="{{ route('taxes-list') }}">Coupons</a></li>
+                            <li><a href="{{ route('languages-list') }}">Languages</a></li>
+                            <li><a href="#">E-mail Settings</a></li>
                         </ul>
                     </li>
 
