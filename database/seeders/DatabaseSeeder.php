@@ -24,54 +24,62 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
+//        $this->call([
+//            CountrySeeder::class
+//        ]);
+//        $this->call([
+//            StateSeeder::class,
+//        ]);
+//        $this->call([
+//            CitySeeder::class,
+//        ]);
+//
+//        /***
+//         *  Seed coupon fake data
+//         ***/
+//        Coupon::factory(20)->create();
+//
+//        /***
+//         *  Seed services fake data
+//         ***/
+//        Frequency::factory(20)->create();
+//        Tax::factory(20)->create();
+//
+//        /***
+//         *  Seed admin fake data
+//         ***/
+//        LanguageSettings::factory(1)->create();
+
+
+        /***
+         *  Seed admin fake data
+         ***/
         $this->call([
-            CountrySeeder::class
-        ]);
-        $this->call([
-            StateSeeder::class,
-        ]);
-        $this->call([
-            CitySeeder::class,
+            PaymentSettingsSeeder::class,
         ]);
 
-        /***
-         *  Seed coupon fak data
-         ***/
-        Coupon::factory(20)->create();
-
-        /***
-         *  Seed services fak data
-         ***/
-        Frequency::factory(20)->create();
-        Tax::factory(20)->create();
-
-        /***
-         *  Seed admin fak data
-         ***/
-        LanguageSettings::factory(1)->create();
-
-        /***
-         *  Seed admin fak data
-         ***/
-        User::factory()->create([
-            'first_name' => fake()->firstName(),
-            'last_name' => fake()->lastName(),
-            'email' => 'admin@hauwk.com',
-            'role' => 'admin',
-            'email_verified_at' => now(),
-            'status' => false,
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
-        ]);
-
-        /***
-         *  Seed users fak data
-         ***/
-        User::factory(100)->create();
-        /***
-         *  Seed services fak data
-         ***/
-        Service::factory(20)->create();
+//        /***
+//         *  Seed admin fak data
+//         ***/
+//        User::factory()->create([
+//            'first_name' => fake()->firstName(),
+//            'last_name' => fake()->lastName(),
+//            'email' => 'admin@hauwk.com',
+//            'role' => 'admin',
+//            'email_verified_at' => now(),
+//            'status' => false,
+//            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+//            'remember_token' => Str::random(10),
+//        ]);
+//
+//        /***
+//         *  Seed users fake data
+//         ***/
+//        User::factory(100)->create();
+//        /***
+//         *  Seed services fake data
+//         ***/
+//        Service::factory(20)->create();
 
     }
 }
