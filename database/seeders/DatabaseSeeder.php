@@ -3,9 +3,13 @@
 namespace Database\Seeders;
 
 use App\Models\Coupon;
+use App\Models\Frequency;
 use App\Models\Service;
+use App\Models\Tax;
 use App\Models\User;
 use Database\Factories\AdminFactory;
+use Database\Factories\FrequencyFactory;
+use Database\Factories\TaxFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -18,6 +22,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
+        $this->call([
+            CountrySeeder::class
+        ]);
+        $this->call([
+            StateSeeder::class,
+        ]);
+//        $this->call([
+//            CitySeeder::class,
+//        ]);
 
         /***
          *  Seed admin fak data
@@ -43,8 +57,15 @@ class DatabaseSeeder extends Seeder
         Service::factory(20)->create();
 
         /***
-         *  Seed services fak data
+         *  Seed coupon fak data
          ***/
         Coupon::factory(20)->create();
+
+        /***
+         *  Seed services fak data
+         ***/
+        Frequency::factory(20)->create();
+        Tax::factory(20)->create();
+
     }
 }
