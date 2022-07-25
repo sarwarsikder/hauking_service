@@ -43,6 +43,7 @@
                             <li><a href="{{ route('frequency') }}">Frequencies</a></li>
                             <li><a href="{{ route('taxes-list') }}">Taxes</a></li>
                             <li><a href="{{ route('taxes-list') }}">Coupons</a></li>
+                            <li><a href="{{ route('payments-list') }}">Payments Settings</a></li>
                             <li><a href="{{ route('languages-list') }}">Languages</a></li>
                             <li><a href="#">E-mail Settings</a></li>
                         </ul>

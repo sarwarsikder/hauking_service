@@ -5,6 +5,7 @@ use App\Http\Controllers\backends\service\HaukingServiceController;
 use App\Http\Controllers\backends\service\SubService\ServiceOneController;
 use App\Http\Controllers\backends\Settings\FrequencyController;
 use App\Http\Controllers\backends\Settings\LanguageController;
+use App\Http\Controllers\backends\Settings\PaymentController;
 use App\Http\Controllers\backends\Settings\TaxController;
 use App\Http\Controllers\backends\Settings\TaxSystemController;
 use App\Http\Controllers\backends\SubscriberController;
@@ -58,6 +59,13 @@ Route::group(['prefix' => 'admin'], function () {
              */
             Route::get('/languages', [LanguageController::class, 'index'])->name('languages-list');
             Route::get('/languages/create', [LanguageController::class, 'create'])->name('languages-create');
+
+
+            /**
+             * Taxes
+             */
+            Route::get('/payments', [PaymentController::class, 'index'])->name('payments-list');
+            Route::get('/payments/create', [LanguageController::class, 'create'])->name('payments-create');
 
             /**
              * Frequency

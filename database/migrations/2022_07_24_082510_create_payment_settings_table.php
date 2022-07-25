@@ -16,6 +16,11 @@ return new class extends Migration {
             $table->id();
             $table->enum('method_type', ['paypal', 'stripe'])->nullable();
             $table->enum('mode', ['live', 'test'])->nullable();
+
+            $table->string('account_email')->nullable();
+            $table->string('client_id')->nullable();
+            $table->string('client_secret_key')->nullable();
+
             $table->string('test_public_key')->nullable();
             $table->string('test_secret_key')->nullable();
             $table->string('live_public_key')->nullable();
