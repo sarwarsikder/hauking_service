@@ -29,6 +29,8 @@ return new class extends Migration {
 
             $table->index('created_by');
             $table->index('updated_by');
+            $table->timestamp('deleted_at')->nullable();
+
         });
     }
 

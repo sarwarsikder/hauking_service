@@ -10,6 +10,7 @@ use App\Http\Controllers\backends\Settings\TaxController;
 use App\Http\Controllers\backends\Settings\TaxSystemController;
 use App\Http\Controllers\backends\SubscriberController;
 use App\Http\Controllers\backends\user\UserController;
+use App\Http\Controllers\Settings\CouponsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -77,7 +78,22 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('/frequency/delete', [FrequencyController::class, 'destroy'])->name('frequency-delete');
             Route::post('/frequency/update', [FrequencyController::class, 'update'])->name('frequency-update');
 
+
+
+            /**
+             * Coupons
+             */
+
+            Route::get('/coupons', [CouponsController::class, 'index'])->name('coupons-list');
+            Route::get('/coupons/create', [CouponsController::class, 'create'])->name('coupons-create');
+            Route::post('/coupons/store', [CouponsController::class, 'store'])->name('coupons-submit');
+            Route::get('/coupons/edit/{id}', [CouponsController::class, 'edit'])->name('coupons-edit');
+            Route::post('/coupons/{id}/update', [CouponsController::class, 'update'])->name('coupons-update');
+            Route::post('/coupons/status', [CouponsController::class, 'updateStatus'])->name('coupons-status');
+            Route::post('/coupons/delete', [CouponsController::class, 'destroy'])->name('coupons-delete');
+
         });
+
 
         Route::get('/services', [HaukingServiceController::class, 'index'])->name('service-list');
         Route::get('/orders', [OrderController::class, 'index'])->name('order-list');
