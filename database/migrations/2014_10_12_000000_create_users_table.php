@@ -38,6 +38,9 @@ return new class extends Migration {
 
 
             $table->string('password');
+            $table->string('user_profile')->nullable();
+            // $table->unsignedBigInteger('timezone_id');
+            // $table->foreign('timezone_id')->references('id')->on('timezones');
             $table->rememberToken();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();

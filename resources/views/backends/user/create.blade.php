@@ -16,7 +16,7 @@
                     </div>
                 @endif
                 <div class="user-data-setting shadow ">
-                    <form class="row g-3 adduserform" action="{{route('users-submit')}}" method="post">
+                    <form class="row g-3 adduserform" action="{{route('users-submit')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="col-md-6">
                             <input type="text"
@@ -127,9 +127,11 @@
                         <div class="col-md-6">
                             <input type="file" class="form-control shadow-none" name="user_profile" id="files"
                                    placeholder="Upload Image">
+                        
+                            <img id="output" style="width: 110px;"/>
                         </div>
 
-                        <div class="col-2">
+                        <!-- <div class="col-2">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="service1">
                                 <label class="form-check-label" for="service1">Service 1 </label>
@@ -173,7 +175,7 @@
 
                         <div class=" text-center user-data-btn">
                             <button type="submit">Submit</button>
-                        </div>
+                        </div> -->
                     </form>
                 </div>
             </div>
@@ -184,4 +186,15 @@
             </div>
         </div>
     </div>
+
+<script>
+  var loadFile = function(event) {
+    var reader = new FileReader();
+    reader.onload = function(){
+      var output = document.getElementById('output');
+      output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  };
+</script>
 @endsection

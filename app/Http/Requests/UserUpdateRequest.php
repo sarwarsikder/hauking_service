@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class UserUpdateRequest extends FormRequest
 {
 
     /**
@@ -24,9 +24,8 @@ class UserRequest extends FormRequest
             'country' => 'required',
             'phone' => 'required',
             'email' => 'email',
-            'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
-            'password_confirmation' => 'min:6',
-            'user_profile' => 'required',
+            'password' => 'required_with:password_confirmation|same:password_confirmation',
+            // 'password_confirmation' => 'min:6',
 
         ];
     }
@@ -61,11 +60,11 @@ class UserRequest extends FormRequest
 
             'user_profile.required' => 'User profile image is required!',
 
-            'password.min' => 'Password minimum 6 character!',
+            // 'password.min' => 'Password minimum 6 character!',
             'password.required_with' => 'Confirm Password is required!',
             'password.same' => 'Password mismatch!',
 
-            'password_confirmation.min' => 'Minimum 6 character!',
+            // 'password_confirmation.min' => 'Minimum 6 character!',
         ];
     }
 

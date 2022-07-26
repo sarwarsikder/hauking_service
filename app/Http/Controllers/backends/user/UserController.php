@@ -86,14 +86,16 @@ class UserController extends Controller
             $userObject->zipcode = $request['zipcode'];
             $userObject->country = $request['country'];
             $userObject->email = $request['email'];
+            $userObject->phone = $request['phone'];
 
             if ($request->file('user_profile')) {
                 $file = $request->file('user_profile');
+ 
                 $filename = date('YmdHi') . $file->getClientOriginalName();
-                $file->move(public_path('public/images/services'), $filename);
-                $userObject->user_profile = $request['user_profile'];
+                $file->move(public_path('/images/user'), $filename);
+                $userObject->user_profile = $filename;
             }
-
+          
             if ($userObject->save()) {
                 return redirect(route('users-list'))->with('redirect-message', 'User successfully added!');
             } else {
@@ -121,8 +123,9 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(UserUpdateRequest $request, $id)
+    public function edit(Request $request, $id)
     {
+        
         $user = User::where('id',$id)->first();
         $countries = Country::all();
         $states = State::all();
@@ -139,7 +142,7 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
         try {
 
@@ -154,16 +157,21 @@ class UserController extends Controller
             $userObject->zipcode = $request['zipcode'];
             $userObject->country = $request['country'];
             $userObject->email = $request['email'];
-
+            $userObject->phone = $request['phone'];
+            if($request['password']){
+                $userObject->password = Hash::make($request['password']);
+            }
+            
             if ($request->file('user_profile')) {
                 $file = $request->file('user_profile');
+ 
                 $filename = date('YmdHi') . $file->getClientOriginalName();
-                $file->move(public_path('public/images/services'), $filename);
-                $userObject->user_profile = $request['user_profile'];
+                $file->move(public_path('/images/user'), $filename);
+                $userObject->user_profile = $filename;
             }
-
+         
             if ($userObject->save()) {
-                return redirect(route('users-list'))->with('redirect-message', 'User successfully added!');
+                return redirect(route('users-list'))->with('redirect-message', 'User successfully updated!');
             } else {
                 return redirect()->back()->with('redirect-message', 'Something wrong!');
             }

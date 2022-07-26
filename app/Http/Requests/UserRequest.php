@@ -26,7 +26,7 @@ class UserRequest extends FormRequest
             'email' => 'email',
             // 'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
             // 'password_confirmation' => 'min:6',
-            'user_profile' => 'required',
+            // 'user_profile' => 'required',
 
         ];
     }
@@ -59,7 +59,7 @@ class UserRequest extends FormRequest
 
             'phone.required' => 'Phone is required!',
 
-            'user_profile.required' => 'User profile image is required!',
+            // 'user_profile.required' => 'User profile image is required!',
 
             // 'password.min' => 'Password minimum 6 character!',
             // 'password.required_with' => 'Confirm Password is required!',

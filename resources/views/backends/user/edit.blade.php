@@ -16,7 +16,7 @@
                     </div>
                 @endif
                 <div class="user-data-setting shadow ">
-                    <form class="row g-3 adduserform" action="{{URL::to('admin/users/update/'.$user->id)}}" method="post">
+                    <form class="row g-3 adduserform" action="{{URL::to('admin/users/update/'.$user->id)}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="col-md-6">
                             <input type="text"
@@ -126,10 +126,11 @@
 
                         <div class="col-md-6">
                             <input type="file" class="form-control shadow-none" name="user_profile" id="files"
-                                   placeholder="Upload Image">
+                                   placeholder="Upload Image" onchange="loadFile(event)">
+                            <img id="output" style="width: 150px;" src="{{URL::to('images/user/'.$user->user_profile)}}"/>
                         </div>
 
-                        <div class="col-2">
+                        <!-- <div class="col-2">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="service1">
                                 <label class="form-check-label" for="service1">Service 1 </label>
@@ -169,11 +170,11 @@
                                 <input class="form-check-input" type="checkbox" id="service6">
                                 <label class="form-check-label" for="service6">Service 6 </label>
                             </div>
-                        </div>
+                        </div>-->
 
                         <div class=" text-center user-data-btn">
                             <button type="submit">Submit</button>
-                        </div>
+                        </div> 
                     </form>
                 </div>
             </div>
@@ -184,4 +185,15 @@
             </div>
         </div>
     </div>
+
+<script>
+  var loadFile = function(event) {
+    var reader = new FileReader();
+    reader.onload = function(){
+      var output = document.getElementById('output');
+      output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  };
+</script>
 @endsection
