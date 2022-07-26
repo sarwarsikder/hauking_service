@@ -3,14 +3,10 @@
 namespace App\Http\Controllers\backends\Settings;
 
 use App\Http\Controllers\Controller;
-use App\Service\FrequencyService;
-use App\Http\Requests\UserRequest;
-use App\Models\ProductsRegister;
 use App\Models\Frequency;
-use App\Service\UserService;
-use App\Traits\Statusable;
+use App\Models\ProductsRegister;
+use App\Service\FrequencyService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Response;
 
 class FrequencyController extends Controller
@@ -34,14 +30,14 @@ class FrequencyController extends Controller
      */
     public function index(Request $request)
     {
-        
+
         try {
             $frequency_service = new FrequencyService($request->toArray());
-     
+
             $this->data['frequency'] = $frequency_service->get();
 
         } catch (\Exception $exception) {
-            
+
             return back()->withError($exception->getMessage())->withInput();
         }
 
@@ -155,7 +151,7 @@ class FrequencyController extends Controller
                             'message' => 'Frequency not found'
                         ), 400);
                     }
-                   
+
                 }
             }
         } catch (\Exception $exception) {
@@ -171,7 +167,7 @@ class FrequencyController extends Controller
             'data' => $frequencyObject,
             'message' => 'Frequency Updated successfully!'
         ), 200);
-        
+
     }
 
     public function updateStatus(Request $request)
