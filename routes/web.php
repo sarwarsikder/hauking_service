@@ -28,9 +28,15 @@ Route::get('/', function () {
     return view('backends.dashboard.index');
 });
 
+Route::get('/users/login', function () {
+    return view('frontends.users.login');
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+
 
 require __DIR__ . '/auth.php';
 

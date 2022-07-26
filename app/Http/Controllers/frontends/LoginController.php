@@ -1,29 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\backends\Settings;
+namespace App\Http\Controllers\frontends;
 
 use App\Http\Controllers\Controller;
-use App\Service\PaymentService;
 use Illuminate\Http\Request;
 
-class PaymentController extends Controller
+class LoginController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        try {
-            $payment_service = new PaymentService($request->toArray());
-            $this->data['payments'] = $payment_service->get();
-
-        } catch (\Exception $exception) {
-            return back()->withError($exception->getMessage())->withInput();
-        }
-
-        return view("backends.settings.payment.index", $this->data);
+        return view("frontends.users.login");
     }
 
     /**
