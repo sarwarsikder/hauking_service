@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Tax extends Model
 {
     use HasFactory;
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
 
     public function country()
     {
@@ -18,5 +22,4 @@ class Tax extends Model
     {
         return $this->belongsTo(State::class);
     }
-
 }

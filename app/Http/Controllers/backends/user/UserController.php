@@ -26,7 +26,6 @@ class UserController extends Controller
      */
     public function __construct()
     {
-
     }
 
     /**
@@ -128,7 +127,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        //
     }
 
     /**
@@ -158,7 +157,6 @@ class UserController extends Controller
             'data' => [],
             'message' => 'Status updated successfully!'
         ), 200);
-
     }
 
     /**
@@ -187,6 +185,5 @@ class UserController extends Controller
             'data' => [],
             'message' => 'User deleted successfully!'
         ), 200);
-
     }
 }

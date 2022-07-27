@@ -44,13 +44,13 @@ class TaxService
 
     public function statusUpdate()
     {
-        $userBuilder = Tax::query();
-        return $this->applyStatus($userBuilder);
+        $taxBuilder = Tax::query();
+        return $this->applyStatus($taxBuilder);
     }
 
-    public function userDelete()
+    public function taxDelete()
     {
-        $userBuilder = Tax::query();
-        return $this->applyDelete($userBuilder);
+        $taxBuilder = Tax::query();
+        return $this->applyDelete($taxBuilder);
     }
 }

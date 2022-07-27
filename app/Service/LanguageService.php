@@ -39,16 +39,16 @@ class LanguageService
         return $searchProductBuilder->paginate($this->perPage);
     }
 
+
     public function statusUpdate()
     {
-        $userBuilder = LanguageSettings::query();
-        return $this->applyStatus($userBuilder);
+        $languageBuilder = LanguageSettings::query();
+        return $this->applyStatus($languageBuilder);
     }
 
-    public function userDelete()
+    public function languageDelete()
     {
-        $userBuilder = LanguageSettings::query();
-        return $this->applyDelete($userBuilder);
+        $languageBuilder = LanguageSettings::query();
+        return $this->applyDelete($languageBuilder);
     }
-
 }
