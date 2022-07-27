@@ -16,8 +16,9 @@ class ServiceRequest extends FormRequest
     {
         return [
             'service_name' => 'required',
-            'subscription_duration' => 'required',
-            'subscription_amount' => 'required',
+            // 'subscription_duration' => 'required',
+            // 'subscription_amount' => 'required',
+            'subscription_input_value' => 'required',
             'trial_period' => 'required',
             'hawkin_scale' => 'required',
             'data_fields' => 'required',
@@ -37,8 +38,10 @@ class ServiceRequest extends FormRequest
     {
         return [
             'service_name.required' => 'Service Name is required!',
-            'subscription_duration.required' => 'Subscription Duration is required!',
-            'subscription_amount.required' => 'Subscription Amount is required!',
+            'subscription_input_value.required' => 'subscription value is required!',
+            
+            // 'subscription_duration.required' => 'Subscription Duration is required!',
+            // 'subscription_amount.required' => 'Subscription Amount is required!',
             'trial_period.required' => 'Trial Period is required!',
             'hawkin_scale.required' => 'Hawkin Scale is required!',
             'data_fields.required' => 'Data Fields is required!',

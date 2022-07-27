@@ -22,82 +22,102 @@
                         <tr>
                             <th>Name:</th>
                             <td><input type="text"
-                                   class="form-control shadow-none @error('service_name') is-invalid @enderror"
-                                   name="service_name" id="serviceName" value="{{old('service_name')}}"
-                                   placeholder="Service Name"></td>
-                            
+                                    class="form-control shadow-none @error('service_name') is-invalid @enderror"
+                                    name="service_name" id="serviceName" value="{{old('service_name')}}"
+                                    placeholder="Service Name"></td>
+
                         </tr>
                         <tr>
                             <th></th>
                             <td>
-                            @error('service_name')
-                            <div class="alert"><p class="text-danger">{{ $message }}</p></div>
-                            @enderror
+                                @error('service_name')
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
+                                @enderror
                             </td>
-                            
+
                         </tr>
 
                         <tr>
                             <th class="text-nowrap ">Subscription Type:</th>
                             <td>
                                 <select id="subscription_duration"
-                                class="@error('subscription_duration') is-invalid @enderror"
-                                   name="subscription_duration" id="subscriptionDuration" onchange="subscriptionValueSelector() ;">
+                                    class="@error('subscription_duration') is-invalid @enderror"
+                                    name="subscription_duration" id="subscriptionDuration"
+                                    >
                                     <option value="">Add Duration</option>
-                                    <option value="1" {{ old('subscription_duration') == 1 ? "selected" : "" }}>1</option>
-                                    <option value="2" {{ old('subscription_duration') == 2 ? "selected" : "" }}>2</option>
-                                    <option value="3" {{ old('subscription_duration') == 3 ? "selected" : "" }}>3</option>
-                                    <option value="4" {{ old('subscription_duration') == 4 ? "selected" : "" }}>4</option>
-                                    <option value="5" {{ old('subscription_duration') == 5 ? "selected" : "" }}>5</option>
-                                    <option value="6" {{ old('subscription_duration') == 6 ? "selected" : "" }}>6</option>
-                                    <option value="7" {{ old('subscription_duration') == 7 ? "selected" : "" }}>7</option>
+                                    <option value="1" {{ old('subscription_duration') == 1 ? "selected" : "" }}>1
+                                    </option>
+                                    <option value="2" {{ old('subscription_duration') == 2 ? "selected" : "" }}>2
+                                    </option>
+                                    <option value="3" {{ old('subscription_duration') == 3 ? "selected" : "" }}>3
+                                    </option>
+                                    <option value="4" {{ old('subscription_duration') == 4 ? "selected" : "" }}>4
+                                    </option>
+                                    <option value="5" {{ old('subscription_duration') == 5 ? "selected" : "" }}>5
+                                    </option>
+                                    <option value="6" {{ old('subscription_duration') == 6 ? "selected" : "" }}>6
+                                    </option>
+                                    <option value="7" {{ old('subscription_duration') == 7 ? "selected" : "" }}>7
+                                    </option>
                                 </select>
                                 <!-- <select id="valueStatus" onchange="subscriptionValueSelector() ;">
                     <option value="Free">Free</option>
                     <option value="Locked">Locked</option>
                   </select> -->
-                                <input type="number" class="@error('subscription_amount')  is-invalid @enderror" id="subscription_amount" name="subscription_amount" placeholder="Chargable Amount"
-                                value="{{old('subscription_amount')}}" onchange="subscriptionValueSelector() ;">
-                                <span class="add-value"><i class="bi bi-plus-circle"></i></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <td>
-                                @error('subscription_duration')
-                                    <div class="alert"><p class="text-danger">{{ $message }}</p></div>
-                                @enderror
-
-                                @error('subscription_amount')
-                                    <div class="alert"><p class="text-danger">{{ $message }}</p></div>
-                                @enderror
+                                <input type="number" class="@error('subscription_amount')  is-invalid @enderror"
+                                    id="subscriptionAmount" name="subscription_amount" placeholder="Chargable Amount"
+                                    value="{{old('subscription_amount')}}">
+                                <span class="add-value" id="addSubscriptionValue"><i class="bi bi-plus-circle"></i></span>
                             </td>
                         </tr>
                         
                         <tr>
                             <th></th>
                             <td>
-                                <div id="textValue"></div>
+                                @error('subscription_input_value')
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
+                                @enderror
+                            </td>
+                        </tr>
+                        <input type="hidden" value="{{old('subscription_input_value')}}" id="subscriptionInputValue" name="subscription_input_value"/>
+
+                        <tr>
+                            <th>
+
+                            </th>
+                            <td>
+                                <div id="textValue">
+
+                               
+                                </div>
                             </td>
                         </tr>
                         <tr>
                             <th>Trail Period in Days:</th>
                             <td>
-                                <input type="number" value="{{old('trial_period')}}" class="@error('trial_period') is-invalid @enderror" name="trial_period" id="trial_period" placeholder="Number of days">
+                                <input type="number" value="{{old('trial_period')}}"
+                                    class="@error('trial_period') is-invalid @enderror" name="trial_period"
+                                    id="trial_period" placeholder="Number of days">
                             </td>
                         </tr>
                         <tr>
                             <th></th>
                             <td>
                                 @error('trial_period')
-                                    <div class="alert"><p class="text-danger">{{ $message }}</p></div>
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
                                 @enderror
                             </td>
                         </tr>
                         <tr>
                             <th class="text-nowrap ">Hakins Scale Value :</th>
                             <td>
-                           
+
                                 <div class="col-12">
                                     <div class="col-6">
                                         <input type="checkbox" name="hawkin_scale[]" value="500">500
@@ -120,7 +140,7 @@
 
                                     </div>
                                     <div class="col-6">
-                                        <input type="checkbox" name="hawkin_scale[]" value="1000" >1000
+                                        <input type="checkbox" name="hawkin_scale[]" value="1000">1000
                                         <input type="checkbox" name="hawkin_scale_lock[]" value="Lock_1000">Lock
                                     </div>
                                     <div class="col-6">
@@ -138,7 +158,9 @@
                             <th></th>
                             <td>
                                 @error('hawkin_scale')
-                                    <div class="alert"><p class="text-danger">{{ $message }}</p></div>
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
                                 @enderror
                             </td>
                         </tr>
@@ -156,14 +178,14 @@
                                     <option value="required">Required</option>
                                     <option value="optional">Optional</option>
                                 </select>
-                                <span class="addDataBtn"><i class="bi bi-plus-circle"></i></span>
+                                <span class="addDataBtn" id="addDataFieldBtn"><i class="bi bi-plus-circle"></i></span>
                             </td>
                         </tr>
                         <tr>
                             <th></th>
                             <td class="data " style="display: flex; flex-direction: column; width: 50%;"></td>
                         </tr>
-
+                        <input type="hidden" value="{{old('dataField_form_input_value')}}" id="dataFieldFormInputValue" name="dataField_form_input_value"/>
                         <tr>
                             <th>Default Value For Day:</th>
                             <td>
@@ -171,15 +193,19 @@
                                     class="@error('default_value_day_time') is-invalid @enderror"
                                     name="default_value_day_time" id="defaultValueDayTime">
                                     <option value="">Select Value</option>
-                                    <option value="8AM" {{ old('default_value_day_time') == "8AM" ? "selected" : "" }}>8:00 AM</option>
-                                    <option value="9AM" {{ old('subscription_duration') == "9AM" ? "selected" : "" }}>9:00 AM</option>
-                                    <option value="10AM" {{ old('subscription_duration') == "10AM" ? "selected" : "" }}>10:00 AM</option>
+                                    <option value="8AM" {{ old('default_value_day_time') == "8AM" ? "selected" : "" }}>
+                                        8:00 AM</option>
+                                    <option value="9AM" {{ old('default_value_day_time') == "9AM" ? "selected" : "" }}>
+                                        9:00 AM</option>
+                                    <option value="10AM" {{ old('default_value_day_time') == "10AM" ? "selected" : "" }}>
+                                        10:00 AM</option>
                                 </select>
                                 <select id="default_value_day_value"
                                     class="@error('default_value_day_value') is-invalid @enderror"
                                     name="default_value_day_value" id="defaultValueDayValue">
                                     <option value="">Select Value</option>
-                                    <option value="800" {{ old('default_value_day_value') == 800 ? "selected" : "" }}>800</option>
+                                    <option value="800" {{ old('default_value_day_value') == 800 ? "selected" : "" }}>
+                                        800</option>
                                 </select>
                             </td>
                         </tr>
@@ -187,10 +213,14 @@
                             <th></th>
                             <td>
                                 @error('default_value_day_time')
-                                    <div class="alert"><p class="text-danger">{{ $message }}</p></div>
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
                                 @enderror
                                 @error('default_value_day_value')
-                                    <div class="alert"><p class="text-danger">{{ $message }}</p></div>
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
                                 @enderror
                             </td>
                         </tr>
@@ -201,15 +231,22 @@
                                     class="@error('default_value_night_time') is-invalid @enderror"
                                     name="default_value_night_time" id="defaultValueNightTime">
                                     <option value="">Select Value</option>
-                                    <option value="8AM" {{ old('default_value_night_time') == "8AM" ? "selected" : "" }}>8:00 AM</option>
-                                    <option value="9AM" {{ old('default_value_night_time') == "8AM" ? "selected" : "" }}>9:00 AM</option>
-                                    <option value="10AM" {{ old('default_value_night_time') == "8AM" ? "selected" : "" }}>10:00 AM</option>
+                                    <option value="8AM"
+                                        {{ old('default_value_night_time') == "8AM" ? "selected" : "" }}>8:00 AM
+                                    </option>
+                                    <option value="9AM"
+                                        {{ old('default_value_night_time') == "8AM" ? "selected" : "" }}>9:00 AM
+                                    </option>
+                                    <option value="10AM"
+                                        {{ old('default_value_night_time') == "8AM" ? "selected" : "" }}>10:00 AM
+                                    </option>
                                 </select>
                                 <select id="default_value_night_value"
                                     class="@error('default_value_night_value') is-invalid @enderror"
                                     name="default_value_night_value" id="defaultValueNightValue">
                                     <option value="">Select Value</option>
-                                    <option value="800" {{ old('default_value_night_value') == 800 ? "selected" : "" }}>800</option>
+                                    <option value="800" {{ old('default_value_night_value') == 800 ? "selected" : "" }}>
+                                        800</option>
                                 </select>
                             </td>
                         </tr>
@@ -217,10 +254,14 @@
                             <th></th>
                             <td>
                                 @error('default_value_night_time')
-                                    <div class="alert"><p class="text-danger">{{ $message }}</p></div>
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
                                 @enderror
                                 @error('default_value_night_value')
-                                    <div class="alert"><p class="text-danger">{{ $message }}</p></div>
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
                                 @enderror
                             </td>
                         </tr>
@@ -231,9 +272,15 @@
                                     class="@error('default_value_booster_time') is-invalid @enderror"
                                     name="default_value_booster_time" id="defaultValueBoosterTime">
                                     <option value="">Select Value</option>
-                                    <option value="8PM" {{ old('default_value_booster_time') == "8PM" ? "selected" : "" }}>8:00 PM</option>
-                                    <option value="10PM" {{ old('default_value_booster_time') == "10PM" ? "selected" : "" }}>10:00 PM</option>
-                                    <option value="11PM" {{ old('default_value_booster_time') == "11PM" ? "selected" : "" }}>11:00 PM</option>
+                                    <option value="8PM"
+                                        {{ old('default_value_booster_time') == "8PM" ? "selected" : "" }}>8:00 PM
+                                    </option>
+                                    <option value="10PM"
+                                        {{ old('default_value_booster_time') == "10PM" ? "selected" : "" }}>10:00 PM
+                                    </option>
+                                    <option value="11PM"
+                                        {{ old('default_value_booster_time') == "11PM" ? "selected" : "" }}>11:00 PM
+                                    </option>
                                 </select>
                             </td>
                         </tr>
@@ -241,7 +288,9 @@
                             <th></th>
                             <td>
                                 @error('default_value_night_time')
-                                    <div class="alert"><p class="text-danger">{{ $message }}</p></div>
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
                                 @enderror
                             </td>
                         </tr>
@@ -252,9 +301,12 @@
                                     class="@error('default_value_booster_value') is-invalid @enderror"
                                     name="default_value_booster_value" id="defaultValueBoosterValue">
                                     <option value="">Select Value</option>
-                                    <option value="1000" {{ old('default_value_booster_value') == 1000 ? "selected" : "" }}>1000</option>
-                                    <option value="1100" {{ old('default_value_booster_value') == 1100 ? "selected" : "" }}>1100</option>
-                                    <option value="1200" {{ old('default_value_booster_value') == 1200 ? "selected" : "" }}>1200</option>
+                                    <option value="1000"
+                                        {{ old('default_value_booster_value') == 1000 ? "selected" : "" }}>1000</option>
+                                    <option value="1100"
+                                        {{ old('default_value_booster_value') == 1100 ? "selected" : "" }}>1100</option>
+                                    <option value="1200"
+                                        {{ old('default_value_booster_value') == 1200 ? "selected" : "" }}>1200</option>
                                 </select>
                             </td>
                         </tr>
@@ -262,7 +314,9 @@
                             <th></th>
                             <td>
                                 @error('default_value_booster_value')
-                                    <div class="alert"><p class="text-danger">{{ $message }}</p></div>
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
                                 @enderror
                             </td>
                         </tr>
@@ -272,9 +326,12 @@
                                 <select id="default_special_feq"
                                     class="@error('default_special_feq') is-invalid @enderror"
                                     name="default_special_feq" id="defaultSpecialFeq">
-                                    <option value="inner peace" {{ old('default_special_feq') == 1000 ? "selected" : "" }}>Inner Peace</option>
-                                    <option value="innerpeace" {{ old('default_special_feq') == 1000 ? "selected" : "" }}>Inner Peace</option>
-                                    <option value="#" {{ old('default_special_feq') == 1000 ? "selected" : "" }}>Inner Peace</option>
+                                    <option value="inner peace"
+                                        {{ old('default_special_feq') == 1000 ? "selected" : "" }}>Inner Peace</option>
+                                    <option value="innerpeace"
+                                        {{ old('default_special_feq') == 1000 ? "selected" : "" }}>Inner Peace</option>
+                                    <option value="#" {{ old('default_special_feq') == 1000 ? "selected" : "" }}>Inner
+                                        Peace</option>
                                 </select>
                             </td>
                         </tr>
@@ -282,7 +339,9 @@
                             <th></th>
                             <td>
                                 @error('default_special_feq')
-                                    <div class="alert"><p class="text-danger">{{ $message }}</p></div>
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
                                 @enderror
                             </td>
                         </tr>
@@ -290,14 +349,16 @@
                             <th>Upload Image:</th>
                             <td>
                                 <input type="file" class="form-control shadow-none" name="service_image_url" id="files"
-                                   placeholder="Upload Image">
+                                    placeholder="Upload Image">
                             </td>
                         </tr>
                         <tr>
                             <th></th>
                             <td>
                                 @error('service_image_url')
-                                    <div class="alert"><p class="text-danger">{{ $message }}</p></div>
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
                                 @enderror
                             </td>
                         </tr>
@@ -316,4 +377,91 @@
         </div>
     </div>
 </div>
+
+@section('scripts')
+@parent
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+<script>
+    $(function () {
+        let subscriptionInputValue = [];
+        
+        $("#addSubscriptionValue").on("click",function(){
+            let subscriptionValue = document.getElementById("subscription_duration").value;
+            let valueStatus = document.getElementById("subscriptionAmount").value;
+            if (subscriptionValue && valueStatus) {
+                let a = {duration:subscriptionValue,amount:valueStatus}
+                subscriptionInputValue.push(a);
+                    var values =
+                        `<p class="price__field">${subscriptionValue} ${valueStatus}   <span class="deleteBtn"><i class="bi bi-dash-circle"></i></span> </p>`;
+                    textValue.innerHTML += values;
+                    let priceField = document.querySelectorAll(".price__field");
+                    let deleteBtn = document.querySelectorAll(".deleteBtn");
+                    for (let i = 0; i < deleteBtn.length; i++) {
+                        deleteBtn[i].addEventListener("click", () => {
+                            priceField[i].remove();
+                            subscriptionInputValue.splice(i, 1);
+                            $("#subscriptionInputValue").val(subscriptionInputValue);    
+                        });
+                    }
+            }
+            $("#subscriptionInputValue").val(subscriptionInputValue);
+        })
+       
+        let dataFieldInputValue = [];
+        $("#addDataFieldBtn").on("click",function(){
+                let inputDataFields = document.querySelector("#inputDataFields").value;
+                let requiredFields = document.getElementById("requiredField");
+                let dataFields = document.getElementById("datafield");
+                let showValue = document.querySelector("#showValue");
+                if(inputDataFields){
+                    let input = document.createElement("input");
+                input.setAttribute("type", "text");
+
+                let tr = document.createElement("tr");
+                let th = document.createElement("th");
+                let td = document.createElement("td");
+
+                let data = document.querySelector(".data");
+
+                if (requiredFields.value == "required") {
+                    input.setAttribute("required", "");
+                    var tableRow = data.innerHTML += ` <td><p>${inputDataFields} *<span class="deleteBtn"><i class="bi bi-dash-circle"></i></span></p></td>`;
+                } else {
+                    input.removeAttribute("required");
+                    data.innerHTML += `<p><span>${inputDataFields}  </span><span class="deleteBtn"><i class="bi bi-dash-circle"></i></span></p>`;
+                }
+
+
+                if (dataFields.value == "text") {
+                    input.setAttribute("type", "text");
+                } else if (dataFields.value == "date") {
+                    input.setAttribute("type", "date");
+                } else if (dataFields.value == "number") {
+                    input.setAttribute("type", "number");
+
+                } else if (dataFields.value == "textarea") {
+                    input.setAttribute("class", "textarea");
+                }
+                input.setAttribute("id", "inputVal"+dataFieldInputValue.length+1);
+                data.appendChild(input);
+               
+
+                let obj = {
+                    name:inputDataFields,
+                    type:dataFields.value,
+                    dataType:requiredFields.value,
+                    value:""
+                }
+                dataFieldInputValue.push(obj);
+                
+            }else{
+                alert("Please fill the input value")
+            }
+            $("#dataFieldFormInputValue").val(dataFieldInputValue);
+                
+        })
+    });
+</script>
+@endsection
 @endsection
