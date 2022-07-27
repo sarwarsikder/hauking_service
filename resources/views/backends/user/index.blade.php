@@ -57,6 +57,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="add-userTable-btn">
+                                                        <a href="{{URL::to('admin/users/update/'.$user->id)}}" class="edit-btn"><i
                                                         <a href="{{route('users-edit', $user->id)}}" class="edit-btn"><i
                                                                 class="bi bi-pencil-square"></i></a>
                                                         <a href="javascrit:void()" class="del-btn"

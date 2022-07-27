@@ -28,9 +28,15 @@ Route::get('/', function () {
     return view('backends.dashboard.index');
 });
 
+Route::get('/users/login', function () {
+    return view('frontends.users.login');
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+
 
 require __DIR__ . '/auth.php';
 
@@ -45,7 +51,21 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/users/create', [UserController::class, 'store'])->name('users-submit');
         Route::post('/users/status', [UserController::class, 'updateStatus'])->name('users-status');
         Route::post('/users/delete', [UserController::class, 'destroy'])->name('users-delete');
+        Route::get('/users/update/{id}', [UserController::class, 'edit'])->name('users-edit');
+        Route::post('/users/update/{id}', [UserController::class, 'update'])->name('users-update');
 
+        /**
+         * Frequency start
+         */
+
+        Route::get('/frequencys', [FrequencyController::class, 'index'])->name('frequency');
+        Route::post('/frequency/create', [FrequencyController::class, 'create'])->name('frequecy-create');
+        Route::post('/frequency/status', [FrequencyController::class, 'updateStatus'])->name('frequency-status');
+        Route::post('/frequency/delete', [FrequencyController::class, 'destroy'])->name('frequency-delete');
+        Route::post('/frequency/update', [FrequencyController::class, 'update'])->name('frequency-update');
+        /**
+         * Frequency end
+         */
 
         Route::group(['prefix' => 'settings'], function () {
             /**
@@ -108,7 +128,15 @@ Route::group(['prefix' => 'admin'], function () {
         });
 
 
+        /**
+        * Service start
+        */
         Route::get('/services', [HaukingServiceController::class, 'index'])->name('service-list');
+        Route::get('/services/create', [HaukingServiceController::class, 'create'])->name('service-create');
+        Route::post('/services/create', [HaukingServiceController::class, 'store'])->name('service-submit');
+        /**
+        * Service end
+        */
         Route::get('/orders', [OrderController::class, 'index'])->name('order-list');
         Route::get('/subscriber', [SubscriberController::class, 'index'])->name('subscriber');
     });
