@@ -14,10 +14,10 @@
             <ul class="navbar-nav flex-row align-items-center" id="navcol-2">
                 <li class="nav-item"><a class="nav-link active p-2" href="#">My Account</a></li>
                 <li class="nav-item"><a class="nav-link p-2" href="javascript:void(null)"><img
-                            src="assets/img/icon-1.png"></a></li>
+                            src="{{asset('/assets/frontend/img/icon-1.png')}}"></a></li>
                 <li class="nav-item dropdown dropdown-search"><a class="nav-link p-2" aria-expanded="false"
                                                                  data-bs-toggle="dropdown" href="#"><img
-                            src="assets/img/icon-2.png"></a>
+                            src="{{asset('/assets/frontend/img/icon-2.png')}}"></a>
                     <div class="dropdown-menu dropdown-menu-end position-absolute">
                         <form class="p-3"><input class="border rounded-0 form-control" type="text"
                                                  placeholder="Search ..."></form>
