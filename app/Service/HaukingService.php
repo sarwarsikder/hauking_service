@@ -39,7 +39,7 @@ class HaukingService
 
     public function statusUpdate()
     {
-        $userBuilder = User::query();
+        $userBuilder = Service::query();
         return $this->applyStatus($userBuilder);
     }
 
