@@ -62,7 +62,6 @@ require __DIR__ . '/auth.php';
 
 Route::group(['prefix' => 'admin'], function () {
     Route::middleware(['auth', 'admin'])->group(function () {
-        Route::resource('admins', AdminUserController::class);
         /**
          * Users
          */
@@ -127,8 +126,11 @@ Route::group(['prefix' => 'admin'], function () {
         /**
          * Roles
          */
-        Route::resource('roles', RoleController::class);
 
+        Route::group(['prefix' => 'hr'], function () {
+            Route::resource('roles', RoleController::class);
+            Route::resource('admins', AdminUserController::class);
+        });
     });
 });
 

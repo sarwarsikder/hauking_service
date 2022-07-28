@@ -36,6 +36,15 @@
                         </ul>
                     </li>
                     <li>
+                        <a href="#" data-bs-toggle="collapse" data-bs-target="#admins" aria-controls="admins"
+                           aria-expanded="true"><i class="bi bi-file-lock"></i><span>Admins</span>
+                        </a>
+                        <ul class="collapse {{ (Request::segment(2)=='hr')?"show":"" }}" id="admins">
+                            <li><a href="{{ route('admins.index') }}">Admins</a></li>
+                            <li><a href="{{ route('roles.index') }}">Roles</a></li>
+                        </ul>
+                    </li>
+                    <li>
                         <a href="#" data-bs-toggle="collapse" data-bs-target="#settings" aria-controls="settings"
                            aria-expanded="true"><i class="bi bi-file-lock"></i><span>Settings</span>
                         </a>
