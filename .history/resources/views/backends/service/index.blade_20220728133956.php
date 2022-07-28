@@ -124,7 +124,7 @@
                         },
                         type: "POST",
                         dataType: "json",
-                        url: '/admin/services/status/',
+                        url: '/admin/users/status/',
                         data: {'status': status, 'id': user_id},
                         success: function (data) {
                             console.log(data.success)
@@ -166,7 +166,7 @@
                                     },
                                     type: "POST",
                                     dataType: "json",
-                                    url: '/admin/services/delete/',
+                                    url: '/admin/users/delete/',
                                     data: {'id': user_id},
                                     success: function (data) {
                                         if (data.status == true) {

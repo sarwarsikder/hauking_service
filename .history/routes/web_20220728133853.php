@@ -124,7 +124,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/services/update/{id}', [HaukingServiceController::class, 'edit'])->name('service-edit');
         Route::post('/services/update/{id}', [HaukingServiceController::class, 'update'])->name('service-update');
         Route::post('/services/status', [HaukingServiceController::class, 'updateStatus'])->name('service-status');
-        Route::post('/services/delete', [HaukingServiceController::class, 'destroy'])->name('service-delete');
         /**
         * Service end
         */

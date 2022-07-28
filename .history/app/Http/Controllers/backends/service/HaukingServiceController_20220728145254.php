@@ -159,7 +159,7 @@ class HaukingServiceController extends Controller
             }
 
             if ($serviceObject->save()) {
-                return redirect(route('service-list'))->with('redirect-message', 'Service successfully updated!');
+                return redirect(route('service-list'))->with('redirect-message', 'Service successfully added!');
             } else {
                 return redirect()->back()->with('redirect-message', 'Something wrong!');
             }

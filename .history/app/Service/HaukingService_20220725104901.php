@@ -31,7 +31,6 @@ class HaukingService
     public function get(): LengthAwarePaginator
     {
         $searchProductBuilder = Service::query();
-        $searchProductBuilder->whereNull("deleted_at");
         $searchProductBuilder = $this->applySearch($searchProductBuilder, ['first_name']);
         $searchProductBuilder = $this->applySorting($searchProductBuilder);
 
@@ -44,7 +43,7 @@ class HaukingService
         return $this->applyStatus($userBuilder);
     }
 
-    public function delete()
+    public function userDelete()
     {
         $userBuilder = Service::query();
         return $this->applyDelete($userBuilder);

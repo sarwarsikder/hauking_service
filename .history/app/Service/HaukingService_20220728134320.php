@@ -44,7 +44,7 @@ class HaukingService
         return $this->applyStatus($userBuilder);
     }
 
-    public function delete()
+    public function userDelete()
     {
         $userBuilder = Service::query();
         return $this->applyDelete($userBuilder);

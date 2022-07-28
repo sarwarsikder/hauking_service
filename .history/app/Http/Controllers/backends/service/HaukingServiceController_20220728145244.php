@@ -147,6 +147,7 @@ class HaukingServiceController extends Controller
             $serviceObject->default_value_night = json_encode(array("time"=>$request->default_value_night_time, "value"=>$request->default_value_night_value));
             $serviceObject->default_value_booster = json_encode(array("time"=>$request->default_value_booster_time, "value"=>$request->default_value_booster_value));
             $serviceObject->default_special_feq = $request->default_special_feq;
+            $serviceObject->created_by = Auth::user()->id;
             $serviceObject->updated_by = Auth::user()->id;
             
             
@@ -159,7 +160,7 @@ class HaukingServiceController extends Controller
             }
 
             if ($serviceObject->save()) {
-                return redirect(route('service-list'))->with('redirect-message', 'Service successfully updated!');
+                return redirect(route('service-list'))->with('redirect-message', 'Service successfully added!');
             } else {
                 return redirect()->back()->with('redirect-message', 'Something wrong!');
             }

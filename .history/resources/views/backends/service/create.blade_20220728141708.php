@@ -382,14 +382,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
 <script>
-    let subscriptionInputValue = [];
-    let subscriptionStringyfyValue = '';
-    
-    let dataFieldInputValue = [];
-    let dataFieldStringyfyValue = '';
     $(function () {
-        
-        
+        let subscriptionInputValue = [];
+        let subscriptionStringyfyValue = '';
         $("#addSubscriptionValue").on("click",function(){
             let subscriptionValue = document.getElementById("subscription_duration").value;
             let valueStatus = document.getElementById("subscriptionAmount").value;
@@ -413,8 +408,8 @@
             $("#subscriptionInputValue").val(subscriptionStringyfyValue);
         })
        
-        
-        
+        let dataFieldInputValue = [];
+        let dataFieldStringyfyValue = '';
         $("#addDataFieldBtn").on("click",function(){
                 let inputDataFields = document.querySelector("#inputDataFields").value;
                 let requiredFields = document.getElementById("requiredField");
@@ -471,9 +466,8 @@
             $("#dataFieldFormInputValue").val(dataFieldStringyfyValue);
                 
         })
-    });
 
-    var loadFile = function(event) {
+        var loadFile = function(event) {
     var reader = new FileReader();
     reader.onload = function(){
       var output = document.getElementById('output');
@@ -481,24 +475,18 @@
     };
     reader.readAsDataURL(event.target.files[0]);
   };
-
-
+  
   function getSelectValue(id){
+            console.log($("#inputVal"+id).val())
+            console.log(dataFieldInputValue)
+            const object = dataFieldInputValue.find(obj => obj.id === id);
+            console.log(obj)
 
-    const object = dataFieldInputValue.find(obj => obj.id === id);
-    const index = dataFieldInputValue.findIndex(entry => entry.id === id);
-    const source = {
-        dataType: object.dataType,
-        id: object.id,
-        name: object.name,
-        type: object.type,
-        value: $("#inputVal"+id).val()
     }
+    });
 
-    dataFieldInputValue[index] = source
-    dataFieldStringyfyValue = JSON.stringify(dataFieldInputValue)
-    $("#dataFieldFormInputValue").val(dataFieldStringyfyValue);
-  }
+   
+
 </script>
 @endsection
 @endsection

@@ -382,14 +382,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
 <script>
-    let subscriptionInputValue = [];
-    let subscriptionStringyfyValue = '';
-    
-    let dataFieldInputValue = [];
-    let dataFieldStringyfyValue = '';
     $(function () {
-        
-        
+        let subscriptionInputValue = [];
+        let subscriptionStringyfyValue = '';
         $("#addSubscriptionValue").on("click",function(){
             let subscriptionValue = document.getElementById("subscription_duration").value;
             let valueStatus = document.getElementById("subscriptionAmount").value;
@@ -413,14 +408,13 @@
             $("#subscriptionInputValue").val(subscriptionStringyfyValue);
         })
        
-        
-        
+        let dataFieldInputValue = [];
+        let dataFieldStringyfyValue = '';
         $("#addDataFieldBtn").on("click",function(){
                 let inputDataFields = document.querySelector("#inputDataFields").value;
                 let requiredFields = document.getElementById("requiredField");
                 let dataFields = document.getElementById("datafield");
                 let showValue = document.querySelector("#showValue");
-                let arrayLength = parseInt(parseInt(dataFieldInputValue.length)+1); 
                 if(inputDataFields){
                     let input = document.createElement("input");
                 input.setAttribute("type", "text");
@@ -433,7 +427,7 @@
 
                 if (dataFields.value == "select") {
                     input.setAttribute("required", "");
-                    input.setAttribute("oninput", "getSelectValue("+arrayLength+")");
+                    input.setAttribute("onchange", "getSelectValue("+dataFieldInputValue.length+1+")");
                     var tableRow = data.innerHTML += ` <td><p>${inputDataFields} *(Please write the values with comma separated)<span class="deleteBtn"><i class="bi bi-dash-circle"></i></span></p></td>`;
                 } else {
                     // input.removeAttribute("required");
@@ -451,12 +445,11 @@
                 } else if (dataFields.value == "textarea") {
                     input.setAttribute("class", "textarea");
                 }
-                input.setAttribute("id", "inputVal"+arrayLength);
+                input.setAttribute("id", "inputVal"+dataFieldInputValue.length+1);
                 data.appendChild(input);
                
 
                 let obj = {
-                    id:arrayLength,
                     name:inputDataFields,
                     type:dataFields.value,
                     dataType:requiredFields.value,
@@ -481,24 +474,6 @@
     };
     reader.readAsDataURL(event.target.files[0]);
   };
-
-
-  function getSelectValue(id){
-
-    const object = dataFieldInputValue.find(obj => obj.id === id);
-    const index = dataFieldInputValue.findIndex(entry => entry.id === id);
-    const source = {
-        dataType: object.dataType,
-        id: object.id,
-        name: object.name,
-        type: object.type,
-        value: $("#inputVal"+id).val()
-    }
-
-    dataFieldInputValue[index] = source
-    dataFieldStringyfyValue = JSON.stringify(dataFieldInputValue)
-    $("#dataFieldFormInputValue").val(dataFieldStringyfyValue);
-  }
 </script>
 @endsection
 @endsection
