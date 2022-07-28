@@ -403,14 +403,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
 <script>
-     let subscriptionInputValue = '[]';
+     let subscriptionInputValue = [];
     let subscriptionExistingValue = $("#subscriptionInputValue").val();
     if(subscriptionExistingValue){
             subscriptionInputValue = JSON.parse(subscriptionExistingValue);
     }         
     let subscriptionStringyfyValue = '';
     
-    let dataFieldInputValue = "[]";
+    let dataFieldInputValue = [];
     let dataFieldStringyfyValue = '';
     let dataFieldExistingValue = $("#dataFieldFormInputValue").val();
     if(dataFieldExistingValue){
@@ -434,6 +434,7 @@
             let valueStatus = document.getElementById("subscriptionAmount").value;
             if (subscriptionValue && valueStatus) {
                 let a = {duration:subscriptionValue,amount:valueStatus}
+                console.log(subscriptionInputValue)
                 subscriptionInputValue.push(a);
                     var values =
                         `<p class="price__field">${subscriptionValue} ${valueStatus}   <span class="deleteBtn"><i class="bi bi-dash-circle"></i></span> </p>`;
