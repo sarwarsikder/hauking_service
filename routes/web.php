@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\backends\order\OrderController;
 use App\Http\Controllers\backends\role\RoleController;
 use App\Http\Controllers\backends\service\HaukingServiceController;
@@ -58,9 +59,9 @@ Route::get('/dashboard', function () {
 
 require __DIR__ . '/auth.php';
 
+
 Route::group(['prefix' => 'admin'], function () {
     Route::middleware(['auth', 'admin'])->group(function () {
-
         /**
          * Users
          */
@@ -164,10 +165,17 @@ Route::group(['prefix' => 'admin'], function () {
         /**
          * Roles
          */
-        Route::resource('roles', RoleController::class);
 
+        Route::group(['prefix' => 'hr'], function () {
+            Route::resource('roles', RoleController::class);
+            Route::resource('admins', AdminUserController::class);
+        });
     });
 });
 
 
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
