@@ -12,29 +12,49 @@
                             <table style="width:100%" class="current-data-table">
                                 <tr>
                                     <th>Coupon Name:</th>
-                                    <td><input type="text" name="coupon_name" value="{{ $coupon_service->coupon_name }}"></td>
+                                    <td>
+                                        @error('coupon_name')
+                                            {{-- <div class="alert"> --}}
+                                            <p class="text-danger">{{ $message }}</p>
+                                            {{-- </div> --}}
+                                        @enderror
+                                        <input type="text" class="@error('coupon_name') is-invalid @enderror"
+                                            name="coupon_name" value="{{ $coupon_service->coupon_name }}">
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>Type:</th>
                                     <td>
                                         <select name="coupon_type" id="">
-                                            <option value="percent" {{ ($coupon_service->coupon_type === 'percent') ? 'selected' : '' }}>Percent</option>
-                                                <option value="fixed" {{ ($coupon_service->coupon_type === 'fixed') ? 'selected' : '' }}>Fixed</option>
-                                                <option value="days" {{ ($coupon_service->coupon_type === 'days') ? 'selected' : '' }}>Days</option>
+                                            <option value="percent"
+                                                {{ $coupon_service->coupon_type === 'percent' ? 'selected' : '' }}>Percent
+                                            </option>
+                                            <option value="fixed"
+                                                {{ $coupon_service->coupon_type === 'fixed' ? 'selected' : '' }}>Fixed
+                                            </option>
+                                            <option value="days"
+                                                {{ $coupon_service->coupon_type === 'days' ? 'selected' : '' }}>Days
+                                            </option>
                                         </select>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Value:</th>
                                     <td>
-                                        <input type="number" name="coupon_value" value="{{ $coupon_service->coupon_value }}">
+                                        @error('coupon_value')
+                                            {{-- <div class="alert"> --}}
+                                            <p class="text-danger">{{ $message }}</p>
+                                            {{-- </div> --}}
+                                        @enderror
+                                        <input type="number" class="@error('coupon_value') is-invalid @enderror"
+                                            name="coupon_value" value="{{ $coupon_service->coupon_value }}">
                                     </td>
                                 </tr>
                                 <th>Status:</th>
                                 <td>
                                     <label class="switch">
-                                        <input value="1" type="checkbox" {{ $coupon_service->status === 1 ? 'checked' : '' }}
-                                            name="status">
+                                        <input value="1" type="checkbox"
+                                            {{ $coupon_service->status === 1 ? 'checked' : '' }} name="status">
                                         <span class="slider round"></span>
                                     </label>
                                 </td>

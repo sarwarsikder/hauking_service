@@ -12,7 +12,19 @@
                             <table style="width:100%" class="current-data-table">
                                 <tr>
                                     <th>Coupon Name:</th>
-                                    <td><input type="text" name="coupon_name" value=""></td>
+                                    <td>
+                                        @error('coupon_name')
+                                            {{-- <div class="alert"> --}}
+                                                <p class="text-danger">{{ $message }}</p>
+                                            {{-- </div> --}}
+                                        @enderror
+                                        
+                                        <input type="text" name="coupon_name"
+                                            class="@error('coupon_name') is-invalid @enderror"
+                                            value="{{ old('coupon_name') }}">
+
+                                    </td>
+
                                 </tr>
                                 <tr>
                                     <th>Type:</th>
@@ -27,7 +39,12 @@
                                 <tr>
                                     <th>Value:</th>
                                     <td>
-                                        <input type="number" name="coupon_value" value="">
+                                        @error('coupon_value')
+                                        {{-- <div class="alert"> --}}
+                                            <p class="text-danger">{{ $message }}</p>
+                                        {{-- </div> --}}
+                                    @enderror
+                                        <input type="number" class="@error('coupon_value') is-invalid @enderror" name="coupon_value" value="{{ old('coupon_value') }}">
                                     </td>
                                 </tr>
                                 <th>Status:</th>

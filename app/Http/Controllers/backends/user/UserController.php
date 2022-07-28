@@ -4,8 +4,11 @@ namespace App\Http\Controllers\backends\user;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\ProductsRegister;
 use App\Models\User;
+use App\Models\Country;
+use App\Models\State;
 use App\Service\UserService;
 use App\Traits\Statusable;
 use Illuminate\Http\Request;
@@ -26,7 +29,6 @@ class UserController extends Controller
      */
     public function __construct()
     {
-
     }
 
     /**
@@ -54,6 +56,10 @@ class UserController extends Controller
      */
     public function create()
     {
+        $countries = Country::all();
+        $states = State::all();
+        $this->data['countries'] = $countries;
+        $this->data['states'] = $states;
         return view("backends.user.create", $this->data);
     }
 
@@ -79,12 +85,14 @@ class UserController extends Controller
             $userObject->zipcode = $request['zipcode'];
             $userObject->country = $request['country'];
             $userObject->email = $request['email'];
+            $userObject->phone = $request['phone'];
 
             if ($request->file('user_profile')) {
                 $file = $request->file('user_profile');
+
                 $filename = date('YmdHi') . $file->getClientOriginalName();
-                $file->move(public_path('public/images/services'), $filename);
-                $userObject->user_profile = $request['user_profile'];
+                $file->move(public_path('/images/user'), $filename);
+                $userObject->user_profile = $filename;
             }
 
             if ($userObject->save()) {
@@ -114,9 +122,16 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+
+        $user = User::where('id',$id)->first();
+        $countries = Country::all();
+        $states = State::all();
+        $this->data['user'] = $user;
+        $this->data['countries'] = $countries;
+        $this->data['states'] = $states;
+        return view("backends.user.edit", $this->data);
     }
 
     /**
@@ -126,9 +141,42 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
+        try {
 
+            $userObject = User::where('id',$id)->first();
+
+            $userObject->first_name = $request['first_name'];
+            $userObject->last_name = $request['last_name'];
+            $userObject->email = $request['email'];
+            $userObject->primary_address = $request['primary_address'];
+            $userObject->city = $request['city'];
+            $userObject->state = $request['state'];
+            $userObject->zipcode = $request['zipcode'];
+            $userObject->country = $request['country'];
+            $userObject->email = $request['email'];
+            $userObject->phone = $request['phone'];
+            if($request['password']){
+                $userObject->password = Hash::make($request['password']);
+            }
+
+            if ($request->file('user_profile')) {
+                $file = $request->file('user_profile');
+
+                $filename = date('YmdHi') . $file->getClientOriginalName();
+                $file->move(public_path('/images/user'), $filename);
+                $userObject->user_profile = $filename;
+            }
+
+            if ($userObject->save()) {
+                return redirect(route('users-list'))->with('redirect-message', 'User successfully updated!');
+            } else {
+                return redirect()->back()->with('redirect-message', 'Something wrong!');
+            }
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        }
     }
 
     /**
@@ -158,7 +206,6 @@ class UserController extends Controller
             'data' => [],
             'message' => 'Status updated successfully!'
         ), 200);
-
     }
 
     /**
@@ -187,6 +234,5 @@ class UserController extends Controller
             'data' => [],
             'message' => 'User deleted successfully!'
         ), 200);
-
     }
 }

@@ -4,8 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class LanguageSettings extends Model
 {
-    use HasFactory;
+    protected $table = "language_settings";
+
+    use HasApiTokens, HasFactory, Notifiable;
 }
