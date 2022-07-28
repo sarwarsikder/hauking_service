@@ -25,16 +25,8 @@
                                                 <tr>
                                                     <th class="text-nowrap" scope="col">ID</th>
                                                     <th class="text-nowrap" scope="col">Service Name</th>
-                                                    <th class="text-nowrap" scope="col">Subscription Type</th>
-                                                    <th scope="col">Trial Period</th>
-                                                    <th scope="col">Hawkin Scale</th>
-                                                    <th scope="col">Data Fields</th>
-                                                    <th scope="col">Default Value Day</th>
-                                                    <th scope="col">Default Value Night</th>
-                                                    <th scope="col">Default Value Booster</th>
-                                                    <th scope="col">Default Special Feq</th>
-                                                    <th scope="col">Service Image Url</th>
                                                     <th scope="col">Active</th>
+                                                    <th scope="col">Action</th>
                                                 </tr>
                                                 </thead>
 
@@ -43,15 +35,6 @@
                                                     <tr>
                                                         <td scope="row">{{$hauking->id}}</td>
                                                         <td scope="row">{{$hauking->service_name}}</td>
-                                                        <td scope="row">{{$hauking->subscription_type}}</td>
-                                                        <td scope="row">{{$hauking->trial_period}}</td>
-                                                        <td scope="row">{{$hauking->hawkin_scale}}</td>
-                                                        <td scope="row">{{$hauking->data_fields}}</td>
-                                                        <td scope="row">{{$hauking->default_value_day}}</td>
-                                                        <td scope="row">{{$hauking->default_value_night}}</td>
-                                                        <td scope="row">{{$hauking->default_value_booster}}</td>
-                                                        <td scope="row">{{$hauking->default_special_feq}}</td>
-                                                        <td scope="row"><img src="{{URL::to('images/services/'.$hauking->service_image_url)}}" style="width: 110px;"/></td>
                                                         <td scope="row">
                                                             <label class="switch">
                                                                 <input type="checkbox"
