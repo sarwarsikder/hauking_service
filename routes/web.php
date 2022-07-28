@@ -151,6 +151,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/services', [HaukingServiceController::class, 'index'])->name('service-list');
         Route::get('/services/create', [HaukingServiceController::class, 'create'])->name('service-create');
         Route::post('/services/create', [HaukingServiceController::class, 'store'])->name('service-submit');
+        Route::get('/services/update/{id}', [HaukingServiceController::class, 'edit'])->name('service-edit');
+        Route::post('/services/update/{id}', [HaukingServiceController::class, 'update'])->name('service-update');
+        Route::post('/services/status', [HaukingServiceController::class, 'updateStatus'])->name('service-status');
+        Route::post('/services/delete', [HaukingServiceController::class, 'destroy'])->name('service-delete');
         /**
         * Service end
         */

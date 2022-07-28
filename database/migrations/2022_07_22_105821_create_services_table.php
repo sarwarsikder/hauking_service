@@ -24,13 +24,14 @@ return new class extends Migration {
             $table->json('default_value_booster');
             $table->string('default_special_feq');
             $table->string('service_image_url');
-            $table->boolean('status')->nullable();
+            $table->boolean('status')->default(0);
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
 
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
 
             $table->index('created_by');
             $table->index('updated_by');

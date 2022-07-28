@@ -5,12 +5,9 @@ namespace Database\Seeders;
 use App\Models\Coupon;
 use App\Models\Frequency;
 use App\Models\LanguageSettings;
-use App\Models\Service;
 use App\Models\Tax;
 use App\Models\User;
 use Database\Factories\AdminFactory;
-use Database\Factories\FrequencyFactory;
-use Database\Factories\TaxFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -126,7 +123,7 @@ class DatabaseSeeder extends Seeder
        /***
         *  Seed services fake data
         ***/
-       Service::factory(20)->create();
+    //    Service::factory(20)->create();
 
     }
 }
