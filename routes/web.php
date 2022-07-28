@@ -1,13 +1,13 @@
 <?php
 
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\backends\order\OrderController;
+use App\Http\Controllers\backends\role\RoleController;
 use App\Http\Controllers\backends\service\HaukingServiceController;
-use App\Http\Controllers\backends\service\SubService\ServiceOneController;
 use App\Http\Controllers\backends\Settings\FrequencyController;
 use App\Http\Controllers\backends\Settings\LanguageController;
 use App\Http\Controllers\backends\Settings\PaymentController;
 use App\Http\Controllers\backends\Settings\TaxController;
-use App\Http\Controllers\backends\Settings\TaxSystemController;
 use App\Http\Controllers\backends\SubscriberController;
 use App\Http\Controllers\backends\user\UserController;
 use App\Http\Controllers\Settings\CouponsController;
@@ -32,17 +32,36 @@ Route::get('/users/login', function () {
     return view('frontends.users.login');
 });
 
+Route::get('/users/forget-password', function () {
+    return view('frontends.users.forget_password');
+});
+
+Route::get('/service', function () {
+    return view('frontends.services.service');
+});
+
+Route::get('/service-list', function () {
+    return view('frontends.services.service_list');
+});
+
+Route::get('/service/{service_id}', function () {
+    return view('frontends.services.update_service');
+});
+
+Route::get('/users/registration', function () {
+    return view('frontends.users.registration');
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
 
-
 require __DIR__ . '/auth.php';
+
 
 Route::group(['prefix' => 'admin'], function () {
     Route::middleware(['auth', 'admin'])->group(function () {
-
         /**
          * Users
          */
@@ -112,7 +131,6 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('/frequency/update', [FrequencyController::class, 'update'])->name('frequency-update');
 
 
-
             /**
              * Coupons
              */
@@ -139,8 +157,21 @@ Route::group(['prefix' => 'admin'], function () {
         */
         Route::get('/orders', [OrderController::class, 'index'])->name('order-list');
         Route::get('/subscriber', [SubscriberController::class, 'index'])->name('subscriber');
+
+        /**
+         * Roles
+         */
+
+        Route::group(['prefix' => 'hr'], function () {
+            Route::resource('roles', RoleController::class);
+            Route::resource('admins', AdminUserController::class);
+        });
     });
 });
 
 
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
