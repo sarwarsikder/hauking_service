@@ -62,17 +62,11 @@
                                         </option>
                                         <option value="7" {{ old('subscription_duration') == 7 ? "selected" : "" }}>7
                                         </option>
-                                        <option value="8" {{ old('subscription_duration') == 8 ? "selected" : "" }}>8
-                                        </option>
-                                        <option value="9" {{ old('subscription_duration') == 9 ? "selected" : "" }}>9
-                                        </option>
-                                        <option value="10" {{ old('subscription_duration') == 10 ? "selected" : "" }}>10
-                                        </option>
-                                        <option value="11" {{ old('subscription_duration') == 11 ? "selected" : "" }}>11
-                                        </option>
-                                        <option value="12" {{ old('subscription_duration') == 12 ? "selected" : "" }}>12
-                                        </option>
                                     </select>
+                                    <!-- <select id="valueStatus" onchange="subscriptionValueSelector() ;">
+                        <option value="Free">Free</option>
+                        <option value="Locked">Locked</option>
+                      </select> -->
                                     <input type="number" class="@error('subscription_amount')  is-invalid @enderror"
                                            id="subscriptionAmount" name="subscription_amount"
                                            placeholder="Chargable Amount"
@@ -438,147 +432,136 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    @parent
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+    <script>
+        let subscriptionInputValue = [];
+        let subscriptionExistingValue = $("#subscriptionInputValue").val();
+        if (subscriptionExistingValue) {
+            subscriptionInputValue = JSON.parse(subscriptionExistingValue);
+        }
+        let subscriptionStringyfyValue = '';
 
-    @section('scripts')
-        @parent
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-        <script type="text/javascript"
-                src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
-        <script>
-            let subscriptionInputValue = '[]';
-            let subscriptionExistingValue = $("#subscriptionInputValue").val();
-            if (subscriptionExistingValue) {
-                subscriptionInputValue = JSON.parse(subscriptionExistingValue);
-            }
-            let subscriptionStringyfyValue = '';
+        let dataFieldInputValue = [];
+        let dataFieldStringyfyValue = '';
+        let dataFieldExistingValue = $("#dataFieldFormInputValue").val();
+        if (dataFieldExistingValue) {
+            dataFieldInputValue = JSON.parse(dataFieldExistingValue);
+        }
 
-            let dataFieldInputValue = "[]";
-            let dataFieldStringyfyValue = '';
-            let dataFieldExistingValue = $("#dataFieldFormInputValue").val();
-            if (dataFieldExistingValue) {
-                dataFieldInputValue = JSON.parse(dataFieldExistingValue);
-            }
+        $(".existingDeleteBtn").on("click", function () {
+            const index = $(this).data("id");
+            console.log(index);
+            subscriptionInputValue.splice(index, 1);
+            console.log($(this).parent().remove())
+            subscriptionStringyfyValue = JSON.stringify(subscriptionInputValue)
+            $("#subscriptionInputValue").val(subscriptionStringyfyValue);
+        })
 
-            $(".existingDeleteBtn").on("click", function () {
-                const index = $(this).data("id");
-                console.log(index);
-                subscriptionInputValue.splice(index, 1);
-                console.log($(this).parent().remove())
+        $(function () {
+
+
+            $("#addSubscriptionValue").on("click", function () {
+                let subscriptionValue = document.getElementById("subscription_duration").value;
+                let valueStatus = document.getElementById("subscriptionAmount").value;
+                if (subscriptionValue && valueStatus) {
+                    let a = {duration: subscriptionValue, amount: valueStatus}
+                    console.log(subscriptionInputValue)
+                    subscriptionInputValue.push(a);
+                    var values =
+                        `<p class="price__field">${subscriptionValue} ${valueStatus}   <span class="deleteBtn"><i class="bi bi-dash-circle"></i></span> </p>`;
+                    textValue.innerHTML += values;
+                    let priceField = document.querySelectorAll(".price__field");
+                    let deleteBtn = document.querySelectorAll(".deleteBtn");
+                    for (let i = 0; i < deleteBtn.length; i++) {
+                        deleteBtn[i].addEventListener("click", () => {
+                            priceField[i].remove();
+                            subscriptionInputValue.splice(i, 1);
+                            $("#subscriptionInputValue").val(subscriptionInputValue);
+                        });
+                    }
+                }
                 subscriptionStringyfyValue = JSON.stringify(subscriptionInputValue)
                 $("#subscriptionInputValue").val(subscriptionStringyfyValue);
             })
 
-            $(function () {
 
-
-                $("#addSubscriptionValue").on("click", function () {
-                    let subscriptionValue = document.getElementById("subscription_duration").value;
-                    let valueStatus = document.getElementById("subscriptionAmount").value;
-                    if (subscriptionValue && valueStatus) {
-                        let a = {duration: subscriptionValue, amount: valueStatus}
-                        subscriptionInputValue.push(a);
-                        var values =
-                            `<p class="price__field">${subscriptionValue} ${valueStatus}   <span class="deleteBtn"><i class="bi bi-dash-circle"></i></span> </p>`;
-                        textValue.innerHTML += values;
-                        let priceField = document.querySelectorAll(".price__field");
-                        let deleteBtn = document.querySelectorAll(".deleteBtn");
-                        for (let i = 0; i < deleteBtn.length; i++) {
-                            deleteBtn[i].addEventListener("click", () => {
-                                priceField[i].remove();
-                                subscriptionInputValue.splice(i, 1);
-                                $("#subscriptionInputValue").val(subscriptionInputValue);
-                            });
-                        }
-                    }
-                    subscriptionStringyfyValue = JSON.stringify(subscriptionInputValue)
-                    $("#subscriptionInputValue").val(subscriptionStringyfyValue);
-                })
-
-
-                $("#addDataFieldBtn").on("click", function () {
-                    let inputDataFields = document.querySelector("#inputDataFields").value;
-                    let requiredFields = document.getElementById("requiredField");
-                    let dataFields = document.getElementById("datafield");
-                    let showValue = document.querySelector("#showValue");
-                    let arrayLength = parseInt(parseInt(dataFieldInputValue.length) + 1);
-                    if (inputDataFields) {
-                        let input = document.createElement("input");
-                        input.setAttribute("type", "text");
-
-                        let tr = document.createElement("tr");
-                        let th = document.createElement("th");
-                        let td = document.createElement("td");
-
-                        let data = document.querySelector(".data");
-
-                        if (dataFields.value == "select") {
-                            input.setAttribute("required", "");
-                            input.setAttribute("oninput", "getSelectValue(" + arrayLength + ")");
-                            var tableRow = data.innerHTML += ` <td><p>${inputDataFields} *(Please write the values with comma separated)<span class="deleteBtn"><i class="bi bi-dash-circle"></i></span></p></td>`;
-                        } else {
-                            // input.removeAttribute("required");
-                            data.innerHTML += `<p><span>${inputDataFields}  </span><span class="deleteBtn"><i class="bi bi-dash-circle"></i></span></p>`;
-                        }
-
-
-                        if (dataFields.value == "text") {
-                            input.setAttribute("type", "text");
-                        } else if (dataFields.value == "date") {
-                            input.setAttribute("type", "date");
-                        } else if (dataFields.value == "number") {
-                            input.setAttribute("type", "number");
-
-                        } else if (dataFields.value == "textarea") {
-                            input.setAttribute("class", "textarea");
-                        }
-                        input.setAttribute("id", "inputVal" + arrayLength);
-                        data.appendChild(input);
-
-
-                        let obj = {
-                            id: arrayLength,
-                            name: inputDataFields,
-                            type: dataFields.value,
-                            dataType: requiredFields.value,
-                            value: ""
-                        }
-                        dataFieldInputValue.push(obj);
-
+            $("#addDataFieldBtn").on("click", function () {
+                let inputDataFields = document.querySelector("#inputDataFields").value;
+                let requiredFields = document.getElementById("requiredField");
+                let dataFields = document.getElementById("datafield");
+                let showValue = document.querySelector("#showValue");
+                let arrayLength = parseInt(parseInt(dataFieldInputValue.length) + 1);
+                if (inputDataFields) {
+                    let input = document.createElement("input");
+                    input.setAttribute("type", "text");
+                    let tr = document.createElement("tr");
+                    let th = document.createElement("th");
+                    let td = document.createElement("td");
+                    let data = document.querySelector(".data");
+                    if (dataFields.value == "select") {
+                        input.setAttribute("required", "");
+                        input.setAttribute("oninput", "getSelectValue(" + arrayLength + ")");
+                        var tableRow = data.innerHTML += ` <td><p>${inputDataFields} *(Please write the values with comma separated)<span class="deleteBtn"><i class="bi bi-dash-circle"></i></span></p></td>`;
                     } else {
-                        alert("Please fill the input value")
+                        // input.removeAttribute("required");
+                        data.innerHTML += `<p><span>${inputDataFields}  </span><span class="deleteBtn"><i class="bi bi-dash-circle"></i></span></p>`;
                     }
-                    dataFieldStringyfyValue = JSON.stringify(dataFieldInputValue)
-                    $("#dataFieldFormInputValue").val(dataFieldStringyfyValue);
+                    if (dataFields.value == "text") {
+                        input.setAttribute("type", "text");
+                    } else if (dataFields.value == "date") {
+                        input.setAttribute("type", "date");
+                    } else if (dataFields.value == "number") {
+                        input.setAttribute("type", "number");
+                    } else if (dataFields.value == "textarea") {
+                        input.setAttribute("class", "textarea");
+                    }
+                    input.setAttribute("id", "inputVal" + arrayLength);
+                    data.appendChild(input);
 
-                })
-            });
+                    let obj = {
+                        id: arrayLength,
+                        name: inputDataFields,
+                        type: dataFields.value,
+                        dataType: requiredFields.value,
+                        value: ""
+                    }
+                    dataFieldInputValue.push(obj);
 
-            var loadFile = function (event) {
-                var reader = new FileReader();
-                reader.onload = function () {
-                    var output = document.getElementById('output');
-                    output.src = reader.result;
-                };
-                reader.readAsDataURL(event.target.files[0]);
-            };
-
-
-            function getSelectValue(id) {
-
-                const object = dataFieldInputValue.find(obj => obj.id === id);
-                const index = dataFieldInputValue.findIndex(entry => entry.id === id);
-                const source = {
-                    dataType: object.dataType,
-                    id: object.id,
-                    name: object.name,
-                    type: object.type,
-                    value: $("#inputVal" + id).val()
+                } else {
+                    alert("Please fill the input value")
                 }
-
-                dataFieldInputValue[index] = source
                 dataFieldStringyfyValue = JSON.stringify(dataFieldInputValue)
                 $("#dataFieldFormInputValue").val(dataFieldStringyfyValue);
+
+            })
+        });
+        var loadFile = function (event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('output');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        };
+
+        function getSelectValue(id) {
+            const object = dataFieldInputValue.find(obj => obj.id === id);
+            const index = dataFieldInputValue.findIndex(entry => entry.id === id);
+            const source = {
+                dataType: object.dataType,
+                id: object.id,
+                name: object.name,
+                type: object.type,
+                value: $("#inputVal" + id).val()
             }
-        </script>
-    @endsection
+            dataFieldInputValue[index] = source
+            dataFieldStringyfyValue = JSON.stringify(dataFieldInputValue)
+            $("#dataFieldFormInputValue").val(dataFieldStringyfyValue);
+        }
+    </script>
 @endsection
