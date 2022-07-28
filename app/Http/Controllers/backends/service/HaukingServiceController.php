@@ -4,12 +4,12 @@ namespace App\Http\Controllers\backends\service;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ServiceRequest;
-use App\Service\HaukingService;
-use Illuminate\Http\Request;
-use App\Models\Service;
 use App\Models\Frequency;
-use Response;
+use App\Models\Service;
+use App\Service\HaukingService;
 use Auth;
+use Illuminate\Http\Request;
+use Response;
 
 class HaukingServiceController extends Controller
 {
@@ -31,10 +31,10 @@ class HaukingServiceController extends Controller
      */
     public function index(Request $request)
     {
-       
+
         try {
             $hauking_service = new HaukingService($request->toArray());
-        
+
             $this->data['haukings'] = $hauking_service->get();
         } catch (\Exception $exception) {
             return back()->withError($exception->getMessage())->withInput();
@@ -64,7 +64,7 @@ class HaukingServiceController extends Controller
     public function store(ServiceRequest $request)
     {
         try {
-         
+
             $serviceObject = new Service();
 
             $serviceObject->service_name = $request->service_name;
@@ -78,8 +78,8 @@ class HaukingServiceController extends Controller
             $serviceObject->default_special_feq = $request->default_special_feq;
             $serviceObject->created_by = Auth::user()->id;
             $serviceObject->updated_by = Auth::user()->id;
-            
-            
+
+
 
             if ($request->file('service_image_url')) {
                 $file = $request->file('service_image_url');
@@ -106,7 +106,7 @@ class HaukingServiceController extends Controller
      */
     public function show($id)
     {
-        
+
     }
 
     /**
@@ -135,7 +135,7 @@ class HaukingServiceController extends Controller
     public function update(ServiceRequest $request, $id)
     {
         try {
-         
+
             $serviceObject = Service::where('id',$id)->first();
 
             $serviceObject->service_name = $request->service_name;
@@ -148,8 +148,8 @@ class HaukingServiceController extends Controller
             $serviceObject->default_value_booster = json_encode(array("time"=>$request->default_value_booster_time, "value"=>$request->default_value_booster_value));
             $serviceObject->default_special_feq = $request->default_special_feq;
             $serviceObject->updated_by = Auth::user()->id;
-            
-            
+
+
 
             if ($request->file('service_image_url')) {
                 $file = $request->file('service_image_url');
