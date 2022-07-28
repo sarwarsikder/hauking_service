@@ -25,7 +25,6 @@ return new class extends Migration {
             $table->string('default_special_feq');
             $table->string('service_image_url');
             $table->boolean('status')->nullable();
-
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->foreign('created_by')->references('id')->on('users');

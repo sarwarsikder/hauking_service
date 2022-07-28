@@ -73,7 +73,7 @@ class CouponsController extends Controller
             $couponObject->status = !empty($request['status']) == 'on' ? true : false;
 
             if ($couponObject->save()) {
-                return redirect(route('coupons'))->with('redirect-message', 'Coupon successfully created!');
+                return redirect(route('coupons-list'))->with('redirect-message', 'Coupon successfully created!');
             } else {
                 return redirect()->back()->with('redirect-message', 'Something wrong!');
             }
@@ -131,7 +131,7 @@ class CouponsController extends Controller
                 $coupon_service->coupon_value = $request['coupon_value'];
                 $coupon_service->status = !empty($request['status']) == '1' ? true : false;
                 if ($coupon_service->save()) {
-                    return redirect(route('coupons'))->with('redirect-message', 'Coupon successfully Updated!');
+                    return redirect(route('coupons-list'))->with('redirect-message', 'Coupon successfully Updated!');
                 } else {
                     return redirect()->back()->with('redirect-message', 'Something wrong!');
                 }

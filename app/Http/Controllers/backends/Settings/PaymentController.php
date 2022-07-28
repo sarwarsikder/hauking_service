@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\backends\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PaymentSettingsRequest;
+use App\Models\PaymentSettings;
 use App\Service\PaymentService;
 use Illuminate\Http\Request;
 
@@ -76,9 +78,32 @@ class PaymentController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PaymentSettingsRequest $request,)
     {
-        //
+        try {
+            $payment_service = PaymentSettings::find($request->id);
+            if (!empty($payment_service)) {
+                $payment_service->method_type = $request['method_type'];
+                $payment_service->mode = $request['mode'];
+                $payment_service->account_email = $request['account_email'];
+                $payment_service->client_id = $request['client_id'];
+                $payment_service->client_secret_key = $request['client_secret_key'];
+                $payment_service->test_public_key = $request['test_public_key'];
+                $payment_service->test_secret_key = $request['test_secret_key'];
+                $payment_service->live_public_key = $request['live_public_key'];
+                $payment_service->live_secret_key = $request['live_secret_key'];
+                $payment_service->default_payment = !empty($request['default_payment']) == '1' ? true : false;
+                $payment_service->status = !empty($request['status']) == '1' ? true : false;
+                $payment_service->display_order = $request['display_order'];
+                if ($payment_service->save()) {
+                    return redirect(route('payments-list'))->with('redirect-message', 'Payment successfully Updated!');
+                } else {
+                    return redirect()->back()->with('redirect-message', 'Something wrong!');
+                }
+            }
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        }
     }
 
     /**

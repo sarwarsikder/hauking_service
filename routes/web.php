@@ -73,20 +73,33 @@ Route::group(['prefix' => 'admin'], function () {
              */
             Route::get('/taxes', [TaxController::class, 'index'])->name('taxes-list');
             Route::get('/taxes/create', [TaxController::class, 'create'])->name('taxes-create');
+            Route::post('/taxes/getState', [TaxController::class, 'getState'])->name('taxes-getState');
+            Route::post('/taxes/getCity', [TaxController::class, 'getCity'])->name('taxes-getCity');
+            Route::post('/taxes/store', [TaxController::class, 'store'])->name('taxes-submit');
+            Route::get('/taxes/edit/{id}', [TaxController::class, 'edit'])->name('taxes-edit');
+            Route::post('/taxes/{id}/update', [TaxController::class, 'update'])->name('taxes-update');
+            Route::post('/taxes/status', [TaxController::class, 'updateStatus'])->name('taxes-status');
+            Route::post('/taxes/delete', [TaxController::class, 'destroy'])->name('taxes-delete');
 
 
             /**
-             * Taxes
+             * languages
              */
             Route::get('/languages', [LanguageController::class, 'index'])->name('languages-list');
             Route::get('/languages/create', [LanguageController::class, 'create'])->name('languages-create');
+            Route::post('/languages/store', [LanguageController::class, 'store'])->name('languages-submit');
+            Route::get('/languages/edit/{id}', [LanguageController::class, 'edit'])->name('languages-edit');
+            Route::post('/languages/{id}/update', [LanguageController::class, 'update'])->name('languages-update');
+            Route::post('/languages/status', [LanguageController::class, 'updateStatus'])->name('languages-status');
+            Route::post('/languages/default', [LanguageController::class, 'updateDefault'])->name('languages-default');
+            Route::post('/languages/delete', [LanguageController::class, 'destroy'])->name('languages-delete');
 
 
             /**
-             * Taxes
+             * payments
              */
             Route::get('/payments', [PaymentController::class, 'index'])->name('payments-list');
-            Route::get('/payments/create', [LanguageController::class, 'create'])->name('payments-create');
+            Route::put('/payments/update', [PaymentController::class, 'update'])->name('payments-update');
 
             /**
              * Frequency

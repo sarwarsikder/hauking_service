@@ -29,7 +29,6 @@ class UserController extends Controller
      */
     public function __construct()
     {
-
     }
 
     /**
@@ -90,12 +89,12 @@ class UserController extends Controller
 
             if ($request->file('user_profile')) {
                 $file = $request->file('user_profile');
- 
+
                 $filename = date('YmdHi') . $file->getClientOriginalName();
                 $file->move(public_path('/images/user'), $filename);
                 $userObject->user_profile = $filename;
             }
-          
+
             if ($userObject->save()) {
                 return redirect(route('users-list'))->with('redirect-message', 'User successfully added!');
             } else {
@@ -125,7 +124,7 @@ class UserController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        
+
         $user = User::where('id',$id)->first();
         $countries = Country::all();
         $states = State::all();
@@ -161,15 +160,15 @@ class UserController extends Controller
             if($request['password']){
                 $userObject->password = Hash::make($request['password']);
             }
-            
+
             if ($request->file('user_profile')) {
                 $file = $request->file('user_profile');
- 
+
                 $filename = date('YmdHi') . $file->getClientOriginalName();
                 $file->move(public_path('/images/user'), $filename);
                 $userObject->user_profile = $filename;
             }
-         
+
             if ($userObject->save()) {
                 return redirect(route('users-list'))->with('redirect-message', 'User successfully updated!');
             } else {
@@ -207,7 +206,6 @@ class UserController extends Controller
             'data' => [],
             'message' => 'Status updated successfully!'
         ), 200);
-
     }
 
     /**
@@ -236,6 +234,5 @@ class UserController extends Controller
             'data' => [],
             'message' => 'User deleted successfully!'
         ), 200);
-
     }
 }
