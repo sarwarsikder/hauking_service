@@ -16,14 +16,14 @@
             </div>
             @endif
             <div class="user-data-setting shadow ">
-                <form class="row g-3 addserviceform" action="{{route('service-submit')}}" method="post" enctype="multipart/form-data">
+                <form class="row g-3 addserviceform" action="{{URL::to('admin/services/update/'.$service->id)}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <table style="width:100%" class="current-data-table">
                         <tr>
                             <th>Name:</th>
                             <td><input type="text"
                                     class="form-control shadow-none @error('service_name') is-invalid @enderror"
-                                    name="service_name" id="serviceName" value="{{old('service_name')}}"
+                                    name="service_name" id="serviceName" value="{{$service->service_name}}"
                                     placeholder="Service Name"></td>
 
                         </tr>
@@ -83,7 +83,7 @@
                                 @enderror
                             </td>
                         </tr>
-                        <input type="hidden" value="{{old('subscription_input_value')}}" id="subscriptionInputValue" name="subscription_input_value"/>
+                        <input type="hidden" value="{{$service->subscription_type}}" id="subscriptionInputValue" name="subscription_input_value"/>
 
                         <tr>
                             <th>
@@ -91,19 +91,18 @@
                             </th>
                             <td>
                                 <div id="textValue">
-                                    @if(old('subscription_input_value'))
-                                        @foreach(json_decode(old('subscription_input_value')) as $k=>$v)
-                                        <p class="price__field">{{$v->duration}} {{$v->amount}}   <span class="existingDeleteBtn" data-id="{{$k}}"><i class="bi bi-dash-circle"></i></span> </p>
+                                    @if($service->subscription_type)
+                                        @foreach(json_decode($service->subscription_type) as $k=>$v)
+                                        <p class="price__field">1 10   <span class="deleteBtn"><i class="bi bi-dash-circle"></i></span> </p>
                                         @endforeach
                                     @endif
-                               
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <th>Trail Period in Days:</th>
                             <td>
-                                <input type="number" value="{{old('trial_period')}}"
+                                <input type="number" value="{{$service->trial_period}}"
                                     class="@error('trial_period') is-invalid @enderror" name="trial_period"
                                     id="trial_period" placeholder="Number of days">
                             </td>
@@ -121,39 +120,39 @@
                         <tr>
                             <th class="text-nowrap ">Hakins Scale Value :</th>
                             <td>
-                                
+
                                 <div class="col-12">
                                     <div class="col-6">
-                                        <input type="checkbox" name="hawkin_scale[]" @if(old('hawkin_scale') && in_array("500", old('hawkin_scale'))) checked @endif value="500">500
+                                        <input type="checkbox" name="hawkin_scale[]" @if(in_array("500", json_decode($service->hawkin_scale))) checked @endif value="500">500
 
                                     </div>
                                     <div class="col-6">
-                                        <input type="checkbox" name="hawkin_scale[]" value="600" @if(old('hawkin_scale') && in_array("600", old('hawkin_scale'))) checked @endif>600
+                                        <input type="checkbox" name="hawkin_scale[]" value="600" @if(in_array("600", json_decode($service->hawkin_scale))) checked @endif>600
 
                                     </div>
                                     <div class="col-6">
-                                        <input type="checkbox" name="hawkin_scale[]" value="700" @if(old('hawkin_scale') && in_array("700", old('hawkin_scale'))) checked @endif>700
+                                        <input type="checkbox" name="hawkin_scale[]" value="700" @if(in_array("700", json_decode($service->hawkin_scale))) checked @endif>700
 
                                     </div>
                                     <div class="col-6">
-                                        <input type="checkbox" name="hawkin_scale[]" value="800" @if(old('hawkin_scale') && in_array("800", old('hawkin_scale'))) checked @endif>800
+                                        <input type="checkbox" name="hawkin_scale[]" value="800" @if(in_array("800", json_decode($service->hawkin_scale))) checked @endif>800
 
                                     </div>
                                     <div class="col-6">
-                                        <input type="checkbox" name="hawkin_scale[]" value="900" @if(old('hawkin_scale') && in_array("900", old('hawkin_scale'))) checked @endif>900
+                                        <input type="checkbox" name="hawkin_scale[]" value="900" @if(in_array("900", json_decode($service->hawkin_scale))) checked @endif>900
 
                                     </div>
                                     <div class="col-6">
-                                        <input type="checkbox" name="hawkin_scale[]" value="1000" @if(old('hawkin_scale') && in_array("1000", old('hawkin_scale'))) checked @endif>1000
-                                        <input type="checkbox" name="hawkin_scale[]" value="Lock_1000" @if(old('hawkin_scale') && in_array("Lock_1000", old('hawkin_scale'))) checked @endif>Lock
+                                        <input type="checkbox" name="hawkin_scale[]" value="1000" @if(in_array("1000", json_decode($service->hawkin_scale))) checked @endif>1000
+                                        <input type="checkbox" name="hawkin_scale[]" value="Lock_1000" @if(in_array("Lock_1000", json_decode($service->hawkin_scale))) checked @endif>Lock
                                     </div>
                                     <div class="col-6">
-                                        <input type="checkbox" name="hawkin_scale[]" value="1100" @if(old('hawkin_scale') && in_array("1100", old('hawkin_scale'))) checked @endif>1100
-                                        <input type="checkbox" name="hawkin_scale[]" value="Lock_1100" @if(old('hawkin_scale') && in_array("Lock_1100", old('hawkin_scale'))) checked @endif>Lock
+                                        <input type="checkbox" name="hawkin_scale[]" value="1100" @if(in_array("1100", json_decode($service->hawkin_scale))) checked @endif>1100
+                                        <input type="checkbox" name="hawkin_scale[]" value="Lock_1100" @if(in_array("Lock_1100", json_decode($service->hawkin_scale))) checked @endif>Lock
                                     </div>
                                     <div class="col-6">
-                                        <input type="checkbox" name="hawkin_scale[]" value="1200" @if(old('hawkin_scale') && in_array("1200", old('hawkin_scale'))) checked @endif>1200
-                                        <input type="checkbox" name="hawkin_scale[]" value="Lock_1200" @if(old('hawkin_scale') && in_array("Lock_1200", old('hawkin_scale'))) checked @endif>Lock
+                                        <input type="checkbox" name="hawkin_scale[]" value="1200" @if(in_array("1200", json_decode($service->hawkin_scale))) checked @endif>1200
+                                        <input type="checkbox" name="hawkin_scale[]" value="Lock_1200" @if(in_array("Lock_1200", json_decode($service->hawkin_scale))) checked @endif>Lock
                                     </div>
                                 </div>
                             </td>
@@ -171,14 +170,14 @@
                         <tr>
                             <th>Data Fields:</th>
                             <td>
-                                <input class="mb-2" type="text" id="inputDataFields" onchange="dataFields() ;">
-                                <select id="datafield" onchange="dataFields() ;">
+                                <input class="mb-2" type="text" id="inputDataFields">
+                                <select id="datafield">
                                     <option value="text">Text Field</option>
                                     <option value="number">Number Field</option>
                                     <option value="date">Date Field</option>
-                                    <option value="select">Select</option>
+                                    <option value="textarea">Select</option>
                                 </select>
-                                <select id="requiredField" onchange="dataFields() ;">
+                                <select id="requiredField">
                                     <option value="required">Required</option>
                                     <option value="optional">Optional</option>
                                 </select>
@@ -188,25 +187,19 @@
                         <tr>
                             <th></th>
                             <td class="data " style="display: flex; flex-direction: column; width: 50%;"> 
-                            @if(old('dataField_form_input_value'))
-                            @foreach(json_decode(old('dataField_form_input_value')) as $k=>$v)
+                            @if($service->data_fields)
+                            @foreach(json_decode($service->data_fields) as $k=>$v)
                                 <p>{{$v->name}} *<span class="deleteBtn"><i class="bi bi-dash-circle"></i></span></p>
-                                <input type="{{$v->type}}" value="{{$v->value}}" oninput="getSelectValue({{$v->id}})" id="inputVal{{$v->id}}"/> 
+                                <input type="{{$v->type}}" value="{{$v->value}}" oninput="getSelectValue($v->id)"/> 
                             @endforeach
                             @endif
                             </td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <th></th>
-                            <td>
-                                @error('dataField_form_input_value')
-                                <div class="alert">
-                                    <p class="text-danger">{{ $message }}</p>
-                                </div>
-                                @enderror
-                            </td>
-                        </tr>
-                        <input type="hidden" value="{{old('dataField_form_input_value')}}" id="dataFieldFormInputValue" name="dataField_form_input_value"/>
+                            <td class="data " style="display: flex; flex-direction: column; width: 50%;"></td>
+                        </tr> -->
+                        <input type="hidden" value="{{$service->data_fields}}" id="dataFieldFormInputValue" name="dataField_form_input_value"/>
                         <tr>
                             <th>Default Value For Day:</th>
                             <td>
@@ -214,18 +207,18 @@
                                     class="@error('default_value_day_time') is-invalid @enderror"
                                     name="default_value_day_time" id="defaultValueDayTime">
                                     <option value="">Select Value</option>
-                                    <option value="8AM" {{ old('default_value_day_time') == "8AM" ? "selected" : "" }}>
+                                    <option value="8AM" {{ json_decode($service->default_value_day)->time == "8AM" ? "selected" : "" }}>
                                         8:00 AM</option>
-                                    <option value="9AM" {{ old('default_value_day_time') == "9AM" ? "selected" : "" }}>
+                                    <option value="9AM" {{ json_decode($service->default_value_day)->time == "9AM" ? "selected" : "" }}>
                                         9:00 AM</option>
-                                    <option value="10AM" {{ old('default_value_day_time') == "10AM" ? "selected" : "" }}>
+                                    <option value="10AM" {{ json_decode($service->default_value_day)->time == "10AM" ? "selected" : "" }}>
                                         10:00 AM</option>
                                 </select>
                                 <select id="default_value_day_value"
                                     class="@error('default_value_day_value') is-invalid @enderror"
                                     name="default_value_day_value" id="defaultValueDayValue">
                                     <option value="">Select Value</option>
-                                    <option value="800" {{ old('default_value_day_value') == 800 ? "selected" : "" }}>
+                                    <option value="800" {{ json_decode($service->default_value_day)->value == 800 ? "selected" : "" }}>
                                         800</option>
                                 </select>
                             </td>
@@ -253,20 +246,20 @@
                                     name="default_value_night_time" id="defaultValueNightTime">
                                     <option value="">Select Value</option>
                                     <option value="8AM"
-                                        {{ old('default_value_night_time') == "8AM" ? "selected" : "" }}>8:00 AM
+                                        {{ json_decode($service->default_value_night)->time  == "8AM" ? "selected" : "" }}>8:00 AM
                                     </option>
                                     <option value="9AM"
-                                        {{ old('default_value_night_time') == "8AM" ? "selected" : "" }}>9:00 AM
+                                        {{ json_decode($service->default_value_night)->time  == "9AM" ? "selected" : "" }}>9:00 AM
                                     </option>
                                     <option value="10AM"
-                                        {{ old('default_value_night_time') == "8AM" ? "selected" : "" }}>10:00 AM
+                                        {{ json_decode($service->default_value_night)->time  == "10AM" ? "selected" : "" }}>10:00 AM
                                     </option>
                                 </select>
                                 <select id="default_value_night_value"
                                     class="@error('default_value_night_value') is-invalid @enderror"
                                     name="default_value_night_value" id="defaultValueNightValue">
                                     <option value="">Select Value</option>
-                                    <option value="800" {{ old('default_value_night_value') == 800 ? "selected" : "" }}>
+                                    <option value="800" {{ json_decode($service->default_value_night)->value == 800 ? "selected" : "" }}>
                                         800</option>
                                 </select>
                             </td>
@@ -294,13 +287,13 @@
                                     name="default_value_booster_time" id="defaultValueBoosterTime">
                                     <option value="">Select Value</option>
                                     <option value="8PM"
-                                        {{ old('default_value_booster_time') == "8PM" ? "selected" : "" }}>8:00 PM
+                                        {{ json_decode($service->default_value_booster)->time == "8PM" ? "selected" : "" }}>8:00 PM
                                     </option>
                                     <option value="10PM"
-                                        {{ old('default_value_booster_time') == "10PM" ? "selected" : "" }}>10:00 PM
+                                        {{ json_decode($service->default_value_booster)->time == "10PM" ? "selected" : "" }}>10:00 PM
                                     </option>
                                     <option value="11PM"
-                                        {{ old('default_value_booster_time') == "11PM" ? "selected" : "" }}>11:00 PM
+                                        {{ json_decode($service->default_value_booster)->time == "11PM" ? "selected" : "" }}>11:00 PM
                                     </option>
                                 </select>
                             </td>
@@ -323,11 +316,11 @@
                                     name="default_value_booster_value" id="defaultValueBoosterValue">
                                     <option value="">Select Value</option>
                                     <option value="1000"
-                                        {{ old('default_value_booster_value') == 1000 ? "selected" : "" }}>1000</option>
+                                        {{ json_decode($service->default_value_booster)->value == 1000 ? "selected" : "" }}>1000</option>
                                     <option value="1100"
-                                        {{ old('default_value_booster_value') == 1100 ? "selected" : "" }}>1100</option>
+                                        {{ json_decode($service->default_value_booster)->value == 1100 ? "selected" : "" }}>1100</option>
                                     <option value="1200"
-                                        {{ old('default_value_booster_value') == 1200 ? "selected" : "" }}>1200</option>
+                                        {{ json_decode($service->default_value_booster)->value == 1200 ? "selected" : "" }}>1200</option>
                                 </select>
                             </td>
                         </tr>
@@ -349,7 +342,7 @@
                                     name="default_special_feq" id="defaultSpecialFeq">
                                     @foreach($frequency as $k=>$v)
                                     <option value="{{$v->frequency_name}}"
-                                        {{ old('default_special_feq') == $v->frequency_name ? "selected" : "" }}>{{$v->frequency_name}}</option>
+                                        {{ $service->default_special_feq == $v->frequency_name ? "selected" : "" }}>{{$v->frequency_name}}</option>
                                     @endforeach
                                 </select>
                             </td>
@@ -369,7 +362,7 @@
                             <td>
                                 <input type="file" class="form-control shadow-none" name="service_image_url" id="files"
                                     placeholder="Upload Image" onchange="loadFile(event)">
-                                <img id="output" style="width: 110px;"/>
+                                <img id="output" style="width: 150px;" src="{{URL::to('images/services/'.$service->service_image_url)}}"/>
                             </td>
                         </tr>
                         <tr>
@@ -403,35 +396,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
 <script>
-     let subscriptionInputValue = '[]';
-    let subscriptionExistingValue = $("#subscriptionInputValue").val();
-    if(subscriptionExistingValue){
-            subscriptionInputValue = JSON.parse(subscriptionExistingValue);
-    }         
+    let subscriptionInputValue = '[]';
+
     let subscriptionStringyfyValue = '';
     
     let dataFieldInputValue = "[]";
     let dataFieldStringyfyValue = '';
-    let dataFieldExistingValue = $("#dataFieldFormInputValue").val();
-    if(dataFieldExistingValue){
-        dataFieldInputValue = JSON.parse(dataFieldExistingValue);
-    }   
-    
-    $(".existingDeleteBtn").on("click",function(){
-        const index = $(this).data("id");
-        console.log(index);
-        subscriptionInputValue.splice(index,1);
-        console.log($(this).parent().remove())
-        subscriptionStringyfyValue = JSON.stringify(subscriptionInputValue)
-        $("#subscriptionInputValue").val(subscriptionStringyfyValue);
-    })
-    
+
+    let testValue = $("#subscriptionInputValue").val();
+    console.log("==========")
+    console.log(JSON.parse(testValue))
     $(function () {
         
         
         $("#addSubscriptionValue").on("click",function(){
             let subscriptionValue = document.getElementById("subscription_duration").value;
             let valueStatus = document.getElementById("subscriptionAmount").value;
+            let testValue = $("#subscriptionInputValue").val();
+            subscriptionInputValue = JSON.parse(testValue);
             if (subscriptionValue && valueStatus) {
                 let a = {duration:subscriptionValue,amount:valueStatus}
                 subscriptionInputValue.push(a);

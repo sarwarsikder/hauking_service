@@ -91,11 +91,7 @@
                             </th>
                             <td>
                                 <div id="textValue">
-                                    @if(old('subscription_input_value'))
-                                        @foreach(json_decode(old('subscription_input_value')) as $k=>$v)
-                                        <p class="price__field">{{$v->duration}} {{$v->amount}}   <span class="existingDeleteBtn" data-id="{{$k}}"><i class="bi bi-dash-circle"></i></span> </p>
-                                        @endforeach
-                                    @endif
+
                                
                                 </div>
                             </td>
@@ -128,32 +124,32 @@
 
                                     </div>
                                     <div class="col-6">
-                                        <input type="checkbox" name="hawkin_scale[]" value="600" @if(old('hawkin_scale') && in_array("600", old('hawkin_scale'))) checked @endif>600
+                                        <input type="checkbox" name="hawkin_scale[]" value="600">600
 
                                     </div>
                                     <div class="col-6">
-                                        <input type="checkbox" name="hawkin_scale[]" value="700" @if(old('hawkin_scale') && in_array("700", old('hawkin_scale'))) checked @endif>700
+                                        <input type="checkbox" name="hawkin_scale[]" value="700">700
 
                                     </div>
                                     <div class="col-6">
-                                        <input type="checkbox" name="hawkin_scale[]" value="800" @if(old('hawkin_scale') && in_array("800", old('hawkin_scale'))) checked @endif>800
+                                        <input type="checkbox" name="hawkin_scale[]" value="800">800
 
                                     </div>
                                     <div class="col-6">
-                                        <input type="checkbox" name="hawkin_scale[]" value="900" @if(old('hawkin_scale') && in_array("900", old('hawkin_scale'))) checked @endif>900
+                                        <input type="checkbox" name="hawkin_scale[]" value="900">900
 
                                     </div>
                                     <div class="col-6">
-                                        <input type="checkbox" name="hawkin_scale[]" value="1000" @if(old('hawkin_scale') && in_array("1000", old('hawkin_scale'))) checked @endif>1000
-                                        <input type="checkbox" name="hawkin_scale[]" value="Lock_1000" @if(old('hawkin_scale') && in_array("Lock_1000", old('hawkin_scale'))) checked @endif>Lock
+                                        <input type="checkbox" name="hawkin_scale[]" value="1000">1000
+                                        <input type="checkbox" name="hawkin_scale[]" value="Lock_1000">Lock
                                     </div>
                                     <div class="col-6">
-                                        <input type="checkbox" name="hawkin_scale[]" value="1100" @if(old('hawkin_scale') && in_array("1100", old('hawkin_scale'))) checked @endif>1100
-                                        <input type="checkbox" name="hawkin_scale[]" value="Lock_1100" @if(old('hawkin_scale') && in_array("Lock_1100", old('hawkin_scale'))) checked @endif>Lock
+                                        <input type="checkbox" name="hawkin_scale[]" value="1100">1100
+                                        <input type="checkbox" name="hawkin_scale[]" value="Lock_1100">Lock
                                     </div>
                                     <div class="col-6">
-                                        <input type="checkbox" name="hawkin_scale[]" value="1200" @if(old('hawkin_scale') && in_array("1200", old('hawkin_scale'))) checked @endif>1200
-                                        <input type="checkbox" name="hawkin_scale[]" value="Lock_1200" @if(old('hawkin_scale') && in_array("Lock_1200", old('hawkin_scale'))) checked @endif>Lock
+                                        <input type="checkbox" name="hawkin_scale[]" value="1200">1200
+                                        <input type="checkbox" name="hawkin_scale[]" value="Lock_1200">Lock
                                     </div>
                                 </div>
                             </td>
@@ -187,24 +183,7 @@
                         </tr>
                         <tr>
                             <th></th>
-                            <td class="data " style="display: flex; flex-direction: column; width: 50%;"> 
-                            @if(old('dataField_form_input_value'))
-                            @foreach(json_decode(old('dataField_form_input_value')) as $k=>$v)
-                                <p>{{$v->name}} *<span class="deleteBtn"><i class="bi bi-dash-circle"></i></span></p>
-                                <input type="{{$v->type}}" value="{{$v->value}}" oninput="getSelectValue({{$v->id}})" id="inputVal{{$v->id}}"/> 
-                            @endforeach
-                            @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <td>
-                                @error('dataField_form_input_value')
-                                <div class="alert">
-                                    <p class="text-danger">{{ $message }}</p>
-                                </div>
-                                @enderror
-                            </td>
+                            <td class="data " style="display: flex; flex-direction: column; width: 50%;"></td>
                         </tr>
                         <input type="hidden" value="{{old('dataField_form_input_value')}}" id="dataFieldFormInputValue" name="dataField_form_input_value"/>
                         <tr>
@@ -403,29 +382,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
 <script>
-     let subscriptionInputValue = '[]';
-    let subscriptionExistingValue = $("#subscriptionInputValue").val();
-    if(subscriptionExistingValue){
-            subscriptionInputValue = JSON.parse(subscriptionExistingValue);
-    }         
+    let subscriptionInputValue = [];
     let subscriptionStringyfyValue = '';
     
-    let dataFieldInputValue = "[]";
+    let dataFieldInputValue = [];
     let dataFieldStringyfyValue = '';
-    let dataFieldExistingValue = $("#dataFieldFormInputValue").val();
-    if(dataFieldExistingValue){
-        dataFieldInputValue = JSON.parse(dataFieldExistingValue);
-    }   
-    
-    $(".existingDeleteBtn").on("click",function(){
-        const index = $(this).data("id");
-        console.log(index);
-        subscriptionInputValue.splice(index,1);
-        console.log($(this).parent().remove())
-        subscriptionStringyfyValue = JSON.stringify(subscriptionInputValue)
-        $("#subscriptionInputValue").val(subscriptionStringyfyValue);
-    })
-    
     $(function () {
         
         

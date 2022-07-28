@@ -403,29 +403,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
 <script>
-     let subscriptionInputValue = '[]';
-    let subscriptionExistingValue = $("#subscriptionInputValue").val();
-    if(subscriptionExistingValue){
-            subscriptionInputValue = JSON.parse(subscriptionExistingValue);
-    }         
+    let subscriptionInputValue = [];
     let subscriptionStringyfyValue = '';
     
-    let dataFieldInputValue = "[]";
+    let dataFieldInputValue = [];
     let dataFieldStringyfyValue = '';
-    let dataFieldExistingValue = $("#dataFieldFormInputValue").val();
-    if(dataFieldExistingValue){
-        dataFieldInputValue = JSON.parse(dataFieldExistingValue);
-    }   
-    
-    $(".existingDeleteBtn").on("click",function(){
-        const index = $(this).data("id");
-        console.log(index);
-        subscriptionInputValue.splice(index,1);
-        console.log($(this).parent().remove())
-        subscriptionStringyfyValue = JSON.stringify(subscriptionInputValue)
-        $("#subscriptionInputValue").val(subscriptionStringyfyValue);
-    })
-    
     $(function () {
         
         

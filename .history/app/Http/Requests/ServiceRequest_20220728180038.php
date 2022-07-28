@@ -40,7 +40,7 @@ class ServiceRequest extends FormRequest
         return [
             'service_name.required' => 'Service Name is required!',
             'subscription_input_value.required' => 'subscription value is required!',
-            'dataField_form_input_value.required' => 'Data Field value is required!',
+            'dataField_form_input_value.required' => 'Data Field value is required!'
             // 'subscription_duration.required' => 'Subscription Duration is required!',
             // 'subscription_amount.required' => 'Subscription Amount is required!',
             'trial_period.required' => 'Trial Period is required!',

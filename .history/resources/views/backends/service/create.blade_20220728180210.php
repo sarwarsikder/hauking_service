@@ -91,11 +91,7 @@
                             </th>
                             <td>
                                 <div id="textValue">
-                                    @if(old('subscription_input_value'))
-                                        @foreach(json_decode(old('subscription_input_value')) as $k=>$v)
-                                        <p class="price__field">{{$v->duration}} {{$v->amount}}   <span class="existingDeleteBtn" data-id="{{$k}}"><i class="bi bi-dash-circle"></i></span> </p>
-                                        @endforeach
-                                    @endif
+
                                
                                 </div>
                             </td>
@@ -189,7 +185,7 @@
                             <th></th>
                             <td class="data " style="display: flex; flex-direction: column; width: 50%;"> 
                             @if(old('dataField_form_input_value'))
-                            @foreach(json_decode(old('dataField_form_input_value')) as $k=>$v)
+                            @foreach(old('dataField_form_input_value') as $k=>$v)
                                 <p>{{$v->name}} *<span class="deleteBtn"><i class="bi bi-dash-circle"></i></span></p>
                                 <input type="{{$v->type}}" value="{{$v->value}}" oninput="getSelectValue({{$v->id}})" id="inputVal{{$v->id}}"/> 
                             @endforeach
@@ -403,29 +399,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
 <script>
-     let subscriptionInputValue = '[]';
-    let subscriptionExistingValue = $("#subscriptionInputValue").val();
-    if(subscriptionExistingValue){
-            subscriptionInputValue = JSON.parse(subscriptionExistingValue);
-    }         
+    let subscriptionInputValue = [];
     let subscriptionStringyfyValue = '';
     
-    let dataFieldInputValue = "[]";
+    let dataFieldInputValue = [];
     let dataFieldStringyfyValue = '';
-    let dataFieldExistingValue = $("#dataFieldFormInputValue").val();
-    if(dataFieldExistingValue){
-        dataFieldInputValue = JSON.parse(dataFieldExistingValue);
-    }   
-    
-    $(".existingDeleteBtn").on("click",function(){
-        const index = $(this).data("id");
-        console.log(index);
-        subscriptionInputValue.splice(index,1);
-        console.log($(this).parent().remove())
-        subscriptionStringyfyValue = JSON.stringify(subscriptionInputValue)
-        $("#subscriptionInputValue").val(subscriptionStringyfyValue);
-    })
-    
     $(function () {
         
         
