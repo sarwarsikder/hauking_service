@@ -47,11 +47,9 @@
                                                 <tr>
                                                     <td scope="row">{{ $tax->id }}</td>
                                                     <td scope="row">{{ $tax->country->country_name }}</td>
-                                                    <td scope="row"></td>
-                                                    {{-- <td scope="row">{{ $tax->state->state_name }}</td> // some issue --}}
+                                                    <td scope="row">{{ $tax->state->state_name }}</td>
                                                     <td scope="row">{{ $tax->post_code }}</td>
-                                                    <td scope="row"></td>
-                                                    {{-- <td scope="row">{{ $tax->city->city_name }}</td> // havy some issu --}}
+                                                    <td scope="row">{{ $tax->city }}</td>
                                                     <td scope="row">{{ $tax->tax_rate }}</td>
                                                     <td scope="row">
                                                         <label class="switch">
