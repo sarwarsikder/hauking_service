@@ -22,32 +22,43 @@
 
                         <div class="col-12">
                             <select class="form-control" name="tax_type">
-                                <option>Select Your Tex Type</option>
                                 <option value="local">local</option>
                                 <option value="global">global</option>
 
                             </select>
                         </div>
                         <div class="col-6">
-                            <select class="form-control shadow-none" id="country" name="country" value="">
-                                <option>Select Your Country</option>
+                            <select class="form-control shadow-none @error('country') is-invalid @enderror" id="country"
+                                name="country">
+                                <option value="">Select Your Country</option>
                                 @foreach ($countries as $country)
                                     <option value="{{ $country->id }}">{{ $country->country_name }}</option>
                                 @endforeach
                             </select>
+                            @error('country')
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
+                            @enderror
                         </div>
                         <div class="col-6">
-                            <select class="form-control shadow-none" id="state" name="state" value="">
-                                <option>Select Your state</option>
-
+                            <select class="form-control shadow-none @error('state') is-invalid @enderror" id="state" name="state">
+                                <option value="">Select Your state</option>
                             </select>
+                            @error('state')
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
+                            @enderror
                         </div>
                         <div class="col-6">
-                            <select class="form-control shadow-none" id="city" name="city"
-                                value="{{ old('city') }}">
-                                <option>Select Your city</option>
-
-                            </select>
+                            <input type="text" class="form-control shadow-none @error('post_code') is-invalid @enderror"
+                                placeholder="City" name="city" value="">
+                            @error('city')
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
+                            @enderror
                         </div>
                         <div class="col-6">
                             <input type="text" class="form-control shadow-none @error('post_code') is-invalid @enderror"
@@ -60,8 +71,13 @@
 
                         </div>
                         <div class="col-12">
-                            <label for="tax_rate">Rate</label>
-                            <input type="number" class="form-control shadow-none" name="tax_rate" value="">
+                            <label for="tax_rate">Tax Rate</label>
+                            <input type="number" class="form-control shadow-none @error('tax_rate') is-invalid @enderror" name="tax_rate">
+                            @error('tax_rate')
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
+                            @enderror
                         </div>
                         <div class="col-6">
                             <label class="switch">
@@ -120,33 +136,33 @@
                 });
             });
 
-            $('#state').change(function() {
-                var state_id = $(this).val();
+            // $('#state').change(function() {
+            //     var state_id = $(this).val();
 
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    type: "POST",
-                    dataType: "json",
-                    url: '/admin/settings/taxes/getCity/',
-                    data: {
-                        state_id: state_id,
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#city').html('<option value="">Select Your city</option>');
-                        $.each(result, function(key, value) {
-                            $('#city').append('<option value="' + value.id + '">' +
-                                value.city_name + '</option>');
-                        })
-                        // $('#city').html('<option value="">Select state First</option>');
-                    },
-                    error: function(err) {
-                        toastr.error(data.message);
-                    }
-                });
-            });
+            //     $.ajax({
+            //         headers: {
+            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //         },
+            //         type: "POST",
+            //         dataType: "json",
+            //         url: '/admin/settings/taxes/getCity/',
+            //         data: {
+            //             state_id: state_id,
+            //         },
+            //         dataType: 'json',
+            //         success: function(result) {
+            //             $('#city').html('<option value="">Select Your city</option>');
+            //             $.each(result, function(key, value) {
+            //                 $('#city').append('<option value="' + value.id + '">' +
+            //                     value.city_name + '</option>');
+            //             })
+            //             // $('#city').html('<option value="">Select state First</option>');
+            //         },
+            //         error: function(err) {
+            //             toastr.error(data.message);
+            //         }
+            //     });
+            // });
 
 
         });
