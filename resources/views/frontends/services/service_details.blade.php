@@ -7,10 +7,10 @@
         <div class="wrapper">
             <div class="row gy-sm-4 gx-lg-5 row-cols-1 row-cols-md-2">
                 <div class="col align-self-center">
-                    <img class="img-fluid" src="assets/img/img-2.png">
+                    <img class="img-fluid" src="{{asset('/images/services/'.$service->service_image_url)}}">
                 </div>
                 <div class="col align-self-center">
-                    <h1 class="fw-normal text-success">The Field for CARS</h1>
+                    <h1 class="fw-normal text-success">{{$service->service_name}}</h1>
                     <h4 class="fw-normal mb-5">From $100 / Month</h4>
                     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
                         the industry's standard dummy text ever since the 1500s, </p>
@@ -19,19 +19,18 @@
                             <div class="col align-items-center">
                                 <select name="" id="">
                                     <option value="">Subscription Type</option>
-                                    <option value="1">Monthly</option>
-                                    <option value="12">Yearly</option>
+                                    @foreach(json_decode($service->subscription_type) as $k=>$v)
+                                        <option value='{{json_encode(array("amount" => $v->amount, "duration"=> $v->duration))}}'>${{$v->amount}} / {{$v->duration}} Month</option>
+                                    @endforeach
                                 </select>
                                 <input type="text" placeholder="Car Brand"/>
                                 <input type="text" placeholder="Model of Car"/>
                                 <input type="text" placeholder="VIN/ Motor Vehicle Number"/>
                                 <select name="" id="">
                                     <option value="">Hawkins-Scale</option>
-                                    <option value="500">500</option>
-                                    <option value="600">600</option>
-                                    <option value="700">700</option>
-                                    <option value="800">800</option>
-                                    <option value="900">900</option>
+                                    @foreach(json_decode($service->hawkin_scale) as $k=>$v)
+                                        <option value="{{$v}}">{{$v}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

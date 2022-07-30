@@ -5,6 +5,8 @@ namespace App\Http\Controllers\frontends;
 use App\Http\Controllers\Controller;
 use App\Service\HaukingService;
 use Illuminate\Http\Request;
+use App\Models\Frequency;
+use App\Models\Service;
 
 class ServiceController extends Controller
 {
@@ -57,8 +59,11 @@ class ServiceController extends Controller
      */
     public function show($id)
     {
+        $service = Service::where('id', $id)->first();
+        // return $service;
+        $this->data['service'] = $service;
 
-        return view('frontends.services.service_details');
+        return view('frontends.services.service_details',$this->data);
     }
 
     /**
