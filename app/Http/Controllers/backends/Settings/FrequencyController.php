@@ -20,9 +20,11 @@ class FrequencyController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('permission:frequency-list|frequency-create|frequency-edit|frequency-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:frequency-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:frequency-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:frequency-delete', ['only' => ['destroy']]);
     }
-
     /**
      * Display a listing of the resource.
      *

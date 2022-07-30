@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\backends\order\OrderController;
 use App\Http\Controllers\backends\role\RoleController;
 use App\Http\Controllers\backends\service\HaukingServiceController;
+use App\Http\Controllers\backends\Settings\CouponsController;
 use App\Http\Controllers\backends\Settings\EmailController;
 use App\Http\Controllers\backends\Settings\FrequencyController;
 use App\Http\Controllers\backends\Settings\LanguageController;
@@ -11,7 +12,8 @@ use App\Http\Controllers\backends\Settings\PaymentController;
 use App\Http\Controllers\backends\Settings\TaxController;
 use App\Http\Controllers\backends\SubscriberController;
 use App\Http\Controllers\backends\user\UserController;
-use App\Http\Controllers\Settings\CouponsController;
+use App\Http\Controllers\frontends\ServiceController;
+use App\Http\Controllers\frontends\UserAccountController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/dashboard', function () {
     return view('backends.dashboard.index');
 });
 
@@ -41,13 +43,15 @@ Route::get('/service', function () {
     return view('frontends.services.service');
 });
 
-Route::get('/service-list', function () {
-    return view('frontends.services.service_list');
-});
+#service Listing
+Route::get('/', [ServiceController::class, 'index'])->name('service-list');
+Route::get('/service/{id}', [ServiceController::class, 'show'])->name('service-show');
+Route::get('/checkout/', [ServiceController::class, 'checkout'])->name('service-checkout');
+Route::get('/service-update/{order_id}', [ServiceController::class, 'edit'])->name('account-service');
 
-Route::get('/service/{service_id}', function () {
-    return view('frontends.services.update_service');
-});
+#my Account
+Route::get('/profile/', [UserAccountController::class, 'index'])->name('user-account');
+
 
 Route::get('/users/registration', function () {
     return view('frontends.users.registration');
@@ -160,8 +164,8 @@ Route::group(['prefix' => 'admin'], function () {
 
 
         /**
-        * Service start
-        */
+         * Service start
+         */
         Route::get('/services', [HaukingServiceController::class, 'index'])->name('service-list');
         Route::get('/services/create', [HaukingServiceController::class, 'create'])->name('service-create');
         Route::post('/services/create', [HaukingServiceController::class, 'store'])->name('service-submit');
@@ -170,8 +174,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/services/status', [HaukingServiceController::class, 'updateStatus'])->name('service-status');
         Route::post('/services/delete', [HaukingServiceController::class, 'destroy'])->name('service-delete');
         /**
-        * Service end
-        */
+         * Service end
+         */
         Route::get('/orders', [OrderController::class, 'index'])->name('order-list');
         Route::get('/subscriber', [SubscriberController::class, 'index'])->name('subscriber');
 
@@ -185,8 +189,6 @@ Route::group(['prefix' => 'admin'], function () {
         });
     });
 });
-
-
 
 
 Auth::routes();

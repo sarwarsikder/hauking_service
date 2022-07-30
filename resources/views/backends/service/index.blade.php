@@ -15,9 +15,11 @@
                         <div class="card-body">
                             <div class="row pt-4 pb-4 px-2">
                                 <div class="col-md-12">
-                                    <div class="service-add-btn">
-                                        <a href="{{route('service-create')}}" class="add-service">Add Service</a>
-                                    </div>
+                                    @can('service-create')
+                                        <div class="service-add-btn">
+                                            <a href="{{route('service-create')}}" class="add-service">Add Service</a>
+                                        </div>
+                                    @endcan
                                     <div class="single-table">
                                         <div class="table-responsive">
                                             <table class="table">
@@ -38,18 +40,23 @@
                                                         <td scope="row">
                                                             <label class="switch">
                                                                 <input type="checkbox"
-                                                                    {{($hauking->status==true)?"checked":""}}  data-id="{{$hauking->id}}"
-                                                                    class="toggle-class">
+                                                                       {{($hauking->status==true)?"checked":""}}  data-id="{{$hauking->id}}"
+                                                                       class="toggle-class">
                                                                 <span class="slider round"></span>
                                                             </label>
                                                         </td>
                                                         <td>
                                                             <div class="add-userTable-btn">
-                                                                <a href="{{URL::to('admin/services/update/'.$hauking->id)}}" class="edit-btn"><i
-                                                                        class="bi bi-pencil-square"></i></a>
-                                                                <a href="javascrit:void()" class="del-btn"
-                                                                data-id="{{$hauking->id}}"><i
-                                                                        class="bi bi-trash"></i></a>
+                                                                @can('service-edit')
+                                                                    <a href="{{URL::to('admin/services/update/'.$hauking->id)}}"
+                                                                       class="edit-btn"><i
+                                                                            class="bi bi-pencil-square"></i></a>
+                                                                @endcan
+                                                                @can('service-delete')
+                                                                    <a href="javascrit:void()" class="del-btn"
+                                                                       data-id="{{$hauking->id}}"><i
+                                                                            class="bi bi-trash"></i></a>
+                                                                @endcan
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -72,6 +79,11 @@
                                                         class="bi bi-trash"></i></a>
                                             </div>
                                         </div>
+
+
+
+
+
                                     @endforeach -->
 
                                     <div class="col-md-8 col-sm-8 pull-right">
@@ -95,7 +107,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <script type="text/javascript"
                 src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
-                <script>
+        <script>
             $(function () {
                 $('.toggle-class').change(function () {
                     var status = $(this).prop('checked') == true ? 1 : 0;

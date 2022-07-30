@@ -14,7 +14,22 @@ use Response;
 class TaxController extends Controller
 {
     use Statusable;
+
     private array $data = [];
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:tax-list|tax-create|tax-edit|tax-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:tax-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:tax-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:tax-delete', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *

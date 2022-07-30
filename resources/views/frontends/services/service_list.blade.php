@@ -7,48 +7,15 @@
     <section id="checkout-form" class="mt-5">
 
         <div class="row col-12">
-            <div class="col-4">
-                <img src="{{asset('assets/frontend/img/img-2.png')}}" alt="" class="col-12">
-                <div class="d-grid justify-content-center mt-3 mb-4">
-                    <h3>Service 1</h3>
-                    <button class="btn btn-success border rounded-0" type="button">Subscribe</button>
+            @foreach ($haukings as $hauking)
+                <div class="col-4">
+                    <img src="{{asset('assets/frontend/img/img-2.png')}}" alt="" class="col-12">
+                    <div class="d-grid justify-content-center mt-3 mb-4">
+                        <h3>Service 1</h3>
+                        <a href="{{route('service-show',$hauking->id)}}" class="btn btn-success border rounded-0" type="button">Subscribe</a>
+                    </div>
                 </div>
-            </div>
-            <div class="col-4">
-                <img src="{{asset('assets/frontend/img/img-2.png')}}" alt="" class="col-12">
-                <div class="d-grid justify-content-center mt-3 mb-4">
-                    <h3>Service 1</h3>
-                    <button class="btn btn-success border rounded-0" type="button">Subscribe</button>
-                </div>
-            </div>
-            <div class="col-4">
-                <img src="{{asset('assets/frontend/img/img-2.png')}}" alt="" class="col-12">
-                <div class="d-grid justify-content-center mt-3 mb-4">
-                    <h3>Service 1</h3>
-                    <button class="btn btn-success border rounded-0" type="button">Subscribe</button>
-                </div>
-            </div>
-            <div class="col-4">
-                <img src="{{asset('assets/frontend/img/img-2.png')}}" alt="" class="col-12">
-                <div class="d-grid justify-content-center mt-3 mb-4">
-                    <h3>Service 1</h3>
-                    <button class="btn btn-success border rounded-0" type="button">Subscribe</button>
-                </div>
-            </div>
-            <div class="col-4">
-                <img src="{{asset('assets/frontend/img/img-2.png')}}" alt="" class="col-12">
-                <div class="d-grid justify-content-center mt-3 mb-4">
-                    <h3>Service 1</h3>
-                    <button class="btn btn-success border rounded-0" type="button">Subscribe</button>
-                </div>
-            </div>
-            <div class="col-4">
-                <img src="{{asset('assets/frontend/img/img-2.png')}}" alt="" class="col-12">
-                <div class="d-grid justify-content-center mt-3 mb-4">
-                    <h3>Service 1</h3>
-                    <button class="btn btn-success border rounded-0" type="button">Subscribe</button>
-                </div>
-            </div>
+            @endforeach
         </div>
 
     </section>

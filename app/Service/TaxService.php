@@ -34,6 +34,7 @@ class TaxService
     {
         $searchProductBuilder = Tax::query();
         $searchProductBuilder->whereNull("deleted_at");
+        $searchProductBuilder->orderBy('id', 'DESC');
         $searchProductBuilder->with('country');
         $searchProductBuilder->with('state');
         $searchProductBuilder = $this->applySearch($searchProductBuilder, ['country_id']);

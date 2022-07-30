@@ -14,6 +14,20 @@ class LanguageController extends Controller
     use Statusable;
 
     private array $data = [];
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:language-list|language-create|language-edit|language-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:language-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:language-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:language-delete', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *

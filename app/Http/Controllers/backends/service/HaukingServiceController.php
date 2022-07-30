@@ -22,6 +22,10 @@ class HaukingServiceController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('permission:service-list|service-create|service-edit|service-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:service-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:service-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:service-delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -52,7 +56,7 @@ class HaukingServiceController extends Controller
     {
         $frequency = Frequency::all();
         $this->data['frequency'] = $frequency;
-        return view("backends.service.create",$this->data);
+        return view("backends.service.create", $this->data);
     }
 
     /**
@@ -72,13 +76,12 @@ class HaukingServiceController extends Controller
             $serviceObject->trial_period = $request->trial_period;
             $serviceObject->hawkin_scale = json_encode($request->hawkin_scale);
             $serviceObject->data_fields = $request->dataField_form_input_value;
-            $serviceObject->default_value_day = $age = json_encode(array("time"=>$request->default_value_day_time, "value"=>$request->default_value_day_value));
-            $serviceObject->default_value_night = json_encode(array("time"=>$request->default_value_night_time, "value"=>$request->default_value_night_value));
-            $serviceObject->default_value_booster = json_encode(array("time"=>$request->default_value_booster_time, "value"=>$request->default_value_booster_value));
+            $serviceObject->default_value_day = $age = json_encode(array("time" => $request->default_value_day_time, "value" => $request->default_value_day_value));
+            $serviceObject->default_value_night = json_encode(array("time" => $request->default_value_night_time, "value" => $request->default_value_night_value));
+            $serviceObject->default_value_booster = json_encode(array("time" => $request->default_value_booster_time, "value" => $request->default_value_booster_value));
             $serviceObject->default_special_feq = $request->default_special_feq;
             $serviceObject->created_by = Auth::user()->id;
             $serviceObject->updated_by = Auth::user()->id;
-
 
 
             if ($request->file('service_image_url')) {
@@ -118,11 +121,11 @@ class HaukingServiceController extends Controller
     public function edit(Request $request, $id)
     {
         $frequency = Frequency::all();
-        $service = Service::where('id',$id)->first();
+        $service = Service::where('id', $id)->first();
         // return $service;
         $this->data['service'] = $service;
         $this->data['frequency'] = $frequency;
-        return view("backends.service.edit",$this->data);
+        return view("backends.service.edit", $this->data);
     }
 
     /**
@@ -136,19 +139,18 @@ class HaukingServiceController extends Controller
     {
         try {
 
-            $serviceObject = Service::where('id',$id)->first();
+            $serviceObject = Service::where('id', $id)->first();
 
             $serviceObject->service_name = $request->service_name;
             $serviceObject->subscription_type = $request->subscription_input_value;
             $serviceObject->trial_period = $request->trial_period;
             $serviceObject->hawkin_scale = json_encode($request->hawkin_scale);
             $serviceObject->data_fields = $request->dataField_form_input_value;
-            $serviceObject->default_value_day = $age = json_encode(array("time"=>$request->default_value_day_time, "value"=>$request->default_value_day_value));
-            $serviceObject->default_value_night = json_encode(array("time"=>$request->default_value_night_time, "value"=>$request->default_value_night_value));
-            $serviceObject->default_value_booster = json_encode(array("time"=>$request->default_value_booster_time, "value"=>$request->default_value_booster_value));
+            $serviceObject->default_value_day = $age = json_encode(array("time" => $request->default_value_day_time, "value" => $request->default_value_day_value));
+            $serviceObject->default_value_night = json_encode(array("time" => $request->default_value_night_time, "value" => $request->default_value_night_value));
+            $serviceObject->default_value_booster = json_encode(array("time" => $request->default_value_booster_time, "value" => $request->default_value_booster_value));
             $serviceObject->default_special_feq = $request->default_special_feq;
             $serviceObject->updated_by = Auth::user()->id;
-
 
 
             if ($request->file('service_image_url')) {

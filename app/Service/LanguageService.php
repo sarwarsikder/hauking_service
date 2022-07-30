@@ -33,6 +33,7 @@ class LanguageService
     {
         $searchProductBuilder = LanguageSettings::query();
         $searchProductBuilder->whereNull("deleted_at");
+        $searchProductBuilder->orderBy('id', 'DESC');
         $searchProductBuilder = $this->applySearch($searchProductBuilder, ['language_name']);
         $searchProductBuilder = $this->applySorting($searchProductBuilder);
 
