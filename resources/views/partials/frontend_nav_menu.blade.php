@@ -12,7 +12,13 @@
         <a class="navbar-brand me-0" href="#"><img src="{{asset('/assets/frontend/img/logo.png')}}"></a>
         <div>
             <ul class="navbar-nav flex-row align-items-center" id="navcol-2">
-                <li class="nav-item"><a class="nav-link active p-2" href="{{route('user-account')}}">My Account</a></li>
+                @if (Auth::check())
+                    <li class="nav-item"><a class="nav-link active p-2" href="{{route('user-account')}}">My Account</a>
+                    </li>
+                @else
+                    <li class="nav-item"><a class="nav-link active p-2" href="{{route('user-login')}}">Login</a>
+                    </li>
+                @endif
                 <li class="nav-item"><a class="nav-link p-2" href="javascript:void(null)"><img
                             src="{{asset('/assets/frontend/img/icon-1.png')}}"></a></li>
                 <li class="nav-item dropdown dropdown-search"><a class="nav-link p-2" aria-expanded="false"

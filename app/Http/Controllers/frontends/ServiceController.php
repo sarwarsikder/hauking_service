@@ -7,6 +7,9 @@ use App\Service\HaukingService;
 use Illuminate\Http\Request;
 use App\Models\Frequency;
 use App\Models\Service;
+use App\Models\Cart;
+use Illuminate\Support\Facades\Session;
+use Auth;
 
 class ServiceController extends Controller
 {
@@ -59,11 +62,17 @@ class ServiceController extends Controller
      */
     public function show($id)
     {
+        // $session_id = Session::getId();
+        // dd($session_id);
         $service = Service::where('id', $id)->first();
+        // $session_id = Session::getId();
+        // dd($session_id);
         // return $service;
         $this->data['service'] = $service;
 
         return view('frontends.services.service_details',$this->data);
+
+     
     }
 
     /**
@@ -96,9 +105,40 @@ class ServiceController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function subscribe(Request $request, $id)
     {
-        //
+
+        if($request->subscription_type!='' && $request->subscription_type!=NULL && $request->hawkin_scale!='' && $request->hawkin_scale!=NULL && count($request->hawkin_scale)>0){
+            $service = Service::where('id', $id)->first();
+            $session_id = Session::getId();
+            $checkCart = Cart::where('session_id',$session_id)->first();
+            if($checkCart!=''){
+                $checkCart->delete();
+            }
+            $newCart = new Cart();
+            if(Auth::user()){
+                $newCart->user_id = Auth::user()->id;
+            }
+             
+            $newCart->session_id = $session_id;
+            $newCart->service_id = $id;
+            $newCart->service_name = $service->service_name;
+            $newCart->subscription_type = json_encode($request->subscription_type);
+            $newCart->trial_period = $service->trial_period;
+            $newCart->hawkin_scale = json_encode($request->hawkin_scale);
+            $newCart->data_fields = $request->data_fields;
+            $newCart->default_value_day = $service->default_value_day;
+            $newCart->default_value_night = $service->default_value_night;
+            $newCart->default_value_booster = $service->default_value_booster;
+            $newCart->default_special_feq = $service->default_special_feq;
+            $newCart->service_image_url = $service->service_image_url;
+
+            $newCart->save();
+            return redirect('checkout');
+        }else{
+            return redirect()->back()->with('redirect-message', 'Something wrong!');
+        }
+        
     }
 
     /**

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -36,5 +38,30 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+
+        $request['role'] = 'user';
+        $request['status'] = true;
+
+        $credentials = $request->only('email', 'password', 'role', 'status');
+        if (Auth::attempt($credentials)) {
+
+
+            return redirect()->route('home-service');
+        }
+
+        return redirect("user-login")->withSuccess('Oppes! You have entered invalid credentials');
     }
 }
