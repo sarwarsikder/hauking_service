@@ -20,7 +20,8 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="table-left">
-                                        <a href="{{route('coupons-create')}}" class="add-user"> <span><i class="bi bi-person-plus"></i></span> Add
+                                        <a href="{{ route('coupons-create') }}" class="add-user"> <span><i
+                                                    class="bi bi-person-plus"></i></span> Add
                                             Coupon</a>
                                     </div>
                                 </div>
@@ -29,42 +30,42 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead class="text-uppercase">
-                                        <tr>
-                                            <th class="text-nowrap" scope="col">Coupon ID</th>
-                                            <th class="text-nowrap" scope="col">Coupon Name</th>
-                                            <th class="text-nowrap" scope="col">Type</th>
-                                            <th class="text-nowrap" scope="col">Discounts</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
+                                            <tr>
+                                                <th class="text-nowrap" scope="col">Coupon ID</th>
+                                                <th class="text-nowrap" scope="col">Coupon Name</th>
+                                                <th class="text-nowrap" scope="col">Type</th>
+                                                <th class="text-nowrap" scope="col">Discounts</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
                                         </thead>
 
                                         <tbody class="user-data">
-                                        @foreach ($coupons as $coupon)
-                                            <tr>
-                                                <td scope="row">{{$coupon->id}}</td>
-                                                <td scope="row">{{$coupon->coupon_name}}</td>
-                                                <td scope="row">{{ $coupon->coupon_type }}</td>
-                                                <td scope="row">{{ $coupon->coupon_value }}%</td>
-                                                <td scope="row">
-                                                    <label class="switch">
-                                                        <input type="checkbox"
-                                                               {{($coupon->status==true)?"checked":""}}  data-id="{{$coupon->id}}"
-                                                               class="toggle-class">
-                                                        <span class="slider round"></span>
-                                                    </label>
-                                                </td>
-                                                <td>
-                                                    <div class="add-userTable-btn">
-                                                        <a href="{{ route('coupons-edit', $coupon->id) }}" class="edit-btn"><i
-                                                                class="bi bi-pencil-square"></i></a>
-                                                        <a href="javascrit:void()" class="del-btn"
-                                                           data-id="{{$coupon->id}}"><i
-                                                                class="bi bi-trash"></i></a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                            @foreach ($coupons as $coupon)
+                                                <tr>
+                                                    <td scope="row">{{ $coupon->id }}</td>
+                                                    <td scope="row">{{ $coupon->coupon_name }}</td>
+                                                    <td scope="row">{{ $coupon->coupon_type }}</td>
+                                                    <td scope="row">{{ $coupon->coupon_value }}%</td>
+                                                    <td scope="row">
+                                                        <label class="switch">
+                                                            <input type="checkbox"
+                                                                {{ $coupon->status == true ? 'checked' : '' }}
+                                                                data-id="{{ $coupon->id }}" class="toggle-class">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <div class="add-userTable-btn">
+                                                            <a href="{{ route('coupons-edit', $coupon->id) }}"
+                                                                class="edit-btn"><i class="bi bi-pencil-square"></i></a>
+                                                            <a href="javascrit:void()" class="del-btn"
+                                                                data-id="{{ $coupon->id }}"><i
+                                                                    class="bi bi-trash"></i></a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
 
                                         </tbody>
                                     </table>
@@ -72,7 +73,7 @@
                             </div>
                             <div class="col-md-8 col-sm-8 pull-right">
                                 <ul class="pagination pull-right">
-                                    {{ $coupons->links("pagination::bootstrap-4") }}
+                                    {{ $coupons->links('pagination::bootstrap-4') }}
                                 </ul>
                             </div>
                         </div>
@@ -100,7 +101,7 @@
                     },
                     type: "POST",
                     dataType: "json",
-                    url: '/admin/coupons/status/',
+                    url: '/admin/settings/coupons/status/',
                     data: {
                         'status': status,
                         'id': coupon_id
@@ -145,7 +146,7 @@
                                 },
                                 type: "POST",
                                 dataType: "json",
-                                url: '/admin/coupons/delete/',
+                                url: '/admin/settings/coupons/delete/',
                                 data: {
                                     'id': coupon_id
                                 },

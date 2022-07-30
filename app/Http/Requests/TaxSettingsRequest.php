@@ -18,7 +18,7 @@ class TaxSettingsRequest extends FormRequest
             'post_code' => 'required',
             'state' => 'required',
             'city' => 'required',
-            'tax_rate' => 'required|min:1|max:6',
+            'tax_rate' => 'required|max:6',
         ];
     }
 
@@ -30,8 +30,7 @@ class TaxSettingsRequest extends FormRequest
             'state.required' => 'State is required!',
             'city.required' => 'City is required!',
             'tax_rate.required' => 'Tax rate is required!',
-            'tax_rate.min' => 'Min value is 1',
-            'tax_rate.max' => 'Max value is 7',
+            'tax_rate.max' => 'Max value is 6',
 
         ];
     }

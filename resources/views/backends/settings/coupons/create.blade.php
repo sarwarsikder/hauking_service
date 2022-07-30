@@ -13,16 +13,14 @@
                                 <tr>
                                     <th>Coupon Name:</th>
                                     <td>
-                                        @error('coupon_name')
-                                            {{-- <div class="alert"> --}}
-                                                <p class="text-danger">{{ $message }}</p>
-                                            {{-- </div> --}}
-                                        @enderror
-                                        
+
+
                                         <input type="text" name="coupon_name"
                                             class="@error('coupon_name') is-invalid @enderror"
                                             value="{{ old('coupon_name') }}">
-
+                                        @error('coupon_name')
+                                            <p class="text-danger">{{ $message }}</p>
+                                        @enderror
                                     </td>
 
                                 </tr>
@@ -39,12 +37,12 @@
                                 <tr>
                                     <th>Value:</th>
                                     <td>
+
+                                        <input type="number" class="@error('coupon_value') is-invalid @enderror"
+                                            name="coupon_value" value="{{ old('coupon_value') }}">
                                         @error('coupon_value')
-                                        {{-- <div class="alert"> --}}
                                             <p class="text-danger">{{ $message }}</p>
-                                        {{-- </div> --}}
-                                    @enderror
-                                        <input type="number" class="@error('coupon_value') is-invalid @enderror" name="coupon_value" value="{{ old('coupon_value') }}">
+                                        @enderror
                                     </td>
                                 </tr>
                                 <th>Status:</th>
