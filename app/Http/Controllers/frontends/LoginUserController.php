@@ -3,30 +3,19 @@
 namespace App\Http\Controllers\frontends;
 
 use App\Http\Controllers\Controller;
-use App\Service\HaukingService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
-class ServiceController extends Controller
+class LoginUserController extends Controller
 {
-    private array $data = [];
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        try {
-            $hauking_service = new HaukingService($request->toArray());
-
-            $this->data['haukings'] = $hauking_service->get();
-        } catch (\Exception $exception) {
-            return back()->withError($exception->getMessage())->withInput();
-        }
-
-        return view('frontends.services.service_list', $this->data);
+        return view("frontends.users.login");
     }
 
     /**
@@ -58,21 +47,7 @@ class ServiceController extends Controller
      */
     public function show($id)
     {
-//        $session_id = Session::getId();
-//        dd($session_id);
-        return view('frontends.services.service_details');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function checkout()
-    {
-
-        return view('frontends.services.service_checkout');
+        //
     }
 
     /**
@@ -81,9 +56,9 @@ class ServiceController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($order_id)
+    public function edit($id)
     {
-        return view('frontends.services.service_update');
+        //
     }
 
     /**
@@ -108,4 +83,11 @@ class ServiceController extends Controller
     {
         //
     }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect('/');
+    }
+
 }
