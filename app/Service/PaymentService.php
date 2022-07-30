@@ -32,6 +32,7 @@ class PaymentService
     public function get(): LengthAwarePaginator
     {
         $searchProductBuilder = PaymentSettings::query();
+        $searchProductBuilder->orderBy('id', 'DESC');
         $searchProductBuilder = $this->applySearch($searchProductBuilder, ['language_name']);
         $searchProductBuilder = $this->applySorting($searchProductBuilder);
 

@@ -17,14 +17,17 @@
                 <div class="recentUser">
                     <div class="card shadow">
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="table-left">
-                                        <a href="{{route('coupons-create')}}" class="add-user"> <span><i class="bi bi-person-plus"></i></span> Add
-                                            Coupon</a>
+                            @can('coupon-create')
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="table-left">
+                                            <a href="{{route('coupons-create')}}" class="add-user"> <span><i
+                                                        class="bi bi-person-plus"></i></span> Add
+                                                Coupon</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endcan
                             <div class="single-table">
                                 <div class="table-responsive">
                                     <table class="table">
@@ -56,11 +59,16 @@
                                                 </td>
                                                 <td>
                                                     <div class="add-userTable-btn">
-                                                        <a href="{{ route('coupons-edit', $coupon->id) }}" class="edit-btn"><i
-                                                                class="bi bi-pencil-square"></i></a>
-                                                        <a href="javascrit:void()" class="del-btn"
-                                                           data-id="{{$coupon->id}}"><i
-                                                                class="bi bi-trash"></i></a>
+                                                        @can('coupon-edit')
+                                                            <a href="{{ route('coupons-edit', $coupon->id) }}"
+                                                               class="edit-btn"><i
+                                                                    class="bi bi-pencil-square"></i></a>
+                                                        @endcan
+                                                        @can('coupon-delete')
+                                                            <a href="javascrit:void()" class="del-btn"
+                                                               data-id="{{$coupon->id}}"><i
+                                                                    class="bi bi-trash"></i></a>
+                                                        @endcan
                                                     </div>
                                                 </td>
                                             </tr>
@@ -85,91 +93,92 @@
     @push('css-styles')
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     @endpush
-@section('scripts')
-    @parent
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
-    <script>
-        $(function() {
-            $('.toggle-class').change(function() {
-                var status = $(this).prop('checked') == true ? 1 : 0;
-                var coupon_id = $(this).data('id');
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    type: "POST",
-                    dataType: "json",
-                    url: '/admin/coupons/status/',
-                    data: {
-                        'status': status,
-                        'id': coupon_id
-                    },
-                    success: function(data) {
-                        console.log(data.success)
-                        if (data.status == true) {
-                            toastr.success(data.message);
-                        } else {
+    @section('scripts')
+        @parent
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script type="text/javascript"
+                src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+        <script>
+            $(function () {
+                $('.toggle-class').change(function () {
+                    var status = $(this).prop('checked') == true ? 1 : 0;
+                    var coupon_id = $(this).data('id');
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: "POST",
+                        dataType: "json",
+                        url: '/admin/coupons/status/',
+                        data: {
+                            'status': status,
+                            'id': coupon_id
+                        },
+                        success: function (data) {
+                            console.log(data.success)
+                            if (data.status == true) {
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        },
+                        error: function (err) {
                             toastr.error(data.message);
                         }
-                    },
-                    error: function(err) {
-                        toastr.error(data.message);
-                    }
+                    });
                 });
-            });
 
-            $('.del-btn').on('click', function(e) {
-                e.preventDefault();
-                var button = $(this);
-                var coupon_id = $(this).data('id');
-                bootbox.confirm({
-                    title: "Are you sure?",
-                    message: "Your about to delete this Coupon!",
-                    buttons: {
-                        confirm: {
-                            label: 'Yes',
-                            className: 'btn-success'
+                $('.del-btn').on('click', function (e) {
+                    e.preventDefault();
+                    var button = $(this);
+                    var coupon_id = $(this).data('id');
+                    bootbox.confirm({
+                        title: "Are you sure?",
+                        message: "Your about to delete this Coupon!",
+                        buttons: {
+                            confirm: {
+                                label: 'Yes',
+                                className: 'btn-success'
+                            },
+                            cancel: {
+                                label: 'No',
+                                className: 'btn-danger'
+                            }
                         },
-                        cancel: {
-                            label: 'No',
-                            className: 'btn-danger'
-                        }
-                    },
-                    callback: function(result) {
-                        if (result) {
-                            $.ajax({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                        'content')
-                                },
-                                type: "POST",
-                                dataType: "json",
-                                url: '/admin/coupons/delete/',
-                                data: {
-                                    'id': coupon_id
-                                },
-                                success: function(data) {
-                                    if (data.status == true) {
-                                        toastr.success(data.message);
-                                        setInterval(function() {
-                                            window.location.reload();
-                                        }, 5000);
-                                    } else {
-                                        toastr.error(data.message);
+                        callback: function (result) {
+                            if (result) {
+                                $.ajax({
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                            'content')
+                                    },
+                                    type: "POST",
+                                    dataType: "json",
+                                    url: '/admin/coupons/delete/',
+                                    data: {
+                                        'id': coupon_id
+                                    },
+                                    success: function (data) {
+                                        if (data.status == true) {
+                                            toastr.success(data.message);
+                                            setInterval(function () {
+                                                window.location.reload();
+                                            }, 5000);
+                                        } else {
+                                            toastr.error(data.message);
+                                        }
+                                    },
+                                    error: function (err) {
+                                        toastr.error(err.message);
                                     }
-                                },
-                                error: function(err) {
-                                    toastr.error(err.message);
-                                }
-                            });
+                                });
 
+                            }
                         }
-                    }
+                    });
                 });
-            });
 
-        });
-    </script>
-@endsection
+            });
+        </script>
+    @endsection
 @endsection

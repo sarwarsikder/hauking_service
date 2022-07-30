@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Settings;
+namespace App\Http\Controllers\backends\Settings;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CouponsRequest;
@@ -23,8 +23,12 @@ class CouponsController extends Controller
      */
     public function __construct()
     {
-        
+        $this->middleware('permission:coupon-list|coupon-create|coupon-edit|coupon-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:coupon-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:coupon-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:coupon-delete', ['only' => ['destroy']]);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -57,7 +61,7 @@ class CouponsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(CouponsRequest $request)
@@ -85,7 +89,7 @@ class CouponsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -95,7 +99,7 @@ class CouponsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -117,8 +121,8 @@ class CouponsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(CouponsRequest $request, $id)
@@ -173,7 +177,7 @@ class CouponsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
@@ -187,7 +191,7 @@ class CouponsController extends Controller
             return Response::json(array(
                 'status' => false,
                 'data' => [],
-                'message' => 'Something went wrong!'.$exception->getMessage(),
+                'message' => 'Something went wrong!' . $exception->getMessage(),
             ), 400);
         }
 

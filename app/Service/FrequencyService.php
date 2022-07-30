@@ -31,6 +31,7 @@ class FrequencyService
     {
         $searchProductBuilder = Frequency::query();
         $searchProductBuilder->whereNull("deleted_at");
+        $searchProductBuilder->orderBy('id', 'DESC');
         $searchProductBuilder = $this->applySearch($searchProductBuilder, ['frequency_name']);
         $searchProductBuilder = $this->applySorting($searchProductBuilder);
 

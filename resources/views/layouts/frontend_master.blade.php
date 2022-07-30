@@ -16,7 +16,7 @@
     @include('partials.frontend_news_latter')
     @include('partials.frontend_footer')
     @include('partials.frontend_scripts')
-    @yield('scripts')
+    @stack('scripts')
 </div>
 
 </body>

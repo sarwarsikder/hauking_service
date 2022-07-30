@@ -34,6 +34,7 @@ class UserService
     {
         $searchProductBuilder = User::query();
         $searchProductBuilder->whereNull("deleted_at");
+        $searchProductBuilder->orderBy('id', 'DESC');
         $searchProductBuilder = $this->applySearch($searchProductBuilder, ['first_name']);
         $searchProductBuilder = $this->applySorting($searchProductBuilder);
 

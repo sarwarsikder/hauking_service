@@ -72,7 +72,7 @@
                                 <span class="add-value" id="addSubscriptionValue"><i class="bi bi-plus-circle"></i></span>
                             </td>
                         </tr>
-                        
+
                         <tr>
                             <th></th>
                             <td>
@@ -186,11 +186,11 @@
                         </tr>
                         <tr>
                             <th></th>
-                            <td class="data " style="display: flex; flex-direction: column; width: 50%;"> 
+                            <td class="data " style="display: flex; flex-direction: column; width: 50%;">
                             @if($service->data_fields)
                             @foreach(json_decode($service->data_fields) as $k=>$v)
                                 <p>{{$v->name}} *<span class="deleteBtn"><i class="bi bi-dash-circle"></i></span></p>
-                                <input type="{{$v->type}}" value="{{$v->value}}" oninput="getSelectValue({{$v->id}})" id="inputVal{{$v->id}}"/> 
+                                <input type="{{$v->type}}" value="{{$v->value}}" oninput="getSelectValue({{$v->id}})" id="inputVal{{$v->id}}"/>
                             @endforeach
                             @endif
                             </td>
@@ -207,18 +207,18 @@
                                     class="@error('default_value_day_time') is-invalid @enderror"
                                     name="default_value_day_time" id="defaultValueDayTime">
                                     <option value="">Select Value</option>
-                                    <option value="8AM" {{ json_decode($service->default_value_day)->time == "8AM" ? "selected" : "" }}>
+                                    <option value="8AM" {{ @json_decode($service->default_value_day)->time == "8AM" ? "selected" : "" }}>
                                         8:00 AM</option>
-                                    <option value="9AM" {{ json_decode($service->default_value_day)->time == "9AM" ? "selected" : "" }}>
+                                    <option value="9AM" {{ @json_decode($service->default_value_day)->time == "9AM" ? "selected" : "" }}>
                                         9:00 AM</option>
-                                    <option value="10AM" {{ json_decode($service->default_value_day)->time == "10AM" ? "selected" : "" }}>
+                                    <option value="10AM" {{ @json_decode($service->default_value_day)->time == "10AM" ? "selected" : "" }}>
                                         10:00 AM</option>
                                 </select>
                                 <select id="default_value_day_value"
                                     class="@error('default_value_day_value') is-invalid @enderror"
                                     name="default_value_day_value" id="defaultValueDayValue">
                                     <option value="">Select Value</option>
-                                    <option value="800" {{ json_decode($service->default_value_day)->value == 800 ? "selected" : "" }}>
+                                    <option value="800" {{ @json_decode($service->default_value_day)->value == 800 ? "selected" : "" }}>
                                         800</option>
                                 </select>
                             </td>
@@ -246,20 +246,20 @@
                                     name="default_value_night_time" id="defaultValueNightTime">
                                     <option value="">Select Value</option>
                                     <option value="8AM"
-                                        {{ json_decode($service->default_value_night)->time  == "8AM" ? "selected" : "" }}>8:00 AM
+                                        {{ @json_decode($service->default_value_night)->time  == "8AM" ? "selected" : "" }}>8:00 AM
                                     </option>
                                     <option value="9AM"
-                                        {{ json_decode($service->default_value_night)->time  == "9AM" ? "selected" : "" }}>9:00 AM
+                                        {{ @json_decode($service->default_value_night)->time  == "9AM" ? "selected" : "" }}>9:00 AM
                                     </option>
                                     <option value="10AM"
-                                        {{ json_decode($service->default_value_night)->time  == "10AM" ? "selected" : "" }}>10:00 AM
+                                        {{ @json_decode($service->default_value_night)->time  == "10AM" ? "selected" : "" }}>10:00 AM
                                     </option>
                                 </select>
                                 <select id="default_value_night_value"
                                     class="@error('default_value_night_value') is-invalid @enderror"
                                     name="default_value_night_value" id="defaultValueNightValue">
                                     <option value="">Select Value</option>
-                                    <option value="800" {{ json_decode($service->default_value_night)->value == 800 ? "selected" : "" }}>
+                                    <option value="800" {{ @json_decode($service->default_value_night)->value == 800 ? "selected" : "" }}>
                                         800</option>
                                 </select>
                             </td>
@@ -287,13 +287,13 @@
                                     name="default_value_booster_time" id="defaultValueBoosterTime">
                                     <option value="">Select Value</option>
                                     <option value="8PM"
-                                        {{ json_decode($service->default_value_booster)->time == "8PM" ? "selected" : "" }}>8:00 PM
+                                        {{ @json_decode($service->default_value_booster)->time == "8PM" ? "selected" : "" }}>8:00 PM
                                     </option>
                                     <option value="10PM"
-                                        {{ json_decode($service->default_value_booster)->time == "10PM" ? "selected" : "" }}>10:00 PM
+                                        {{ @json_decode($service->default_value_booster)->time == "10PM" ? "selected" : "" }}>10:00 PM
                                     </option>
                                     <option value="11PM"
-                                        {{ json_decode($service->default_value_booster)->time == "11PM" ? "selected" : "" }}>11:00 PM
+                                        {{ @json_decode($service->default_value_booster)->time == "11PM" ? "selected" : "" }}>11:00 PM
                                     </option>
                                 </select>
                             </td>
@@ -316,11 +316,11 @@
                                     name="default_value_booster_value" id="defaultValueBoosterValue">
                                     <option value="">Select Value</option>
                                     <option value="1000"
-                                        {{ json_decode($service->default_value_booster)->value == 1000 ? "selected" : "" }}>1000</option>
+                                        {{ @json_decode($service->default_value_booster)->value == 1000 ? "selected" : "" }}>1000</option>
                                     <option value="1100"
-                                        {{ json_decode($service->default_value_booster)->value == 1100 ? "selected" : "" }}>1100</option>
+                                        {{ @json_decode($service->default_value_booster)->value == 1100 ? "selected" : "" }}>1100</option>
                                     <option value="1200"
-                                        {{ json_decode($service->default_value_booster)->value == 1200 ? "selected" : "" }}>1200</option>
+                                        {{ @json_decode($service->default_value_booster)->value == 1200 ? "selected" : "" }}>1200</option>
                                 </select>
                             </td>
                         </tr>
@@ -400,16 +400,16 @@
     let subscriptionExistingValue = $("#subscriptionInputValue").val();
     if(subscriptionExistingValue){
             subscriptionInputValue = JSON.parse(subscriptionExistingValue);
-    }         
+    }
     let subscriptionStringyfyValue = '';
-    
+
     let dataFieldInputValue = [];
     let dataFieldStringyfyValue = '';
     let dataFieldExistingValue = $("#dataFieldFormInputValue").val();
     if(dataFieldExistingValue){
         dataFieldInputValue = JSON.parse(dataFieldExistingValue);
-    }   
-    
+    }
+
     $(".existingDeleteBtn").on("click",function(){
         const index = $(this).data("id");
         console.log(index);
@@ -420,13 +420,13 @@
     })
 
     $(function () {
-        
-        
+
+
         $("#addSubscriptionValue").on("click",function(){
             let subscriptionValue = document.getElementById("subscription_duration").value;
             let valueStatus = document.getElementById("subscriptionAmount").value;
-            
-            
+
+
             if (subscriptionValue && valueStatus) {
                 let a = {duration:subscriptionValue,amount:valueStatus}
                 subscriptionInputValue.push(a);
@@ -439,24 +439,24 @@
                         deleteBtn[i].addEventListener("click", () => {
                             priceField[i].remove();
                             subscriptionInputValue.splice(i, 1);
-                            $("#subscriptionInputValue").val(subscriptionInputValue);    
+                            $("#subscriptionInputValue").val(subscriptionInputValue);
                         });
                     }
             }
             subscriptionStringyfyValue = JSON.stringify(subscriptionInputValue)
             $("#subscriptionInputValue").val(subscriptionStringyfyValue);
         })
-       
-        
-        
+
+
+
         $("#addDataFieldBtn").on("click",function(){
                 let inputDataFields = document.querySelector("#inputDataFields").value;
                 let requiredFields = document.getElementById("requiredField");
                 let dataFields = document.getElementById("datafield");
                 let showValue = document.querySelector("#showValue");
 
-                
-                let arrayLength = parseInt(parseInt(dataFieldInputValue.length)+1); 
+
+                let arrayLength = parseInt(parseInt(dataFieldInputValue.length)+1);
                 if(inputDataFields){
                     let input = document.createElement("input");
                 input.setAttribute("type", "text");
@@ -489,7 +489,7 @@
                 }
                 input.setAttribute("id", "inputVal"+arrayLength);
                 data.appendChild(input);
-               
+
 
                 let obj = {
                     id:arrayLength,
@@ -499,13 +499,13 @@
                     value:""
                 }
                 dataFieldInputValue.push(obj);
-                
+
             }else{
                 alert("Please fill the input value")
             }
             dataFieldStringyfyValue = JSON.stringify(dataFieldInputValue)
             $("#dataFieldFormInputValue").val(dataFieldStringyfyValue);
-                
+
         })
     });
 

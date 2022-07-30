@@ -12,17 +12,21 @@
                 <div class="recentUser">
                     <div class="card shadow">
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="frequencyAddBtn">
-                                        <button class="add-user " id="add-frequency"> Add Frequency</button>
-                                        <input type="text" placeholder="Enter Frequency Name.." id="frequency" class="hide">
-                                        <span class="hide" id="addFrequencyBtn"><i class="bi bi-plus"></i></span>
-                                        <span class="hide" id="updateFrequencyBtn"><i class="bi bi-plus"></i></span>
-                                        <span class="hide" id="cancelFrequencyBtn"><i class="bi bi-x-circle"></i></span>
+                            @can('frequency-create')
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="frequencyAddBtn">
+                                            <button class="add-user " id="add-frequency"> Add Frequency</button>
+                                            <input type="text" placeholder="Enter Frequency Name.." id="frequency"
+                                                   class="hide">
+                                            <span class="hide" id="addFrequencyBtn"><i class="bi bi-plus"></i></span>
+                                            <span class="hide" id="updateFrequencyBtn"><i class="bi bi-plus"></i></span>
+                                            <span class="hide" id="cancelFrequencyBtn"><i
+                                                    class="bi bi-x-circle"></i></span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endcan
                             <div class="single-table">
                                 <div class="table-responsive">
                                     <table class="table" id="frequency-table">
@@ -50,11 +54,17 @@
                                                 </td>
                                                 <td>
                                                     <div class="add-userTable-btn">
-                                                        <a href="javascrpit:void()" class="edit-btn" data-id="{{$f->id}}" data-name="{{$f->frequency_name}}"><i
-                                                                class="bi bi-pencil-square"></i></a>
-                                                        <a href="javascrit:void()" class="del-btn"
-                                                           data-id="{{$f->id}}"><i
-                                                                class="bi bi-trash"></i></a>
+                                                        @can('frequency-edit')
+                                                            <a href="javascrpit:void()" class="edit-btn"
+                                                               data-id="{{$f->id}}"
+                                                               data-name="{{$f->frequency_name}}"><i
+                                                                    class="bi bi-pencil-square"></i></a>
+                                                        @endcan
+                                                        @can('frequency-delete')
+                                                            <a href="javascrit:void()" class="del-btn"
+                                                               data-id="{{$f->id}}"><i
+                                                                    class="bi bi-trash"></i></a>
+                                                        @endcan
                                                     </div>
                                                 </td>
                                             </tr>
@@ -91,17 +101,17 @@
                 let updateFrequencyBtn = document.querySelector("#updateFrequencyBtn");
                 let cancelFrequencyBtn = document.querySelector("#cancelFrequencyBtn");
                 let addfrequency = document.querySelector("#add-frequency");
-                let frequency_id="";
+                let frequency_id = "";
                 addfrequency.onclick = function () {
                     updateFrequencyBtn.classList.add("hide");
                     cancelFrequencyBtn.classList.remove("hide");
                     frequency.classList.remove("hide")
                     frequencyBtn.classList.remove("hide");
                 };
-                frequencyBtn.onclick = function () { 
-                     
-                let frequencyName = document.getElementById("frequency").value;
-                $.ajax({
+                frequencyBtn.onclick = function () {
+
+                    let frequencyName = document.getElementById("frequency").value;
+                    $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -132,7 +142,7 @@
                     var button = $(this);
                     frequency_id = $(this).data('id');
                     var frequency_name = $(this).data('name');
-                    frequency.value = frequency_name; 
+                    frequency.value = frequency_name;
                     frequency.classList.remove("hide")
                     frequencyBtn.classList.add("hide");
                     updateFrequencyBtn.classList.remove("hide");
@@ -145,57 +155,29 @@
                     updateFrequencyBtn.classList.add("hide");
                     cancelFrequencyBtn.classList.add("hide");
                     frequency.value = ""
-                    frequency_id=""
+                    frequency_id = ""
                 }
 
-                updateFrequencyBtn.onclick = function () { 
-                     
-                     let frequencyName = document.getElementById("frequency").value;
-                     $.ajax({
-                             headers: {
-                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                             },
-                             type: "POST",
-                             dataType: "json",
-                             url: '/admin/frequency/update/',
-                             data: {'frequency_name': frequencyName,'id':frequency_id},
-                             success: function (data) {
-                                 console.log(data.success)
-                                 if (data.status == true) {
-                                     $("#frequency").val('');
-                                     frequency_id="";
-                                     toastr.success(data.message);
-                                     setInterval(function () {
-                                         window.location.reload();
-                                     }, 3000);
-                                 } else {
-                                     toastr.error(data.message);
-                                 }
-                             },
-                             error: function (err) {
-                                 toastr.error(data.message);
-                             }
-                         });
-                     };
+                updateFrequencyBtn.onclick = function () {
 
-            });
-
-                $('.toggle-class').change(function () {
-                    var status = $(this).prop('checked') == true ? 1 : 0;
-                    var frequency_id = $(this).data('id');
-
+                    let frequencyName = document.getElementById("frequency").value;
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         type: "POST",
                         dataType: "json",
-                        url: '/admin/frequency/status/',
-                        data: {'status': status, 'id': frequency_id},
+                        url: '/admin/frequency/update/',
+                        data: {'frequency_name': frequencyName, 'id': frequency_id},
                         success: function (data) {
                             console.log(data.success)
                             if (data.status == true) {
+                                $("#frequency").val('');
+                                frequency_id = "";
                                 toastr.success(data.message);
+                                setInterval(function () {
+                                    window.location.reload();
+                                }, 3000);
                             } else {
                                 toastr.error(data.message);
                             }
@@ -204,61 +186,86 @@
                             toastr.error(data.message);
                         }
                     });
+                };
+
+            });
+
+            $('.toggle-class').change(function () {
+                var status = $(this).prop('checked') == true ? 1 : 0;
+                var frequency_id = $(this).data('id');
+
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: "POST",
+                    dataType: "json",
+                    url: '/admin/frequency/status/',
+                    data: {'status': status, 'id': frequency_id},
+                    success: function (data) {
+                        console.log(data.success)
+                        if (data.status == true) {
+                            toastr.success(data.message);
+                        } else {
+                            toastr.error(data.message);
+                        }
+                    },
+                    error: function (err) {
+                        toastr.error(data.message);
+                    }
                 });
+            });
 
-                
-                $('.del-btn').on('click', function (e) {
-                    e.preventDefault();
-                    var button = $(this);
-                    var frequency_id = $(this).data('id');
 
-                    bootbox.confirm({
-                        title: "Are you sure?",
-                        message: "Your about to delete this frequency!",
-                        buttons: {
-                            confirm: {
-                                label: 'Yes',
-                                className: 'btn-success'
-                            },
-                            cancel: {
-                                label: 'No',
-                                className: 'btn-danger'
-                            }
+            $('.del-btn').on('click', function (e) {
+                e.preventDefault();
+                var button = $(this);
+                var frequency_id = $(this).data('id');
+
+                bootbox.confirm({
+                    title: "Are you sure?",
+                    message: "Your about to delete this frequency!",
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-success'
                         },
-                        callback: function (result) {
-                            if (result) {
-                                $.ajax({
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    },
-                                    type: "POST",
-                                    dataType: "json",
-                                    url: '/admin/frequency/delete/',
-                                    data: {'id': parseInt(frequency_id)},
-                                    success: function (data) {
-                                        if (data.status == true) {
-                                            toastr.success(data.message);
-                                            setInterval(function () {
-                                                window.location.reload();
-                                            }, 3000);
-                                        } else {
-                                            toastr.error(data.message);
-                                        }
-                                    },
-                                    error: function (err) {
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            $.ajax({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                type: "POST",
+                                dataType: "json",
+                                url: '/admin/frequency/delete/',
+                                data: {'id': parseInt(frequency_id)},
+                                success: function (data) {
+                                    if (data.status == true) {
+                                        toastr.success(data.message);
+                                        setInterval(function () {
+                                            window.location.reload();
+                                        }, 3000);
+                                    } else {
                                         toastr.error(data.message);
                                     }
-                                });
+                                },
+                                error: function (err) {
+                                    toastr.error(data.message);
+                                }
+                            });
 
-                            }
                         }
-                    });
+                    }
                 });
+            });
 
-                
 
-            
-            
         </script>
     @endsection
 @endsection

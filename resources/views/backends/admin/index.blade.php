@@ -7,9 +7,11 @@
                 <div class="pull-left">
                     <h2>Users Management</h2>
                 </div>
-                <div class="pull-right user-data-btn">
-                    <a class="btn btn-dark" href="{{ route('admins.create') }}"> Create New User</a>
-                </div>
+                @can('admin-create')
+                    <div class="pull-right user-data-btn">
+                        <a class="btn btn-dark" href="{{ route('admins.create') }}"> Create New User</a>
+                    </div>
+                @endcan
             </div>
         </div>
 
