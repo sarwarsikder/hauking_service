@@ -12,10 +12,15 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('carts', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('session_id')->nullable();
+
+            $table->unsignedBigInteger('service_id')->nullable();
+            $table->unsignedBigInteger('order_id')->nullable();
+
             $table->string('service_name');
-            $table->text('service_description');
             $table->json('subscription_type');
             $table->integer('trial_period');
             $table->json('hawkin_scale');
@@ -26,17 +31,21 @@ return new class extends Migration {
             $table->string('default_special_feq');
             $table->string('service_image_url');
             $table->boolean('status')->default(0);
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->unsignedBigInteger('updated_by')->nullable();
-            $table->foreign('created_by')->references('id')->on('users');
-            $table->foreign('updated_by')->references('id')->on('users');
+
+            $table->foreign('user_id')->references('id')->on('users');
+
+            $table->foreign('service_id')->references('id')->on('services');
+            $table->foreign('order_id')->references('id')->on('orders');
+
 
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
 
-            $table->index('created_by');
-            $table->index('updated_by');
+            $table->index('user_id');
 
+
+            $table->index('service_id');
+            $table->index('order_id');
         });
     }
 
@@ -47,6 +56,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('carts');
     }
 };
