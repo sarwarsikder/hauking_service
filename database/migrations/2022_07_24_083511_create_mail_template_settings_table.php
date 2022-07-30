@@ -14,6 +14,7 @@ return new class extends Migration {
     {
         Schema::create('mail_template_settings', function (Blueprint $table) {
             $table->id();
+            $table->char('mail_type', 150);
             $table->string('email_subject');
             $table->text('email_body');
             $table->boolean('status')->default(0);
@@ -22,9 +23,9 @@ return new class extends Migration {
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
-
-
+            
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

@@ -54,7 +54,7 @@
                             <li><a href="{{ route('coupons-list') }}">Coupons</a></li>
                             <li><a href="{{ route('payments-list') }}">Payments Settings</a></li>
                             <li><a href="{{ route('languages-list') }}">Languages</a></li>
-                            <li><a href="#">E-mail Settings</a></li>
+                            <li><a href="{{ route('emails-list') }}">E-mail Settings</a></li>
                         </ul>
                     </li>
 

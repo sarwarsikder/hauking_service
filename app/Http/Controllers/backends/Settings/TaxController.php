@@ -80,19 +80,19 @@ class TaxController extends Controller
         }
     }
 
-    public function getCity(Request $request)
-    {
-        try {
-            $city = DB::table('cities')->where('state_id', $request->state_id)->orderBy('city_name', 'asc')->get();
-            if (!empty($city)) {
-                return response()->json($city);
-            } else {
-                return redirect()->back()->with('redirect-message', 'Something wrong!');
-            }
-        } catch (\Exception $exception) {
-            echo $exception->getMessage();
-        }
-    }
+    // public function getCity(Request $request)
+    // {
+    //     try {
+    //         $city = DB::table('cities')->where('state_id', $request->state_id)->orderBy('city_name', 'asc')->get();
+    //         if (!empty($city)) {
+    //             return response()->json($city);
+    //         } else {
+    //             return redirect()->back()->with('redirect-message', 'Something wrong!');
+    //         }
+    //     } catch (\Exception $exception) {
+    //         echo $exception->getMessage();
+    //     }
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -164,7 +164,7 @@ class TaxController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TaxSettingsRequest $request, $id)
     {
         try {
             $tax_service = Tax::find($id);
@@ -175,7 +175,7 @@ class TaxController extends Controller
                 $tax_service->city = $request['city'];
                 $tax_service->post_code = $request['post_code'];
                 $tax_service->tax_rate = $request['tax_rate'];
-                $tax_service->status = !empty($request['status']) == 'on' ? true : false;
+                $tax_service->status = !empty($request['status']) == '1' ? true : false;
                 if ($tax_service->save()) {
                     return redirect(route('taxes-list'))->with('redirect-message', 'Tax successfully Updated!');
                 } else {

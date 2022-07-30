@@ -27,31 +27,44 @@
                             </select>
                         </div>
                         <div class="col-6">
-                            <select class="form-control shadow-none" id="country" name="country">
-                                <option>Select Your Country</option>
+                            <select class="form-control shadow-none @error('country') is-invalid @enderror" id="country"
+                                name="country">
+                                <option value="">Select Your Country</option>
                                 @foreach ($countries as $country)
                                     <option value="{{ $country->id }}"
                                         {{ $tax_service->country_id == $country->id ? 'selected' : '' }}>
                                         {{ $country->country_name }}</option>
                                 @endforeach
                             </select>
+                            @error('country')
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
+                            @enderror
                         </div>
                         <div class="col-6">
-                            <select class="form-control shadow-none" id="state" name="state"
-                                value="{{ old('country') }}">
-                                <option>Select Your state</option>
+                            <select class="form-control shadow-none @error('state') is-invalid @enderror" id="state"
+                                name="state">
+                                <option value="">Select Your state</option>
                             </select>
+                            @error('state')
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
+                            @enderror
                         </div>
                         <div class="col-6">
-                            <select class="form-control shadow-none" id="city" name="city"
-                                value="{{ old('country') }}">
-                                <option>Select Your City</option>
-
-                            </select>
+                            <input type="text" class="form-control shadow-none @error('city') is-invalid @enderror"
+                                placeholder="City" name="city" value="{{ $tax_service->city }}">
+                            @error('city')
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
+                            @enderror
                         </div>
                         <div class="col-6">
-                            <input type="text" class="form-control shadow-none" placeholder="Post Code" name="post_code"
-                                value="{{ $tax_service->post_code }}">
+                            <input type="text" class="form-control shadow-none @error('post_code') is-invalid @enderror"
+                                placeholder="Post Code" name="post_code" value="{{ $tax_service->post_code }}">
                             @error('post_code')
                                 <div class="alert">
                                     <p class="text-danger">{{ $message }}</p>
@@ -61,12 +74,18 @@
                         </div>
                         <div class="col-12">
                             <label for="tax_rate">Rate</label>
-                            <input type="number" class="form-control shadow-none" name="tax_rate"
+                            <input type="number" class="form-control shadow-none @error('tax_rate') is-invalid @enderror" name="tax_rate"
                                 value="{{ $tax_service->tax_rate }}">
+                            @error('tax_rate')
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
+                            @enderror
                         </div>
                         <div class="col-6">
                             <label class="switch">
-                                <input type="checkbox" name="status">
+                                <input value="1" type="checkbox" {{ $tax_service->status === 1 ? 'checked' : '' }}
+                                    name="status">
                                 <span class="slider round"></span>
                             </label>
                         </div>
@@ -121,33 +140,33 @@
                 });
             });
 
-            $('#state').change(function() {
-                var state_id = $(this).val();
+            // $('#state').change(function() {
+            //     var state_id = $(this).val();
 
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    type: "POST",
-                    dataType: "json",
-                    url: '/admin/settings/taxes/getCity/',
-                    data: {
-                        state_id: state_id,
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#city').html('<option value="">Select Your city</option>');
-                        $.each(result, function(key, value) {
-                            $('#city').append('<option value="' + value.id + '">' +
-                                value.city_name + '</option>');
-                        })
-                        // $('#city').html('<option value="">Select state First</option>');
-                    },
-                    error: function(err) {
-                        toastr.error(data.message);
-                    }
-                });
-            });
+            //     $.ajax({
+            //         headers: {
+            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //         },
+            //         type: "POST",
+            //         dataType: "json",
+            //         url: '/admin/settings/taxes/getCity/',
+            //         data: {
+            //             state_id: state_id,
+            //         },
+            //         dataType: 'json',
+            //         success: function(result) {
+            //             $('#city').html('<option value="">Select Your city</option>');
+            //             $.each(result, function(key, value) {
+            //                 $('#city').append('<option value="' + value.id + '">' +
+            //                     value.city_name + '</option>');
+            //             })
+            //             // $('#city').html('<option value="">Select state First</option>');
+            //         },
+            //         error: function(err) {
+            //             toastr.error(data.message);
+            //         }
+            //     });
+            // });
 
 
         });

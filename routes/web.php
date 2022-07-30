@@ -5,6 +5,7 @@ use App\Http\Controllers\backends\order\OrderController;
 use App\Http\Controllers\backends\role\RoleController;
 use App\Http\Controllers\backends\service\HaukingServiceController;
 use App\Http\Controllers\backends\Settings\CouponsController;
+use App\Http\Controllers\backends\Settings\EmailController;
 use App\Http\Controllers\backends\Settings\FrequencyController;
 use App\Http\Controllers\backends\Settings\LanguageController;
 use App\Http\Controllers\backends\Settings\PaymentController;
@@ -164,6 +165,18 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('/coupons/{id}/update', [CouponsController::class, 'update'])->name('coupons-update');
             Route::post('/coupons/status', [CouponsController::class, 'updateStatus'])->name('coupons-status');
             Route::post('/coupons/delete', [CouponsController::class, 'destroy'])->name('coupons-delete');
+
+            /**
+             * email
+             */
+
+            Route::get('/emails', [EmailController::class, 'index'])->name('emails-list');
+            Route::get('/emails/create', [EmailController::class, 'create'])->name('emails-create');
+            Route::post('/emails/store', [EmailController::class, 'store'])->name('emails-submit');
+            Route::get('/emails/edit/{id}', [EmailController::class, 'edit'])->name('emails-edit');
+            Route::post('/emails/{id}/update', [EmailController::class, 'update'])->name('emails-update');
+            Route::post('/emails/status', [EmailController::class, 'updateStatus'])->name('emails-status');
+            Route::post('/emails/delete', [EmailController::class, 'destroy'])->name('emails-delete');
 
         });
 
