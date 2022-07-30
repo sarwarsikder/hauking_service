@@ -13,7 +13,10 @@
                 <button class="tablinks" onclick="myAccount(event, 'Subscriptons')">Subscriptons</button>
                 <button class="tablinks" onclick="myAccount(event, 'Transactions')">Transactions</button>
                 <button class="tablinks" onclick="myAccount(event, 'Payments')">Payments</button>
-                <button class="tablinks" onclick="myAccount(event, 'logout')">Log Out</button>
+                <form action="{{route('user-logout')}}" method="POST">
+                    @csrf
+                    <button type="submit" class="tablinks" onclick="myAccount(event, 'logout')">Log Out</button>
+                </form>
 
             </div>
             <div id="Welcome" class="tabcontent col-9">
@@ -432,7 +435,7 @@
                                         <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong></p>
                                     </div>
                                     <div class="col-1">
-                                        <a  href="{{route('account-service',1)}}" type="button" class="btn btn-default">View</a>
+                                        <a href="{{route('account-service',1)}}" type="button" class="btn btn-default">View</a>
                                     </div>
                                 </div>
                                 <div class="row mb-3">

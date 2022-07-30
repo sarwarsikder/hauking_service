@@ -69,6 +69,31 @@
     color: #fff;
 }
 
+.tab link {
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 22px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab link:hover {
+    background-color: #69bc9f;
+    color: #fff;
+}
+
+/* Create an active/current "tab button" class */
+.tab link.active {
+    background-color: #69bc9f;
+    color: #fff;
+}
+
 /* Style the tab content */
 .tabcontent {
     /* float: left; */

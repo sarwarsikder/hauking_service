@@ -7,7 +7,7 @@
         <div class="wrapper">
             <div class="row gy-sm-4 gx-lg-5 row-cols-1 row-cols-md-2">
                 <div class="col align-self-center">
-                    <img class="img-fluid" src="assets/img/img-2.png">
+                    <img class="img-fluid" src="{{asset('assets/frontend/img/img-2.png')}}">
                 </div>
                 <div class="col align-self-center">
                     <h1 class="fw-normal text-success">The Field for CARS</h1>

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\frontends;
+namespace App\Http\Controllers\payments;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Stripe;
 
-class LoginController extends Controller
+class StripePaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,7 @@ class LoginController extends Controller
      */
     public function index()
     {
-        return view("frontends.users.login");
+        return view('frontends.payments.index');
     }
 
     /**
@@ -35,7 +36,41 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+
+        $customer = Stripe\Customer::create(array(
+
+            "address" => [
+                "line1" => "Virani Chowk",
+                "postal_code" => "360001",
+                "city" => "Rajkot",
+                "state" => "GJ",
+                "country" => "IN",
+            ],
+
+            "email" => "demo@gmail.com",
+            "name" => "Hardik Savani",
+            "source" => $request->stripeToken
+        ));
+
+
+        Stripe\Charge::create([
+            "amount" => 100 * 100,
+            "currency" => "usd",
+            "customer" => $customer->id,
+            "description" => "Test payment from itsolutionstuff.com.",
+            "shipping" => [
+                "name" => "Jenny Rosen",
+                "address" => [
+                    "line1" => "510 Townsend St",
+                    "postal_code" => "98140",
+                    "city" => "San Francisco",
+                    "state" => "CA",
+                    "country" => "US",
+                ],
+            ]
+        ]);
     }
 
     /**
