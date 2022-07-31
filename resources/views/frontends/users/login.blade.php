@@ -17,8 +17,8 @@
         @endif
 
         @if(Session::has('success'))
-            <div class="alert alert-success">
-                <p>{{Session::get('success')}}.</p>
+            <div class="alert alert-danger">
+                <strong>{{Session::get('success')}}.</strong>
             </div>
         @endif
         <div class="wrapper">
@@ -43,7 +43,7 @@
                         <input class="btn btn-success border rounded-1 login-button" type="submit" value="Login">
                     </div>
                     <div class="login-forget mt-3">
-                        <p><a href="{{route('user-register')}}">Register</a> | <a href="">Forget Password</a></p>
+                        <p><a href="{{route('user-register')}}">Register</a> | <a href="{{route('reset-password')}}">Forget Password</a></p>
                     </div>
 
                 </div>

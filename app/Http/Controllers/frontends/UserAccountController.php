@@ -10,7 +10,9 @@ use App\Models\Timezone;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use PHPUnit\Exception;
 
 class UserAccountController extends Controller
 {
@@ -21,11 +23,17 @@ class UserAccountController extends Controller
      */
     public function index()
     {
-        $this->data['user'] = User::where('id',2)->first();
-        $this->data['countries'] = Country::all();
-        $this->data['states'] = State::all();
-        $this->data['timezones'] = Timezone::all();
-        return view('frontends.users.user_account',$this->data);
+        try {
+            $user_id = 2; # Auth::id(); will be change later.
+            $this->data['user'] = User::where('id', $user_id)->first();
+            $this->data['countries'] = Country::all();
+            $this->data['states'] = State::all();
+            $this->data['timezones'] = Timezone::all();
+        } catch (Exception $exception) {
+            echo $exception->getMessage();
+        }
+        return view('frontends.users.user_account', $this->data);
+
     }
 
     /**
@@ -41,7 +49,7 @@ class UserAccountController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -52,13 +60,14 @@ class UserAccountController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         //
     }
+
 
     public function getState(Request $request)
     {
@@ -84,7 +93,7 @@ class UserAccountController extends Controller
         // dd($request, $id);
         try {
 
-            $userObject = User::where('id',$id)->first();
+            $userObject = User::where('id', $id)->first();
 
             $userObject->first_name = $request['first_name'];
             $userObject->last_name = $request['last_name'];
@@ -99,7 +108,7 @@ class UserAccountController extends Controller
             $userObject->phone = $request['phone'];
             $userObject->user_bio = $request['user_bio'];
             $userObject->timezone_id = $request['timezones'];
-            if($request['password']){
+            if ($request['password']) {
                 $userObject->password = Hash::make($request['password']);
             }
 
@@ -124,7 +133,7 @@ class UserAccountController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -135,8 +144,8 @@ class UserAccountController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -147,7 +156,7 @@ class UserAccountController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
