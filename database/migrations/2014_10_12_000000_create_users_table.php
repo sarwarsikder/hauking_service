@@ -27,6 +27,7 @@ return new class extends Migration {
             $table->string('country')->nullable();
 
             $table->string('phone')->nullable();
+            $table->string('stripe_customer_id')->nullable();
 
 
             $table->enum('role', ['user', 'admin'])->default('user');
@@ -39,8 +40,8 @@ return new class extends Migration {
 
             $table->string('password');
             $table->string('user_profile')->nullable();
-            // $table->unsignedBigInteger('timezone_id');
-            // $table->foreign('timezone_id')->references('id')->on('timezones');
+            $table->unsignedBigInteger('timezone_id')->nullable();// nullable is not use here in future
+            // $table->foreign('timezone_id')->references('id')->on('timezones'); // it will be use next
             $table->rememberToken();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();

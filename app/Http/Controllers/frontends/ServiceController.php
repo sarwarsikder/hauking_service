@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\frontends;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\payments\PayPalPaymentController;
+use App\Http\Controllers\payments\StripePaymentController;
 use App\Service\HaukingService;
 use Illuminate\Http\Request;
+use App\Http\Requests\FrontendRequest\BillingRequest;
 use App\Models\Frequency;
 use App\Models\Service;
 use App\Models\Cart;
@@ -154,5 +157,35 @@ class ServiceController extends Controller
     public function destroy($id)
     {
         //
+    } 
+    
+    
+    public function checkoutPayment(BillingRequest $request)
+    {
+        $session_id = Session::getId();
+        $checkCart = Cart::where('session_id',$session_id)->first();
+        $this->data['first_name'] = $request->first_name;
+        $this->data['last_name'] = $request->last_name;
+        $this->data['street_address'] = $request->street_address;
+        $this->data['city'] = $request->city;
+        $this->data['state'] = $request->state;
+        $this->data['zipcode'] = $request->zipcode;
+        $this->data['country'] = $request->country;
+        $this->data['cart'] = Cart::where('session_id',$session_id)->first();
+        $this->data['user'] = Auth::user();
+
+
+        if($request->payment_method=="paypal"){
+            $paypalController = new PayPalPaymentController();
+            $paypalController->payment($this->data);
+        }elseif($request->payment_method=="stripe"){
+            $stripeController = new StripePaymentController();
+            $stripeController->payment($this->data);
+        }
+        
+
+        echo "<pre>";
+        print_r($this->data);
+        die;
     }
 }

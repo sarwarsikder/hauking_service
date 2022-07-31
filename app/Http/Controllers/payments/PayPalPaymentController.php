@@ -90,8 +90,10 @@ class PayPalPaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function payment()
+    public function payment($data)
     {
+        print_r("I am stripe");
+        return true;
         $data = [];
         $data['items'] = [
             [

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\payments;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
 use Stripe;
 
 class StripePaymentController extends Controller
@@ -71,6 +72,114 @@ class StripePaymentController extends Controller
                 ],
             ]
         ]);
+    }
+
+
+    public function payment($data)
+    {
+       
+        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        $customerData = array(
+
+            "address" => [
+                "line1" => $data['street_address'],
+                "postal_code" => $data['zipcode'],
+                "city" => $data['city'],
+                "state" => $data['state'],
+                "country" => $data['country'],
+            ],
+
+            "email" => $data['user']['email'],
+            "name" => $data['user']['first_name'].' '.$data['user']['last_name'],
+            // "source" => $request->stripeToken
+        );
+
+        $customer = Stripe\Customer::create($customerData);
+        
+        $stripe = new \Stripe\StripeClient(
+            env('STRIPE_SECRET')     
+          );
+      
+          $customer_id = $customer->id;
+          
+          print_r("I am stripe");
+          print_r($customer_id);
+          return true;    //create product
+      
+          $product = $stripe->products->create([
+      
+            'name' => 'Diamond',
+      
+            'id'   => '123',
+      
+            'metadata' => [
+      
+              'name' => "silver",
+      
+              'last-date' => '30-7-2021'
+      
+            ]
+      
+          ]);
+      
+          $product_id = $product->id;
+      
+          //define product price and recurring interval
+      
+          $price = $stripe->prices->create([
+      
+            'unit_amount' => 2000,
+      
+            'currency' => 'usd',
+      
+            'recurring' => ['interval' => 'month'],
+      
+            'product' => $product_id,
+      
+          ]);
+      
+          $price_id = $price->id;
+      
+          //CREATE SUBSCRIPTION
+      
+        //   $subscription = $stripe->subscriptions->create([
+      
+        //     'customer' => $customer_id,
+      
+        //     'items' => [
+      
+        //       ['price' => $price_id],
+      
+        //     ],
+      
+        //     'metadata' => [
+      
+        //       'start_date' => '30-7-2021',
+      
+        //       'total_months' => '11',
+      
+        //       'end_date' => '30-5-2022'
+      
+        //     ]
+      
+        //   ]);
+        // Stripe\Charge::create([
+        //     "amount" => 100 * 100,
+        //     "currency" => "usd",
+        //     "customer" => $customer->id,
+        //     "description" => "Test payment from itsolutionstuff.com.",
+        //     "shipping" => [
+        //         "name" => "Jenny Rosen",
+        //         "address" => [
+        //             "line1" => "510 Townsend St",
+        //             "postal_code" => "98140",
+        //             "city" => "San Francisco",
+        //             "state" => "CA",
+        //             "country" => "US",
+        //         ],
+        //     ]
+        // ]);
     }
 
     /**

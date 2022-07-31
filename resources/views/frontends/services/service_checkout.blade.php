@@ -4,6 +4,7 @@
         <h1>Checkout</h1>
     </div>
 
+    @if(!Auth::user())
     <section id="checkout-form" class="mt-5">
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
@@ -23,7 +24,7 @@
                                     @csrf
                                         <h5>Existing User?</h5>
                                         <div class="col-12">
-                                            <input type="email" name="email" value="old('email')" required placeholder="Username/Email Address"/>
+                                            <input type="email" name="email" :value="old('email')" required placeholder="Username/Email Address"/>
                                             <input type="password" name="password" placeholder="Password"/>
                                             <input class="btn btn-success border rounded-1 login-button" type="submit"
                                                    value="Login">
@@ -33,14 +34,14 @@
                                 </div>
 
                                 <div class="col-md-6 col-sm-12">
-                                <form method="POST" action="{{ route('register') }}">
-                                @csrf
+                                    <form method="POST" action="{{ route('register') }}">
+                                    @csrf
                                         <h5>New Customer?</h5>
                                         <div class="col-12">
-                                            <input type="text" placeholder="Username"/>
-                                            <input type="email" placeholder="Email Address"/>
-                                            <input type="password" placeholder="Password"/>
-                                            <input type="password" placeholder="Confirm Password"/>
+                                            <input type="text" name="name" :value="old('name')" required placeholder="Username"/>
+                                            <input type="email" name="email" :value="old('email')" required placeholder="Email Address"/>
+                                            <input type="password" name="password" required placeholder="Password"/>
+                                            <input type="password" name="password_confirmation" required placeholder="Confirm Password"/>
                                             <input class="btn btn-success border rounded-1 login-button" type="submit"
                                                    value="Register">
                                         </div>
@@ -51,7 +52,7 @@
                     </div>
                 </div>
     </section>
-
+    @endif
 
     <section id="checkout-form" class="mt-5">
         <div class="accordion-item">
@@ -87,7 +88,8 @@
         </div>
     </section>
 
-
+    <form action="{{ route('service-checkout-payment') }}" method="post">
+    @csrf
     <section id="checkout-form" class="mt-5">
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingThree">
@@ -102,21 +104,21 @@
                     <div class="wrapper">
                         <div class="row  pt-4 pb-4  " data-aos="fade-up">
                             <div class="col-md-6 col-sm-12">
-                                <form action="#">
+                                
                                     <h5>Billing Details</h5>
                                     <div class="col-12">
-                                        <input type="text" placeholder="First Name"/>
-                                        <input type="text" placeholder="Last Name"/>
-                                        <input type="text" placeholder="Street Address"/>
-                                        <input type="text" placeholder="Town/City"/>
-                                        <input type="text" placeholder="State"/>
-                                        <input type="text" placeholder="Zipcode"/>
-                                        <select name="" id="">
+                                        <input type="text" name="first_name" placeholder="First Name"/>
+                                        <input type="text" name="last_name" placeholder="Last Name"/>
+                                        <input type="text" name="street_address" placeholder="Street Address"/>
+                                        <input type="text" name="city" placeholder="Town/City"/>
+                                        <input type="text" name="state" placeholder="State"/>
+                                        <input type="text" name="zipcode" placeholder="Zipcode"/>
+                                        <select name="country" id="">
                                             <option value="">Choose Your Country</option>
                                             <option value="BD">Bangladesh</option>
                                         </select>
                                     </div>
-                                </form>
+                                
                             </div>
 
                             <div class="col-md-6 col-sm-12">
@@ -173,28 +175,33 @@
                     <div class="wrapper">
                         <div class="row  pt-4 pb-4  " data-aos="fade-up">
                             <div class="col-md-12">
-                                <form action="#">
+                                
                                     <h5>Make Payment</h5>
                                     <div class="col-12">
                                         <div class="col-12">
-                                            <input type="checkbox" name="" id="">
+                                            <input type="checkbox" name="payment_method" value="paypal" class="payment-method" id="methodPaypal" checked>
                                             <span>Paypal</span>
                                             <p>Pay via PayPal; you can pay with your credit card if you don’t have a
                                                 PayPal account.</p>
                                         </div>
                                         <div class="col-12">
-                                            <input type="checkbox" name="" id="">
+                                            <input type="checkbox" name="payment_method" value="stripe" class="payment-method" id="methodStripe">
                                             <span>Credit Card</span>
                                             <p>Pay with your credit card via Stripe.</p>
                                         </div>
                                         <p>Your personal data will only be used to process your order, support your
                                             experience throughout this website, and for other purposes described in our
-                                            <a href="">privacy policy</a> .
+                                            <a href="" target="_blank">privacy policy</a> .
                                         </p>
+                                        @if(Auth::user())
                                         <input class="btn btn-success border rounded-1 login-button" type="submit"
                                                value="Checkout">
+                                        @else
+                                        
+                                            <p class="btn btn-success border rounded-1 login-button">Please Login to Checkout </p>
+                                        @endif
                                     </div>
-                                </form>
+                                
                             </div>
 
                         </div>
@@ -203,4 +210,14 @@
             </div>
         </div>
     </section>
+    </form>
+
+@section('scripts')
+<script>
+    $(".payment-method").change(function() {
+    $(".payment-method").prop('checked', false);
+    $(this).prop('checked', true);
+});
+</script>
+@endsection
 @endsection

@@ -4,46 +4,42 @@
         <div class="service2-wrapper">
             <div class="row  pt-4 pb-4  " data-aos="fade-up">
 
-                <form action="{{ route('coupons-submit') }}" method="POST">
+                <form action="{{ route('emails-submit') }}" method="POST">
                     @csrf
-                    <div class="col-md-6 col-sm-12">
+                    <div class="col-md-8 col-sm-12">
                         <div class="current-data shadow">
                             <h2>Add Coupon:</h2>
                             <table style="width:100%" class="current-data-table">
                                 <tr>
-                                    <th>Coupon Name:</th>
+                                    <th>For:</th>
                                     <td>
-
-
-                                        <input type="text" name="coupon_name"
-                                            class="@error('coupon_name') is-invalid @enderror"
-                                            value="{{ old('coupon_name') }}">
-                                        @error('coupon_name')
-                                            <p class="text-danger">{{ $message }}</p>
-                                        @enderror
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <th>Type:</th>
-                                    <td>
-                                        <select name="coupon_type" id="">
-                                            <option value="percent">Percent</option>
-                                            <option value="fixed">Fixed</option>
-                                            <option value="days">Days</option>
+                                        <select name="mail_type" id="">
+                                            <option value="1">Sign Up </option>
+                                            <option value="2">Checkout</option>
+                                            <option value="3">Password Reset</option>
                                         </select>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Value:</th>
+                                    <th>Subject:</th>
                                     <td>
-
-                                        <input type="number" class="@error('coupon_value') is-invalid @enderror"
-                                            name="coupon_value" value="{{ old('coupon_value') }}">
-                                        @error('coupon_value')
+                                        <input type="text" name="email_subject"
+                                            class="@error('email_subject') is-invalid @enderror"
+                                            value="">
+                                        @error('email_subject')
                                             <p class="text-danger">{{ $message }}</p>
                                         @enderror
                                     </td>
+                                </tr>
+                                <tr>
+                                    <th>Body:</th>
+                                    <td>
+                                        <textarea name="email_body" id="" cols="68"></textarea>
+                                        @error('email_body')
+                                            <p class="text-danger">{{ $message }}</p>
+                                        @enderror
+                                    </td>
+
                                 </tr>
                                 <th>Status:</th>
                                 <td>

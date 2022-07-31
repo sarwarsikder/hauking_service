@@ -32,14 +32,14 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead class="text-uppercase">
-                                        <tr>
-                                            <th class="text-nowrap" scope="col">Coupon ID</th>
-                                            <th class="text-nowrap" scope="col">Coupon Name</th>
-                                            <th class="text-nowrap" scope="col">Type</th>
-                                            <th class="text-nowrap" scope="col">Discounts</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
+                                            <tr>
+                                                <th class="text-nowrap" scope="col">Coupon ID</th>
+                                                <th class="text-nowrap" scope="col">Coupon Name</th>
+                                                <th class="text-nowrap" scope="col">Type</th>
+                                                <th class="text-nowrap" scope="col">Discounts</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
                                         </thead>
 
                                         <tbody class="user-data">
@@ -80,7 +80,7 @@
                             </div>
                             <div class="col-md-8 col-sm-8 pull-right">
                                 <ul class="pagination pull-right">
-                                    {{ $coupons->links("pagination::bootstrap-4") }}
+                                    {{ $coupons->links('pagination::bootstrap-4') }}
                                 </ul>
                             </div>
                         </div>
@@ -127,6 +127,39 @@
                         }
                     });
                 });
+@section('scripts')
+    @parent
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+    <script>
+        $(function() {
+            $('.toggle-class').change(function() {
+                var status = $(this).prop('checked') == true ? 1 : 0;
+                var coupon_id = $(this).data('id');
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: "POST",
+                    dataType: "json",
+                    url: '/admin/settings/coupons/status/',
+                    data: {
+                        'status': status,
+                        'id': coupon_id
+                    },
+                    success: function(data) {
+                        console.log(data.success)
+                        if (data.status == true) {
+                            toastr.success(data.message);
+                        } else {
+                            toastr.error(data.message);
+                        }
+                    },
+                    error: function(err) {
+                        toastr.error(data.message);
+                    }
+                });
+            });
 
                 $('.del-btn').on('click', function (e) {
                     e.preventDefault();
@@ -172,6 +205,50 @@
                                         toastr.error(err.message);
                                     }
                                 });
+            $('.del-btn').on('click', function(e) {
+                e.preventDefault();
+                var button = $(this);
+                var coupon_id = $(this).data('id');
+                bootbox.confirm({
+                    title: "Are you sure?",
+                    message: "Your about to delete this Coupon!",
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function(result) {
+                        if (result) {
+                            $.ajax({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                        'content')
+                                },
+                                type: "POST",
+                                dataType: "json",
+                                url: '/admin/settings/coupons/delete/',
+                                data: {
+                                    'id': coupon_id
+                                },
+                                success: function(data) {
+                                    if (data.status == true) {
+                                        toastr.success(data.message);
+                                        setInterval(function() {
+                                            window.location.reload();
+                                        }, 5000);
+                                    } else {
+                                        toastr.error(data.message);
+                                    }
+                                },
+                                error: function(err) {
+                                    toastr.error(err.message);
+                                }
+                            });
 
                             }
                         }
