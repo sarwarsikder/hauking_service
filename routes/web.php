@@ -16,6 +16,7 @@ use App\Http\Controllers\frontends\LoginUserController;
 use App\Http\Controllers\frontends\ServiceController;
 use App\Http\Controllers\frontends\UserAccountController;
 use App\Http\Controllers\payments\StripePaymentController;
+use App\Http\Controllers\payments\PayPalPaymentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,8 +52,10 @@ Route::get('/service/{id}', [ServiceController::class, 'show'])->name('service-s
 Route::post('/service/{id}', [ServiceController::class, 'subscribe'])->name('subscribe-service');
 Route::get('/checkout/', [ServiceController::class, 'checkout'])->name('service-checkout');
 Route::post('/checkout/payment', [ServiceController::class, 'checkoutPayment'])->name('service-checkout-payment');
+Route::get('/paypal/payment/success', [PayPalPaymentController::class, 'getPaymentStatus'])->name('paypal-payment-success');
+Route::get('/paypal/payment/cancel', [PayPalPaymentController::class, 'paymentCancel'])->name('paypal-payment-cancel');
 Route::get('/checkout/payment/success', [ServiceController::class, 'checkoutPaymentSuccess'])->name('service-checkout-payment-success');
-Route::post('/checkout/payment/canceled', [ServiceController::class, 'checkoutPaymentCancelled'])->name('service-checkout-payment-cancelled');
+Route::get('/checkout/payment/canceled', [ServiceController::class, 'checkoutPaymentCancelled'])->name('service-checkout-payment-cancelled');
 Route::get('/service-update/{order_id}', [ServiceController::class, 'edit'])->name('account-service');
 Route::get('/stripe-webhook/checkout/payment', [ServiceController::class, 'stripeWebhook'])->name('stripe-webhook');
 #my Account
