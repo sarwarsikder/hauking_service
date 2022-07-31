@@ -83,8 +83,11 @@ class ServiceController extends Controller
      */
     public function checkout()
     {
-
-        return view('frontends.services.service_checkout');
+        $session_id = Session::getId();
+        $checkCart = Cart::where('session_id',$session_id)->first();
+        
+        $this->data['checkCart'] = $checkCart;
+        return view('frontends.services.service_checkout', $this->data);
     }
 
     /**
@@ -95,6 +98,7 @@ class ServiceController extends Controller
      */
     public function edit($order_id)
     {
+        
         return view('frontends.services.service_update');
     }
 
@@ -123,7 +127,7 @@ class ServiceController extends Controller
             $newCart->session_id = $session_id;
             $newCart->service_id = $id;
             $newCart->service_name = $service->service_name;
-            $newCart->subscription_type = json_encode($request->subscription_type);
+            $newCart->subscription_type = $request->subscription_type;
             $newCart->trial_period = $service->trial_period;
             $newCart->hawkin_scale = json_encode($request->hawkin_scale);
             $newCart->data_fields = $request->data_fields;

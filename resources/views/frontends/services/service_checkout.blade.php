@@ -19,11 +19,12 @@
                         <div class="wrapper">
                             <div class="row  pt-4 pb-4  " data-aos="fade-up">
                                 <div class="col-md-6 col-sm-12">
-                                    <form action="#">
+                                    <form method="POST" action="{{ route('login') }}">
+                                    @csrf
                                         <h5>Existing User?</h5>
                                         <div class="col-12">
-                                            <input type="text" placeholder="Username/Email Address"/>
-                                            <input type="password" placeholder="Password"/>
+                                            <input type="email" name="email" value="old('email')" required placeholder="Username/Email Address"/>
+                                            <input type="password" name="password" placeholder="Password"/>
                                             <input class="btn btn-success border rounded-1 login-button" type="submit"
                                                    value="Login">
                                             <p><a href="">Forget Password?</a></p>
@@ -32,7 +33,8 @@
                                 </div>
 
                                 <div class="col-md-6 col-sm-12">
-                                    <form action="#">
+                                <form method="POST" action="{{ route('register') }}">
+                                @csrf
                                         <h5>New Customer?</h5>
                                         <div class="col-12">
                                             <input type="text" placeholder="Username"/>
@@ -124,17 +126,19 @@
                                         <tr>
                                             <th>Service Details</th>
                                             <td>
-                                                <p><strong>Human Charging</strong></p>
-                                                <p>Car Brand: Toyota<br>
-                                                    Model: BZX4<br>
-                                                    VIN/Unique Motor Number: 2-0394-234</p>
+                                                <p><strong>{{$checkCart->service_name}}</strong></p>
+                                                <p>
+                                                    @foreach(json_decode($checkCart->data_fields) as $k=>$v)
+                                                        {{$v->name}}: {{$v->userValue}}<br>
+                                                    @endforeach
+                                                </p>
                                             </td>
                                         </tr>
                                         <th>Subscribtion Type</th>
-                                        <td>Monthly</td>
+                                        <td>${{json_decode($checkCart->subscription_type)->amount}} / {{json_decode($checkCart->subscription_type)->duration}} Month</td>
                                         </tr>
                                         <th>Sub Total</th>
-                                        <td>$100.00</td>
+                                        <td>${{json_decode($checkCart->subscription_type)->amount}}</td>
                                         </tr>
                                         <th>Tax</th>
                                         <td>$15.00</td>
