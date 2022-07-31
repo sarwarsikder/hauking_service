@@ -60,6 +60,7 @@ Route::post('/profile/getState', [UserAccountController::class, 'getState'])->na
 #my user login
 Route::get('/user-login/', [LoginUserController::class, 'index'])->name('user-login');
 Route::post('/user-logout/', [LoginUserController::class, 'logout'])->name('user-logout');
+Route::get('/user-register/', [LoginUserController::class, 'index'])->name('user-register');
 
 #Payments Stripe
 Route::controller(StripePaymentController::class)->group(function(){
