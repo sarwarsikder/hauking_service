@@ -103,44 +103,72 @@ class StripePaymentController extends Controller
       
           $customer_id = $customer->id;
           
-          print_r("I am stripe");
-          print_r($customer_id);
-          return true;    //create product
-      
-          $product = $stripe->products->create([
-      
-            'name' => 'Diamond',
-      
-            'id'   => '123',
-      
+          
+          $productData = array(
+            'name' => $data['cart']['service_name'],
+            // 'id'   => $data['cart']['service_id'],
             'metadata' => [
-      
-              'name' => "silver",
-      
-              'last-date' => '30-7-2021'
-      
+              'name' => $data['cart']['service_name'],
+              'id' => $data['cart']['service_id']
             ]
+        );
+        $product = $stripe->products->create($productData);
+        $product_id = $product->id;
+        
+        $priceData = array(
+                'unit_amount' => json_decode($data['cart']['subscription_type'])->amount*100,
+                'currency' => 'usd',
+                'recurring' => ['interval' => 'month','interval_count' => json_decode($data['cart']['subscription_type'])->duration],
+                'product' => $product_id,
+            );
+        $price = $stripe->prices->create($priceData);
+          
+              
+        $price_id = $price->id;
+        $url  = url('/');
+        $stripe_session = Stripe\Checkout\Session::create([
+            'success_url' => $url.'/checkout/payment/success?payment_method=stripe&session_id='.$data['cart']['session_id'],
+            'cancel_url' => $url.'/checkout/payment/canceled',
+            'mode' => 'subscription',
+            'line_items' => [[
+              'price' => $price_id,
+              // For metered billing, do not pass quantity
+              'quantity' => 1,
+            ]],
+        ]);
+        return $stripe_session['url'];
+        // redirect()->to($stripe_session['url']);
+        
+        
+        //   $plan_id = date('YmdHis');
+        //   $my_original_plan =  \Stripe\Plan::create(array(
+        //     "id"  => $plan_id,
+        //     "interval"  =>  "month",
+        //     'interval_count' => json_decode($data['cart']['subscription_type'])->duration,
+        //     "currency"  => "usd",
+        //     "product" => $productData,
+        //     "amount"  => json_decode($data['cart']['subscription_type'])->amount*100,
+        //     'trial_period_days' => $data['cart']['trial_period']
+        // ));
+
+ 
+
+        //   $productData = array(
+        //     'name' => date('YmdHis'),
+        //     'id'   => date('YmdHis'),
+        //     'metadata' => [
+        //       'name' => $data['cart']['service_name'],
+        //       'id' => $data['cart']['service_id']
+        //     ]
+        // );
+        //   
       
-          ]);
-      
-          $product_id = $product->id;
+        
+        //   $product_id = $product->id;
       
           //define product price and recurring interval
       
-          $price = $stripe->prices->create([
-      
-            'unit_amount' => 2000,
-      
-            'currency' => 'usd',
-      
-            'recurring' => ['interval' => 'month'],
-      
-            'product' => $product_id,
-      
-          ]);
-      
-          $price_id = $price->id;
-      
+        //   
           //CREATE SUBSCRIPTION
       
         //   $subscription = $stripe->subscriptions->create([
@@ -150,7 +178,7 @@ class StripePaymentController extends Controller
         //     'items' => [
       
         //       ['price' => $price_id],
-      
+        // items: [{ plan: stripePlanID, quantity: 1 }],
         //     ],
       
         //     'metadata' => [
@@ -163,23 +191,22 @@ class StripePaymentController extends Controller
       
         //     ]
       
-        //   ]);
-        // Stripe\Charge::create([
-        //     "amount" => 100 * 100,
+        // ]);
+        // $charge = Stripe\Charge::create([
+        //     "amount" => json_decode($data['cart']['subscription_type'])->amount*100,
         //     "currency" => "usd",
         //     "customer" => $customer->id,
         //     "description" => "Test payment from itsolutionstuff.com.",
-        //     "shipping" => [
-        //         "name" => "Jenny Rosen",
-        //         "address" => [
-        //             "line1" => "510 Townsend St",
-        //             "postal_code" => "98140",
-        //             "city" => "San Francisco",
-        //             "state" => "CA",
-        //             "country" => "US",
-        //         ],
-        //     ]
+        //     "shipping" => $customerData,
+        //     "items" => [ 'plan' => $plan_id, 'quantity'=> 1 ]
         // ]);
+        // echo "<pre>";
+        // print_r("================");
+        // print_r($charge);
+        // echo "<pre>";
+        // print_r($charge);
+        // die;
+
     }
 
     /**

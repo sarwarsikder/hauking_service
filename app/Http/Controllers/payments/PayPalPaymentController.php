@@ -90,33 +90,31 @@ class PayPalPaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function payment($data)
+    public function payment($info)
     {
-        print_r("I am stripe");
-        return true;
         $data = [];
         $data['items'] = [
             [
-                'name' => 'ItSolutionStuff.com',
-                'price' => 100,
+                'name' => $info['user']['email'],
+                'price' => json_decode($info['cart']['subscription_type'])->amount,
                 'desc'  => 'Description for ItSolutionStuff.com',
                 'qty' => 1
             ]
         ];
 
-        $data['invoice_id'] = 1;
+        $data['invoice_id'] = date('YmdHis');
         $data['invoice_description'] = "Order #{$data['invoice_id']} Invoice";
-        $data['return_url'] = route('payment.success');
-        $data['cancel_url'] = route('payment.cancel');
-        $data['total'] = 100;
+        $data['return_url'] = route('service-checkout-payment-success');
+        $data['cancel_url'] = route('service-checkout-payment-cancelled');
+        $data['total'] = json_decode($info['cart']['subscription_type'])->amount;
 
         $provider = new ExpressCheckout;
 
-        $response = $provider->setExpressCheckout($data);
+        // $response = $provider->setExpressCheckout($data);
 
         $response = $provider->setExpressCheckout($data, true);
 
-        return redirect($response['paypal_link']);
+        return $response['paypal_link'];
     }
 
     /**

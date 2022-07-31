@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\FrontendRequest\BillingRequest;
 use App\Models\Frequency;
 use App\Models\Service;
+use App\Models\Order;
 use App\Models\Cart;
 use Illuminate\Support\Facades\Session;
 use Auth;
@@ -159,6 +160,26 @@ class ServiceController extends Controller
         //
     } 
     
+    public function checkoutPaymentSuccess(Request $request){   
+        echo "<pre>";
+        print_r($request->all());
+        die;
+        $cartData = Cart::where('session_id',$request->session_id)->first();
+        if($cartData){
+            $order = new Order();
+            $order->user_id = $cartData->user_id;
+            $order->payment_status = "Complete Payment";
+            $order->payment_method = $request->payment_method;
+            $order->payment_type = "sadasd";
+            $order->total_amount = json_decode($cartData->subscription_type)->amount;
+            $order->save();
+            return redirect('/');
+        }
+        else{
+            return redirect('checkout')->with('redirect-message', 'Something wrong!');
+        }
+        
+    }
     
     public function checkoutPayment(BillingRequest $request)
     {
@@ -173,19 +194,18 @@ class ServiceController extends Controller
         $this->data['country'] = $request->country;
         $this->data['cart'] = Cart::where('session_id',$session_id)->first();
         $this->data['user'] = Auth::user();
-
-
+        // return $this->data;
         if($request->payment_method=="paypal"){
             $paypalController = new PayPalPaymentController();
-            $paypalController->payment($this->data);
+            $url = $paypalController->payment($this->data);
+            return $url;
         }elseif($request->payment_method=="stripe"){
             $stripeController = new StripePaymentController();
-            $stripeController->payment($this->data);
+            $url = $stripeController->payment($this->data);
+            return redirect()->to($url);
         }
         
 
-        echo "<pre>";
-        print_r($this->data);
-        die;
+        
     }
 }

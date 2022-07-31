@@ -51,8 +51,10 @@ Route::get('/service/{id}', [ServiceController::class, 'show'])->name('service-s
 Route::post('/service/{id}', [ServiceController::class, 'subscribe'])->name('subscribe-service');
 Route::get('/checkout/', [ServiceController::class, 'checkout'])->name('service-checkout');
 Route::post('/checkout/payment', [ServiceController::class, 'checkoutPayment'])->name('service-checkout-payment');
+Route::get('/checkout/payment/success', [ServiceController::class, 'checkoutPaymentSuccess'])->name('service-checkout-payment-success');
+Route::post('/checkout/payment/canceled', [ServiceController::class, 'checkoutPaymentCancelled'])->name('service-checkout-payment-cancelled');
 Route::get('/service-update/{order_id}', [ServiceController::class, 'edit'])->name('account-service');
-
+Route::get('/stripe-webhook/checkout/payment', [ServiceController::class, 'stripeWebhook'])->name('stripe-webhook');
 #my Account
 Route::get('/profile/', [UserAccountController::class, 'index'])->name('user-account');
 Route::post('/profile/{id}/update', [UserAccountController::class, 'UpdateUserProfile'])->name('user-account-update');
