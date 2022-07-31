@@ -12,7 +12,9 @@ use App\Http\Controllers\backends\Settings\PaymentController;
 use App\Http\Controllers\backends\Settings\TaxController;
 use App\Http\Controllers\backends\SubscriberController;
 use App\Http\Controllers\backends\user\UserController;
+use App\Http\Controllers\frontends\ForgetPasswordController;
 use App\Http\Controllers\frontends\LoginUserController;
+use App\Http\Controllers\frontends\RegisterUserController;
 use App\Http\Controllers\frontends\ServiceController;
 use App\Http\Controllers\frontends\UserAccountController;
 use App\Http\Controllers\payments\StripePaymentController;
@@ -60,8 +62,16 @@ Route::post('/profile/{id}/update', [UserAccountController::class, 'UpdateUserPr
 Route::get('/user-login/', [LoginUserController::class, 'index'])->name('user-login');
 Route::post('/user-logout/', [LoginUserController::class, 'logout'])->name('user-logout');
 
+#my user login
+Route::get('/user-register/', [RegisterUserController::class, 'index'])->name('user-register');
+
+
+Route::get('/reset-password/', [ForgetPasswordController::class, 'index'])->name('reset-password');
+
+
+
 #Payments Stripe
-Route::controller(StripePaymentController::class)->group(function(){
+Route::controller(StripePaymentController::class)->group(function () {
     Route::get('stripe', 'index');
     Route::post('stripe', 'store')->name('stripe.post');
 });
@@ -71,10 +81,6 @@ Route::get('payment', 'PayPalController@payment')->name('payment');
 Route::get('cancel', 'PayPalController@cancel')->name('payment.cancel');
 Route::get('payment/success', 'PayPalController@success')->name('payment.success');
 
-
-Route::get('/users/registration', function () {
-    return view('frontends.users.registration');
-});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
