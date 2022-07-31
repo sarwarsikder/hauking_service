@@ -23,7 +23,7 @@ class EmailController extends Controller
      */
     public function __construct()
     {
-        
+
     }
     /**
      * Display a listing of the resource.
@@ -36,6 +36,7 @@ class EmailController extends Controller
             $email_service = new EmailsService($request->toArray());
             $this->data['emails'] = $email_service->get();
         } catch (\Exception $exception) {
+            dd($exception->getMessage());
             return back()->withError($exception->getMessage())->withInput();
         }
         return view("backends.settings.email.index", $this->data);

@@ -11,18 +11,19 @@
                     <div class="user-details" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2"
                          aria-expanded="false" aria-controls="multiCollapseExample2">
                         <img src="{{asset('assets/dashboard/img/03.jpg')}}" alt="User-Profile-Image">
-                        <span>John Doe</span>
+                        <span>{{Auth::guard('admin')->user()->first_name}} {{Auth::guard('admin')->user()->last_name}}</span>
                         <i class="bi bi-chevron-down"></i>
                     </div>
                     <ul class="show-user-details shadow collapse" id="multiCollapseExample2">
                         <li>
-                            <a href="#"> <i class="bi bi-gear"></i> Settings </a>
+                            <a href="{{route('frequency')}}"> <i class="bi bi-gear"></i> Settings </a>
                         </li>
                         <li>
-                            <a href="#"><i class="bi bi-person-fill"></i>Profile </a>
+                            <a href="{{ route('admins.show',Auth::guard('admin')->user()->id) }}"><i
+                                    class="bi bi-person-fill"></i>Profile </a>
                         </li>
                         <li>
-                            <a href="#"> <i class="bi bi-box-arrow-right"></i> Logout </a>
+                            <a href="{{route('admin-logout')}}"> <i class="bi bi-box-arrow-right"></i> Logout </a>
                         </li>
                     </ul>
                 </div>

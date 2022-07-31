@@ -5,7 +5,7 @@
         <div class="row pb-3 pt-3">
             <div class="col-lg-12 margin-tb">
                 <div class="pull-left">
-                    <h2>Users Management</h2>
+                    <h2>Hr Management</h2>
                 </div>
                 @can('admin-create')
                     <div class="pull-right user-data-btn">

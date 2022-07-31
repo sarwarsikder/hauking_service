@@ -5,7 +5,7 @@
         </div>
     </div>
     <div class="header-text">
-        <a href="index.html"><i class="bi bi-house-door"></i>Dashboard</a>
+        <a href="{{route('dashboard')}}"><i class="bi bi-house-door"></i>Dashboard</a>
     </div>
     <div class="main-menu">
         <div class="menu-inner">
