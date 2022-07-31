@@ -38,6 +38,7 @@ return new class extends Migration {
 
 
             $table->string('password');
+            $table->text('user_bio');
             $table->string('user_profile')->nullable();
             $table->unsignedBigInteger('timezone_id')->nullable();// nullable is not use here in future
             // $table->foreign('timezone_id')->references('id')->on('timezones'); // it will be use next

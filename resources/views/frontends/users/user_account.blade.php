@@ -3,9 +3,14 @@
     <div id="hero-img" class="mt-3">
         <h1>My Account</h1>
     </div>
-
     <section id="checkout-form" class="mt-5">
-
+        @if (session('redirect-message'))
+            <div class="row col-12">
+                <div class="alert alert-success">
+                    {{ session('redirect-message') }}
+                </div>
+            </div>
+        @endif
         <div class="row col-12">
             <div class="tab col-3">
                 <button class="tablinks" onclick="myAccount(event, 'Welcome')">Welcome</button>
@@ -13,7 +18,7 @@
                 <button class="tablinks" onclick="myAccount(event, 'Subscriptons')">Subscriptons</button>
                 <button class="tablinks" onclick="myAccount(event, 'Transactions')">Transactions</button>
                 <button class="tablinks" onclick="myAccount(event, 'Payments')">Payments</button>
-                <form action="{{route('user-logout')}}" method="POST">
+                <form action="{{ route('user-logout') }}" method="POST">
                     @csrf
                     <button type="submit" class="tablinks" onclick="myAccount(event, 'logout')">Log Out</button>
                 </form>
@@ -21,7 +26,7 @@
             </div>
             <div id="Welcome" class="tabcontent col-9">
                 <h3>Hello, [{{ $user->first_name }}]</h3>
-                <p>Summary</p>
+                <p>{{ $user->user_bio }}</p>
             </div>
 
             <div id="Profile" class="tabcontent col-9">
@@ -55,22 +60,17 @@
                                     @enderror
                                 </div>
                                 <div class="col-6">
-                                    <input type="text" name="street_address"
-                                        class="form-control shadow-none @error('street_address') is-invalid @enderror"
-                                        id="streetaddress" placeholder="Street Address">
-                                    @error('street_address')
-                                        <div class="alert">
-                                            <p class="text-danger">{{ $message }}</p>
-                                        </div>
-                                    @enderror
+                                    <input type="text" class="form-control shadow-none" name="primary_address"
+                                        value="{{ $user->primary_address }}" id="address" placeholder="Address">
                                 </div>
                                 <div class="col-6">
-                                    <select id="country" class="form-control @error('country') is-invalid @enderror"
-                                        name="country">
-                                        @foreach ($countries as $k => $v)
-                                            <option value="{{ $v->id }}"
-                                                {{ $user->country == $v->id ? 'selected' : '' }}>
-                                                {{ $v->country_name }}</option>
+                                    <select class="form-control @error('country') is-invalid @enderror" name="country"
+                                        id="country">
+                                        <option value="">Select Your Country</option>
+                                        @foreach ($countries as $country)
+                                            <option value="{{ $country->id }}"
+                                                {{ $user->country == $country->id ? 'selected' : '' }}>
+                                                {{ $country->country_name }}</option>
                                         @endforeach
 
                                     </select>
@@ -83,11 +83,7 @@
                                 <div class="col-6">
                                     <select id="state" class="form-control @error('state') is-invalid @enderror"
                                         name="state">
-                                        @foreach ($states as $s => $v)
-                                            <option value="{{ $v->id }}"
-                                                {{ $user->state == $v->id ? 'selected' : '' }}>
-                                                {{ $v->state_name }}</option>
-                                        @endforeach
+                                        <option value="">Select Your state</option>
                                     </select>
                                     @error('state')
                                         <div class="alert">
@@ -173,9 +169,24 @@
                                     @enderror
                                 </div>
                                 <div class="col-6">
-                                    <input type="text" class="form-control shadow-none" name="primary_address"
-                                        value="{{ $user->primary_address }}" id="address" placeholder="Address">
+                                    <input type="text" name="secondary_address"
+                                        class="form-control shadow-none @error('secondary_address') is-invalid @enderror"
+                                        id="secondary_address" placeholder="Street Address"
+                                        value="{{ $user->secondary_address }}">
+                                    @error('secondary_address')
+                                        <div class="alert">
+                                            <p class="text-danger">{{ $message }}</p>
+                                        </div>
+                                    @enderror
                                 </div>
+                                <div class="col-md-12">
+                                    <textarea name="user_bio" class="form-control shadow-none @error('user_bio') is-invalid @enderror" id=""
+                                        cols="68">{{ $user->user_bio }}</textarea>
+                                    @error('user_bio')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
                                 <div class="col-md-6">
                                     <img id="output" style="width: 150px;"
                                         src="{{ URL::to('images/user/' . $user->user_profile) }}" />
@@ -209,7 +220,7 @@
                                     <div class="col-2">
                                         <button type="button" class="btn sub-active">Active</button>
                                         <!-- <button type="button" class="btn sub-hold">Hold</button>
-                                                            <button type="button" class="btn sub-disable">Canceled</button> -->
+                                                                                                    <button type="button" class="btn sub-disable">Canceled</button> -->
                                     </div>
                                     <div class="col-9">
                                         <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong>
@@ -224,21 +235,22 @@
                                     <div class="col-2">
                                         <button type="button" class="btn sub-active">Active</button>
                                         <!-- <button type="button" class="btn sub-hold">Hold</button>
-                                                            <button type="button" class="btn sub-disable">Canceled</button> -->
+                                                                                                    <button type="button" class="btn sub-disable">Canceled</button> -->
                                     </div>
                                     <div class="col-9">
                                         <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong>
                                         </p>
                                     </div>
                                     <div class="col-1">
-                                        <a href="{{route('account-service',1)}}" type="button" class="btn btn-default">View</a>
+                                        <a href="{{ route('account-service', 1) }}" type="button"
+                                            class="btn btn-default">View</a>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-2">
                                         <button type="button" class="btn sub-active">Active</button>
                                         <!-- <button type="button" class="btn sub-hold">Hold</button>
-                                                            <button type="button" class="btn sub-disable">Canceled</button> -->
+                                                                                                    <button type="button" class="btn sub-disable">Canceled</button> -->
                                     </div>
                                     <div class="col-9">
                                         <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong>
@@ -268,7 +280,7 @@
                                     <div class="col-2">
                                         <button type="button" class="btn sub-active">Active</button>
                                         <!-- <button type="button" class="btn sub-hold">Hold</button>
-                                                            <button type="button" class="btn sub-disable">Canceled</button> -->
+                                                                                                    <button type="button" class="btn sub-disable">Canceled</button> -->
                                     </div>
                                     <div class="col-9">
                                         <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong>
@@ -283,7 +295,7 @@
                                     <div class="col-2">
                                         <button type="button" class="btn sub-active">Active</button>
                                         <!-- <button type="button" class="btn sub-hold">Hold</button>
-                                                            <button type="button" class="btn sub-disable">Canceled</button> -->
+                                                                                                    <button type="button" class="btn sub-disable">Canceled</button> -->
                                     </div>
                                     <div class="col-9">
                                         <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong>
@@ -298,7 +310,7 @@
                                     <div class="col-2">
                                         <button type="button" class="btn sub-active">Active</button>
                                         <!-- <button type="button" class="btn sub-hold">Hold</button>
-                                                            <button type="button" class="btn sub-disable">Canceled</button> -->
+                                                                                                    <button type="button" class="btn sub-disable">Canceled</button> -->
                                     </div>
                                     <div class="col-9">
                                         <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong>
@@ -432,6 +444,9 @@
         </div>
     </section>
 @endsection
+@push('css-styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+@endpush
 @push('scripts')
     <script>
         tabshow = document.getElementsByClassName("tabcontent");
@@ -479,5 +494,39 @@
             };
             reader.readAsDataURL(event.target.files[0]);
         };
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            $('#country').change(function() {
+                var country_id = $(this).val();
+                // console.log(country_id);
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: "POST",
+                    dataType: "json",
+                    url: '/profile/getState',
+                    data: {
+                        country_id: country_id,
+                    },
+                    dataType: 'json',
+                    success: function(result) {
+                        // console.log(result);
+                        $('#state').html('<option value="">Select Your state</option>');
+                        $.each(result, function(key, value) {
+                            $('#state').append('<option value="' + value.id + '">' +
+                                value.state_name + '</option>');
+                        })
+                    },
+                    error: function(err) {
+                        toastr.error(err.message);
+                    }
+                });
+            });
+        });
     </script>
 @endpush

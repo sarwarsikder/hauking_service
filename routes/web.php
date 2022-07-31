@@ -54,6 +54,7 @@ Route::get('/service-update/{order_id}', [ServiceController::class, 'edit'])->na
 #my Account
 Route::get('/profile/', [UserAccountController::class, 'index'])->name('user-account');
 Route::post('/profile/{id}/update', [UserAccountController::class, 'UpdateUserProfile'])->name('user-account-update');
+Route::post('/profile/getState', [UserAccountController::class, 'getState'])->name('profile-getState');
 
 
 #my user login

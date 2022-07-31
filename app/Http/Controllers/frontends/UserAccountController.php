@@ -9,6 +9,7 @@ use App\Models\State;
 use App\Models\Timezone;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserAccountController extends Controller
@@ -58,6 +59,20 @@ class UserAccountController extends Controller
     {
         //
     }
+
+    public function getState(Request $request)
+    {
+        try {
+            $state = DB::table('states')->where('country_id', $request->country_id)->orderBy('state_name', 'asc')->get();
+            if (!empty($state)) {
+                return response()->json($state);
+            } else {
+                return redirect()->back()->with('redirect-message', 'Something wrong!');
+            }
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        }
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -75,12 +90,14 @@ class UserAccountController extends Controller
             $userObject->last_name = $request['last_name'];
             $userObject->email = $request['email'];
             $userObject->primary_address = $request['primary_address'];
+            $userObject->secondary_address = $request['secondary_address'];
             $userObject->city = $request['city'];
             $userObject->state = $request['state'];
             $userObject->zipcode = $request['zipcode'];
             $userObject->country = $request['country'];
             $userObject->email = $request['email'];
             $userObject->phone = $request['phone'];
+            $userObject->user_bio = $request['user_bio'];
             $userObject->timezone_id = $request['timezones'];
             if($request['password']){
                 $userObject->password = Hash::make($request['password']);
