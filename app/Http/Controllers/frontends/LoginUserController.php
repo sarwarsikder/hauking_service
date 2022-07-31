@@ -90,4 +90,18 @@ class LoginUserController extends Controller
         return redirect('/');
     }
 
+
+    public function adminLogin()
+    {
+        return view("auth.login");
+    }
+
+    public function adminLogout(Request $request)
+    {
+        if (Auth::guard('admin')->check()) {
+            Auth::guard('admin')->logout();
+            return redirect(route('admin-login'));
+        }
+    }
+
 }

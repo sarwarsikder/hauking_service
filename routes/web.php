@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\backends\order\OrderController;
 use App\Http\Controllers\backends\role\RoleController;
 use App\Http\Controllers\backends\service\HaukingServiceController;
@@ -35,9 +36,6 @@ use Illuminate\Support\Facades\Route;
 //    return view('dashboard');
 //})->middleware(['auth'])->name('dashboard');
 
-Route::get('/dashboard', function () {
-    return view('backends.dashboard.index');
-});
 
 Route::get('/users/login', function () {
     return view('frontends.users.login');
@@ -51,6 +49,7 @@ Route::get('/service', function () {
     return view('frontends.services.service');
 });
 
+
 #service Listing
 Route::get('/', [ServiceController::class, 'index'])->name('home-service');
 Route::get('/service/{id}', [ServiceController::class, 'show'])->name('service-show');
@@ -62,6 +61,9 @@ Route::get('/profile/', [UserAccountController::class, 'index'])->name('user-acc
 Route::post('/profile/{id}/update', [UserAccountController::class, 'UpdateUserProfile'])->name('user-account-update');
 Route::post('/profile/getState', [UserAccountController::class, 'getState'])->name('profile-getState');
 
+Route::middleware(['auth:admin'])->group(function () {
+
+});
 
 #my user login
 Route::get('/user-login/', [LoginUserController::class, 'index'])->name('user-login');
@@ -73,6 +75,13 @@ Route::get('/user-register/', [RegisterUserController::class, 'index'])->name('u
 
 Route::get('/reset-password/', [ForgetPasswordController::class, 'index'])->name('reset-password');
 
+
+Route::get('/admin-login/', [LoginUserController::class, 'index'])->name('admin-login');
+
+#admin login and logout
+Route::get('/admin-login/', [LoginUserController::class, 'adminLogin'])->name('admin-login');
+Route::post('/admin-login/', [LoginController::class, 'adminLogin'])->name('admin-login');
+Route::get('/admin-logout/', [LoginUserController::class, 'adminLogout'])->name('admin-logout');
 
 
 #Payments Stripe
@@ -87,12 +96,13 @@ Route::get('cancel', 'PayPalController@cancel')->name('payment.cancel');
 Route::get('payment/success', 'PayPalController@success')->name('payment.success');
 
 
-
 require __DIR__ . '/auth.php';
+Route::group(['middleware' => 'auth:admin'], function () {
+    Route::group(['prefix' => 'admin'], function () {
+        Route::get('/dashboard', function () {
+            return view('backends.dashboard.index');
+        })->name('dashboard');
 
-
-Route::group(['prefix' => 'admin'], function () {
-    Route::middleware(['auth', 'admin'])->group(function () {
         /**
          * Users
          */
