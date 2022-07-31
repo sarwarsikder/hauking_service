@@ -11,7 +11,8 @@
                 <div class="row  row-cols-1 row-cols-lg-1 mt-3">
                     <div id="login-form-input">
                         <div class="col align-items-center">
-                            <input type="Username" placeholder="Username"/>
+                            <input type="text" placeholder="First Name"/>
+                            <input type="text" placeholder="Last Name"/>
                             <input type="email" placeholder="Email Address"/>
                             <input type="password" placeholder="Password"/>
                             <input type="password" placeholder="Confirm Password"/>
@@ -19,6 +20,11 @@
                     </div>
                     <div class="col align-items-center1">
                         <input class="btn btn-success border rounded-1 login-button" type="submit" value="Register">
+                    </div>
+
+                    <div class="login-forget mt-3">
+                        <p><a href="{{route('user-login')}}">Login</a> | <a href="{{route('reset-password')}}">Forget
+                                Password</a></p>
                     </div>
 
                 </div>

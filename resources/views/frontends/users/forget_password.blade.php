@@ -18,6 +18,9 @@
                     <div class="col align-items-center1">
                         <input class="btn btn-success border rounded-1 login-button" type="submit" value="Email Me Password">
                     </div>
+                    <div class="login-forget mt-3">
+                        <p><a href="{{route('user-login')}}">Login</a> | <a href="{{route('user-register')}}">Registration</a></p>
+                    </div>
 
                 </div>
             </form>

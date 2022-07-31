@@ -26,6 +26,7 @@ class UserProfileRequest extends FormRequest
             // 'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
             // 'password_confirmation' => 'min:6',
             // 'user_profile' => 'required',
+            'user_bio' => 'required'
 
         ];
     }
@@ -57,14 +58,15 @@ class UserProfileRequest extends FormRequest
             'email.email' => 'Email is required!',
 
             'phone.required' => 'Phone is required!',
-
+            
             // 'user_profile.required' => 'User profile image is required!',
-
+            
             // 'password.min' => 'Password minimum 6 character!',
             // 'password.required_with' => 'Confirm Password is required!',
             // 'password.same' => 'Password mismatch!',
-
+            
             // 'password_confirmation.min' => 'Minimum 6 character!',
+            'user_bio.required' => 'User Bio is required!',
         ];
     }
 }

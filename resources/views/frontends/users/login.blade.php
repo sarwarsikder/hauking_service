@@ -7,7 +7,7 @@
     <section id="login-form" class="mt-5">
         @if (count($errors) > 0)
             <div class="alert alert-danger">
-                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                <p><strong>Whoops!</strong> There were some problems with your input.</p><br><br>
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -17,8 +17,8 @@
         @endif
 
         @if(Session::has('success'))
-            <div class="alert alert-danger">
-                <strong>{{Session::get('success')}}.</strong>
+            <div class="alert alert-success">
+                <p>{{Session::get('success')}}.</p>
             </div>
         @endif
         <div class="wrapper">
@@ -43,7 +43,7 @@
                         <input class="btn btn-success border rounded-1 login-button" type="submit" value="Login">
                     </div>
                     <div class="login-forget mt-3">
-                        <p><a href="">Register</a> | <a href="">Forget Password</a></p>
+                        <p><a href="{{route('user-register')}}">Register</a> | <a href="{{route('reset-password')}}">Forget Password</a></p>
                     </div>
 
                 </div>

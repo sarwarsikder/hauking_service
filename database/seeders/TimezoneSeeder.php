@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Timezone;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class TimezoneSeeder extends Seeder
 {
@@ -15,44 +16,11 @@ class TimezoneSeeder extends Seeder
      */
     public function run()
     {
-        $payments = new Timezone();
+        $timezones_sql = base_path('database/sql/timezones.sql');
 
-        $data = [
-            [
-                'method_type' => 'paypal',
-                'mode' => 'test',
-
-                'account_email' => fake()->email(),
-                'client_id' => 'fdfdfddfddfdfd',
-                'client_secret_key' => 'gfgfffgggfgffgfgfgg',
-
-                'test_public_key' => '',
-                'test_secret_key' => '',
-                'live_public_key' => '',
-                'live_secret_key' => '',
-
-                'default_payment' => 1,
-                'display_order' => 1
-            ],
-            [
-                'method_type' => 'stripe',
-                'mode' => 'test',
-
-                'account_email' => fake()->email(),
-                'client_id' =>null,
-                'client_secret_key' => null,
-
-                'test_public_key' => '12121212121',
-                'test_secret_key' => 'sdsdsdsdsddsdsdsdsdsd',
-                'live_public_key' => 'dsdshsjhsjdhsdhsdhshdsdsds',
-                'live_secret_key' => 'dsdssdssdsdsdsdsdsdsdsdsddsd',
-
-                'default_payment' => 0,
-                'display_order' => 2
-            ]
-        ];
-
-        $payments::insert($data);
+        DB::unprepared(
+            file_get_contents($timezones_sql)
+        );
 
     }
 }
