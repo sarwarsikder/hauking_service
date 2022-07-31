@@ -31,6 +31,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth'])->name('dashboard');
+
 Route::get('/dashboard', function () {
     return view('backends.dashboard.index');
 });
@@ -56,6 +60,7 @@ Route::get('/service-update/{order_id}', [ServiceController::class, 'edit'])->na
 #my Account
 Route::get('/profile/', [UserAccountController::class, 'index'])->name('user-account');
 Route::post('/profile/{id}/update', [UserAccountController::class, 'UpdateUserProfile'])->name('user-account-update');
+Route::post('/profile/getState', [UserAccountController::class, 'getState'])->name('profile-getState');
 
 
 #my user login
@@ -81,10 +86,6 @@ Route::get('payment', 'PayPalController@payment')->name('payment');
 Route::get('cancel', 'PayPalController@cancel')->name('payment.cancel');
 Route::get('payment/success', 'PayPalController@success')->name('payment.success');
 
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
 
 require __DIR__ . '/auth.php';
