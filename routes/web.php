@@ -31,6 +31,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth'])->name('dashboard');
+
 Route::get('/dashboard', function () {
     return view('backends.dashboard.index');
 });
@@ -83,10 +87,6 @@ Route::get('payment', 'PayPalController@payment')->name('payment');
 Route::get('cancel', 'PayPalController@cancel')->name('payment.cancel');
 Route::get('payment/success', 'PayPalController@success')->name('payment.success');
 
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
 
 require __DIR__ . '/auth.php';

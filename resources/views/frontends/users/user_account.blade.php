@@ -60,6 +60,19 @@
                                     @enderror
                                 </div>
                                 <div class="col-6">
+<<<<<<<<< Temporary merge branch 1
+                                    <input type="text" class="form-control shadow-none" name="primary_address"
+                                        value="{{ $user->primary_address }}" id="address" placeholder="Address">
+                                </div>
+                                <div class="col-6">
+                                    <select class="form-control @error('country') is-invalid @enderror" name="country"
+                                        id="country">
+                                        <option value="">Select Your Country</option>
+                                        @foreach ($countries as $country)
+                                            <option value="{{ $country->id }}"
+                                                {{ $user->country == $country->id ? 'selected' : '' }}>
+                                                {{ $country->country_name }}</option>
+=========
                                     <input type="text" name="street_address"
                                            class="form-control shadow-none @error('street_address') is-invalid @enderror"
                                            id="streetaddress" placeholder="Street Address">
@@ -68,8 +81,6 @@
                                         <p class="text-danger">{{ $message }}</p>
                                     </div>
                                     @enderror
-                                    <input type="text" class="form-control shadow-none" name="primary_address"
-                                        value="{{ $user->primary_address }}" id="address" placeholder="Address">
                                 </div>
                                 <div class="col-6">
                                     <select id="country" class="form-control @error('country') is-invalid @enderror"
@@ -78,13 +89,6 @@
                                             <option value="{{ $v->id }}"
                                                 {{ $user->country == $v->id ? 'selected' : '' }}>
                                                 {{ $v->country_name }}</option>
-                                    <select class="form-control @error('country') is-invalid @enderror" name="country"
-                                        id="country">
-                                        <option value="">Select Your Country</option>
-                                        @foreach ($countries as $country)
-                                            <option value="{{ $country->id }}"
-                                                {{ $user->country == $country->id ? 'selected' : '' }}>
-                                                {{ $country->country_name }}</option>
                                         @endforeach
 
                                     </select>
@@ -96,14 +100,16 @@
                                 </div>
                                 <div class="col-6">
                                     <select id="state" class="form-control @error('state') is-invalid @enderror"
+<<<<<<<<< Temporary merge branch 1
+                                        name="state">
+                                        <option value="">Select Your state</option>
+=========
                                             name="state">
                                         @foreach ($states as $s => $v)
                                             <option value="{{ $v->id }}"
                                                 {{ $user->state == $v->id ? 'selected' : '' }}>
                                                 {{ $v->state_name }}</option>
                                         @endforeach
-                                        name="state">
-                                        <option value="">Select Your state</option>
                                     </select>
                                     @error('state')
                                     <div class="alert">
