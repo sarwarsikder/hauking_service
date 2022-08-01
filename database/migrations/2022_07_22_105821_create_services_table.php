@@ -15,7 +15,8 @@ return new class extends Migration {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->string('service_name');
-            $table->text('service_description');
+            $table->text('service_short_description')->nullable();
+            $table->text('service_long_description')->nullable();
             $table->json('subscription_type');
             $table->integer('trial_period');
             $table->json('hawkin_scale');
@@ -24,7 +25,7 @@ return new class extends Migration {
             $table->json('default_value_night');
             $table->json('default_value_booster');
             $table->string('default_special_feq');
-            $table->string('service_image_url');
+            $table->string('service_image_url')->nullable();
             $table->boolean('status')->default(0);
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();

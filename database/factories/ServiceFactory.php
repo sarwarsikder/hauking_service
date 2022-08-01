@@ -32,40 +32,7 @@ class ServiceFactory extends Factory
             )
         );
 
-        $kawkings_value = array(
-            array(
-                'point' => 500,
-                'lock' => false
-            ),
-            array(
-                'point' => 600,
-                'lock' => false
-            ),
-            array(
-                'point' => 700,
-                'lock' => false
-            ),
-            array(
-                'point' => 800,
-                'lock' => false
-            ),
-            array(
-                'point' => 900,
-                'lock' => false
-            ),
-            array(
-                'point' => 1000,
-                'lock' => true
-            ),
-            array(
-                'point' => 1100,
-                'lock' => true
-            ),
-            array(
-                'point' => 1200,
-                'lock' => true
-            ),
-        );
+        $kawkings_value = ["800","900","1000","Lock_1000"];
 
         $value_array = array("8.00 AM", "9 AM", "10 AM");
         $rand_day_value = array_rand($value_array);

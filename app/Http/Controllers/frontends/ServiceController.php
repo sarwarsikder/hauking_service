@@ -3,9 +3,17 @@
 namespace App\Http\Controllers\frontends;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\payments\PayPalPaymentController;
+use App\Http\Controllers\payments\StripePaymentController;
 use App\Service\HaukingService;
 use Illuminate\Http\Request;
+use App\Http\Requests\FrontendRequest\BillingRequest;
+use App\Models\Frequency;
+use App\Models\Service;
+use App\Models\Order;
+use App\Models\Cart;
 use Illuminate\Support\Facades\Session;
+use Auth;
 
 class ServiceController extends Controller
 {
@@ -58,9 +66,17 @@ class ServiceController extends Controller
      */
     public function show($id)
     {
-//        $session_id = Session::getId();
-//        dd($session_id);
-        return view('frontends.services.service_details');
+        // $session_id = Session::getId();
+        // dd($session_id);
+        $service = Service::where('id', $id)->first();
+        // $session_id = Session::getId();
+        // dd($session_id);
+        // return $service;
+        $this->data['service'] = $service;
+
+        return view('frontends.services.service_details',$this->data);
+
+
     }
 
     /**
@@ -71,8 +87,11 @@ class ServiceController extends Controller
      */
     public function checkout()
     {
+        $session_id = Session::getId();
+        $checkCart = Cart::where('session_id',$session_id)->first();
 
-        return view('frontends.services.service_checkout');
+        $this->data['checkCart'] = $checkCart;
+        return view('frontends.services.service_checkout', $this->data);
     }
 
     /**
@@ -83,6 +102,7 @@ class ServiceController extends Controller
      */
     public function edit($order_id)
     {
+
         return view('frontends.services.service_update');
     }
 
@@ -93,9 +113,40 @@ class ServiceController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function subscribe(Request $request, $id)
     {
-        //
+
+        if($request->subscription_type!='' && $request->subscription_type!=NULL && $request->hawkin_scale!='' && $request->hawkin_scale!=NULL && count($request->hawkin_scale)>0){
+            $service = Service::where('id', $id)->first();
+            $session_id = Session::getId();
+            $checkCart = Cart::where('session_id',$session_id)->first();
+            if($checkCart!=''){
+                $checkCart->delete();
+            }
+            $newCart = new Cart();
+            if(Auth::user()){
+                $newCart->user_id = Auth::user()->id;
+            }
+
+            $newCart->session_id = $session_id;
+            $newCart->service_id = $id;
+            $newCart->service_name = $service->service_name;
+            $newCart->subscription_type = $request->subscription_type;
+            $newCart->trial_period = $service->trial_period;
+            $newCart->hawkin_scale = json_encode($request->hawkin_scale);
+            $newCart->data_fields = $request->data_fields;
+            $newCart->default_value_day = $service->default_value_day;
+            $newCart->default_value_night = $service->default_value_night;
+            $newCart->default_value_booster = $service->default_value_booster;
+            $newCart->default_special_feq = $service->default_special_feq;
+            $newCart->service_image_url = $service->service_image_url;
+
+            $newCart->save();
+            return redirect('checkout');
+        }else{
+            return redirect()->back()->with('redirect-message', 'Something wrong!');
+        }
+
     }
 
     /**
@@ -107,5 +158,51 @@ class ServiceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function checkoutPaymentSuccess(Request $request){
+        $cartData = Cart::where('session_id',$request->session_id)->first();
+        if($cartData){
+            $order = new Order();
+            $order->user_id = $cartData->user_id;
+            $order->payment_status = "Complete Payment";
+            $order->payment_method = $request->payment_method;
+            $order->payment_type = "sadasd";
+            $order->total_amount = json_decode($cartData->subscription_type)->amount;
+            $order->save();
+            return redirect('/');
+        }
+        else{
+            return redirect('checkout')->with('redirect-message', 'Something wrong!');
+        }
+
+    }
+
+    public function checkoutPayment(BillingRequest $request)
+    {
+        $session_id = Session::getId();
+        $checkCart = Cart::where('session_id',$session_id)->first();
+        $this->data['first_name'] = $request->first_name;
+        $this->data['last_name'] = $request->last_name;
+        $this->data['street_address'] = $request->street_address;
+        $this->data['city'] = $request->city;
+        $this->data['state'] = $request->state;
+        $this->data['zipcode'] = $request->zipcode;
+        $this->data['country'] = $request->country;
+        $this->data['cart'] = Cart::where('session_id',$session_id)->first();
+        $this->data['user'] = Auth::user();
+        // return $this->data;
+        if($request->payment_method=="paypal"){
+            $paypalController = new PayPalPaymentController();
+            $url = $paypalController->payment($this->data);
+            return $url;
+        }elseif($request->payment_method=="stripe"){
+            $stripeController = new StripePaymentController();
+            $url = $stripeController->payment($this->data);
+            return redirect()->to($url);
+        }
+
+
+
     }
 }

@@ -27,6 +27,7 @@ return new class extends Migration {
             $table->string('country')->nullable();
 
             $table->string('phone')->nullable();
+            $table->string('stripe_customer_id')->nullable();
 
 
             $table->enum('role', ['user', 'admin'])->default('user');

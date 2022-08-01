@@ -7,6 +7,7 @@ use App\Models\Frequency;
 use App\Models\LanguageSettings;
 use App\Models\Tax;
 use App\Models\User;
+use App\Models\Service;
 use Database\Factories\AdminFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -123,7 +124,7 @@ class DatabaseSeeder extends Seeder
        /***
         *  Seed services fake data
         ***/
-    //    Service::factory(20)->create();
+       Service::factory(20)->create();
 
     }
 }

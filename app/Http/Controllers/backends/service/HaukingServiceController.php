@@ -72,6 +72,8 @@ class HaukingServiceController extends Controller
             $serviceObject = new Service();
 
             $serviceObject->service_name = $request->service_name;
+            $serviceObject->service_short_description = $request->service_short_description;
+            $serviceObject->service_long_description = $request->service_long_description;
             $serviceObject->subscription_type = $request->subscription_input_value;
             $serviceObject->trial_period = $request->trial_period;
             $serviceObject->hawkin_scale = json_encode($request->hawkin_scale);
@@ -142,6 +144,8 @@ class HaukingServiceController extends Controller
             $serviceObject = Service::where('id', $id)->first();
 
             $serviceObject->service_name = $request->service_name;
+            $serviceObject->service_short_description = $request->service_short_description;
+            $serviceObject->service_long_description = $request->service_long_description;
             $serviceObject->subscription_type = $request->subscription_input_value;
             $serviceObject->trial_period = $request->trial_period;
             $serviceObject->hawkin_scale = json_encode($request->hawkin_scale);

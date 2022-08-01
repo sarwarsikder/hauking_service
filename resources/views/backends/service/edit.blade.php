@@ -40,6 +40,54 @@
                         </tr>
 
                         <tr>
+                            <th>Service Short Description:</th>
+                            <td>
+                                    <textarea
+                                        class="form-control shadow-none @error('service_short_description') is-invalid @enderror"
+                                        name="service_short_description" id="serviceShortDescription"
+                                        value="{{old('service_short_description')}}"
+                                        placeholder="Service short description">{{$service->service_short_description}}{{old('service_short_description')}}</textarea>
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td>
+                                @error('service_short_description')
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
+                                @enderror
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <th>Service Long Description:</th>
+                            <td>
+                                    <textarea
+                                        class="form-control shadow-none @error('service_long_description') is-invalid @enderror"
+                                        name="service_long_description" id="serviceLongDescription"
+                                        value="{{old('service_long_description')}}"
+                                        placeholder="Service long description">{{$service->service_long_description}}{{old('service_long_description')}}</textarea>
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td>
+                                @error('service_long_description')
+                                <div class="alert">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
+                                @enderror
+                            </td>
+
+                        </tr>
+
+                        <tr>
                             <th class="text-nowrap ">Subscription Type:</th>
                             <td>
                                 <select id="subscription_duration"

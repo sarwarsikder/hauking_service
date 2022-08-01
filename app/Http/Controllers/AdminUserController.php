@@ -66,8 +66,10 @@ class AdminUserController extends Controller
 
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
+        $input['role'] = "admin";
 
         $input['primary_address'] = "address value";
+
 
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
@@ -120,6 +122,7 @@ class AdminUserController extends Controller
         ]);
 
         $input = $request->all();
+        $input['role'] = "admin";
         if(!empty($input['password'])){
             $input['password'] = Hash::make($input['password']);
         }else{
@@ -130,7 +133,6 @@ class AdminUserController extends Controller
         $input['primary_address'] = "address value";
         $user->update($input);
         DB::table('model_has_roles')->where('model_id',$id)->delete();
-
         $user->assignRole($request->input('roles'));
 
         return redirect()->route('admins.index')
