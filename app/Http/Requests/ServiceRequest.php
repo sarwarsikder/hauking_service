@@ -16,7 +16,8 @@ class ServiceRequest extends FormRequest
     {
         return [
             'service_name' => 'required',
-            // 'subscription_duration' => 'required',
+            'service_short_description' => 'required|min:10|max:200',
+            'service_long_description' => 'required|min:10|max:1000',
             // 'subscription_amount' => 'required',
             'subscription_input_value' => 'required',
             'trial_period' => 'required',
@@ -39,6 +40,12 @@ class ServiceRequest extends FormRequest
     {
         return [
             'service_name.required' => 'Service Name is required!',
+            'subscription_short_duration.required' => 'Service short description is required!',
+            'subscription_short_duration.min' => 'Service short description minimum 10 character!',
+            'subscription_short_duration.max' => 'Service short description maximum 200 character!',
+            'service_long_description.required' => 'Service long description is required!',
+            'service_long_description.min' => 'Service long description minimum 10 character!',
+            'service_long_description.max' => 'Service long description maximum 1000 character!',
             'subscription_input_value.required' => 'subscription value is required!',
             'dataField_form_input_value.required' => 'Data Field value is required!',
             // 'subscription_duration.required' => 'Subscription Duration is required!',

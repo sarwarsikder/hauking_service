@@ -9,14 +9,14 @@
         </div>
 
         <div class="row" data-aos="fade-up">
-            <div class="col-md-8">
+            <div class="col-md-10">
                 @if (session('redirect-message'))
                     <div class="alert alert-danger">
                         {{ session('redirect-message') }}
                     </div>
                 @endif
                 <div class="user-data-setting shadow ">
-                    <form class="row g-3 addserviceform" action="{{route('service-submit')}}" method="post"
+                    <form class="row g- addserviceform" action="{{route('service-submit')}}" method="post"
                           enctype="multipart/form-data">
                         @csrf
                         <table style="width:100%" class="current-data-table">
@@ -32,6 +32,53 @@
                                 <th></th>
                                 <td>
                                     @error('service_name')
+                                    <div class="alert">
+                                        <p class="text-danger">{{ $message }}</p>
+                                    </div>
+                                    @enderror
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <th>Service Short Description:</th>
+                                <td>
+                                    <textarea
+                                        class="form-control shadow-none @error('service_short_description') is-invalid @enderror"
+                                        name="service_short_description" id="serviceShortDescription"
+                                        value="{{old('service_short_description')}}"
+                                        placeholder="Service short description">{{old('service_short_description')}}</textarea>
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <th></th>
+                                <td>
+                                    @error('service_short_description')
+                                    <div class="alert">
+                                        <p class="text-danger">{{ $message }}</p>
+                                    </div>
+                                    @enderror
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <th>Service Long Description:</th>
+                                <td>
+                                    <textarea
+                                        class="form-control shadow-none @error('service_long_description') is-invalid @enderror"
+                                        name="service_long_description" id="serviceLongDescription"
+                                        value="{{old('service_long_description')}}"
+                                        placeholder="Service long description">{{old('service_long_description')}}</textarea>
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <th></th>
+                                <td>
+                                    @error('service_long_description')
                                     <div class="alert">
                                         <p class="text-danger">{{ $message }}</p>
                                     </div>
@@ -61,6 +108,16 @@
                                         <option value="6" {{ old('subscription_duration') == 6 ? "selected" : "" }}>6
                                         </option>
                                         <option value="7" {{ old('subscription_duration') == 7 ? "selected" : "" }}>7
+                                        </option>
+                                        <option value="8" {{ old('subscription_duration') == 8 ? "selected" : "" }}>8
+                                        </option>
+                                        <option value="9" {{ old('subscription_duration') == 9 ? "selected" : "" }}>9
+                                        </option>
+                                        <option value="10" {{ old('subscription_duration') == 10 ? "selected" : "" }}>10
+                                        </option>
+                                        <option value="11" {{ old('subscription_duration') == 11 ? "selected" : "" }}>11
+                                        </option>
+                                        <option value="12" {{ old('subscription_duration') == 12 ? "selected" : "" }}>12
                                         </option>
                                     </select>
                                     <!-- <select id="valueStatus" onchange="subscriptionValueSelector() ;">
