@@ -43,7 +43,7 @@
                         <input class="btn btn-success border rounded-1 login-button" type="submit" value="Login">
                     </div>
                     <div class="login-forget mt-3">
-                        <p><a href="{{route('user-register')}}">Register</a> | <a href="{{route('reset-password')}}">Forget Password</a></p>
+                        <p><a href="{{route('user-register')}}">Register</a> | <a href="{{route('forget-password')}}">Forget Password</a></p>
                     </div>
 
                 </div>

@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('last_name');
             $table->string('email')->unique();
 
-            $table->string('primary_address');
+            $table->string('primary_address')->nullable();
             $table->string('secondary_address')->nullable();
 
             $table->string('city')->nullable();
@@ -38,7 +38,7 @@ return new class extends Migration {
 
 
             $table->string('password');
-            $table->text('user_bio');
+            $table->text('user_bio')->nullable();
             $table->string('user_profile')->nullable();
             $table->unsignedBigInteger('timezone_id')->nullable();// nullable is not use here in future
             // $table->foreign('timezone_id')->references('id')->on('timezones'); // it will be use next

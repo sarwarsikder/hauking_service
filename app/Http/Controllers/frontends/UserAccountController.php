@@ -24,7 +24,7 @@ class UserAccountController extends Controller
     public function index()
     {
         try {
-            $user_id = 2; # Auth::id(); will be change later.
+            $user_id = 101; # Auth::id(); will be change later.
             $this->data['user'] = User::where('id', $user_id)->first();
             $this->data['countries'] = Country::all();
             $this->data['states'] = State::all();

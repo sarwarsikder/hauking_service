@@ -66,13 +66,13 @@ Route::post('/profile/getState', [UserAccountController::class, 'getState'])->na
 #my user login
 Route::get('/user-login/', [LoginUserController::class, 'index'])->name('user-login');
 Route::post('/user-logout/', [LoginUserController::class, 'logout'])->name('user-logout');
-Route::get('/user-register/', [LoginUserController::class, 'index'])->name('user-register');
 
 #my user login
 Route::get('/user-register/', [RegisterUserController::class, 'index'])->name('user-register');
+Route::post('/user-register/', [RegisterUserController::class, 'store'])->name('user-register');
 
 
-Route::get('/reset-password/', [ForgetPasswordController::class, 'index'])->name('reset-password');
+Route::get('/forget-password/', [ForgetPasswordController::class, 'index'])->name('forget-password');
 
 
 
