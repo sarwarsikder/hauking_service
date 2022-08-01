@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\frontends;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FrontendRequest\RegisterUserRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterUserController extends Controller
 {
@@ -35,9 +38,23 @@ class RegisterUserController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RegisterUserRequest $request)
     {
-        //
+        try {
+            $userObject = new User();
+
+            $userObject->first_name = $request['first_name'];
+            $userObject->last_name = $request['last_name'];
+            $userObject->email = $request['email'];
+            $userObject->password = Hash::make($request['password']);
+            if ($userObject->save()) {
+                return redirect(route('home-service'))->with('redirect-message', 'Registration successfully !');
+            } else {
+                return redirect()->back()->with('redirect-message', 'Something wrong!');
+            }
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        }
     }
 
     /**

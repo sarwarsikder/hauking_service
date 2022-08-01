@@ -35,138 +35,132 @@
                     <div class="col-md-12 p-3">
                         <div class="user-data-setting">
                             <form class="row g-3 adduserform" action="{{ route('user-account-update', $user->id) }}"
-                                  method="post" enctype="multipart/form-data">
+                                method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="col-md-6">
                                     <input type="text"
-                                           class="form-control shadow-none @error('first_name') is-invalid @enderror"
-                                           value="{{ $user->first_name }}" id="firstName" name="first_name"
-                                           placeholder="First Name">
+                                        class="form-control shadow-none @error('first_name') is-invalid @enderror"
+                                        value="{{ $user->first_name }}" id="firstName" name="first_name"
+                                        placeholder="First Name">
                                     @error('first_name')
-                                    <div class="alert">
-                                        <p class="text-danger">{{ $message }}</p>
-                                    </div>
+                                        <div class="alert">
+                                            <p class="text-danger">{{ $message }}</p>
+                                        </div>
                                     @enderror
                                 </div>
                                 <div class="col-md-6">
                                     <input type="text"
-                                           class="form-control shadow-none @error('last_name') is-invalid @enderror"
-                                           id="lastName" value="{{ $user->last_name }}" name="last_name"
-                                           placeholder="Last Name">
+                                        class="form-control shadow-none @error('last_name') is-invalid @enderror"
+                                        id="lastName" value="{{ $user->last_name }}" name="last_name"
+                                        placeholder="Last Name">
                                     @error('last_name')
-                                    <div class="alert">
-                                        <p class="text-danger">{{ $message }}</p>
-                                    </div>
+                                        <div class="alert">
+                                            <p class="text-danger">{{ $message }}</p>
+                                        </div>
                                     @enderror
                                 </div>
                                 <div class="col-6">
-                                    <input type="text" name="street_address"
-                                           class="form-control shadow-none @error('street_address') is-invalid @enderror"
-                                           id="streetaddress" placeholder="Street Address">
-                                    @error('street_address')
-                                    <div class="alert">
-                                        <p class="text-danger">{{ $message }}</p>
-                                    </div>
+                                    <input type="text"
+                                        class="form-control shadow-none @error('primary_address') is-invalid @enderror"
+                                        name="primary_address" value="{{ $user->primary_address }}" id="address"
+                                        placeholder="Address">
+                                    @error('primary_address')
+                                        <div class="alert">
+                                            <p class="text-danger">{{ $message }}</p>
+                                        </div>
                                     @enderror
                                 </div>
                                 <div class="col-6">
-                                    <select id="country" class="form-control @error('country') is-invalid @enderror"
-                                            name="country">
-                                        @foreach ($countries as $k => $v)
-                                            <option value="{{ $v->id }}"
-                                                {{ $user->country == $v->id ? 'selected' : '' }}>
-                                                {{ $v->country_name }}</option>
-                                        @endforeach
-
-                                    </select>
-                                    @error('country')
-                                    <div class="alert">
-                                        <p class="text-danger">{{ $message }}</p>
-                                    </div>
-                                    @enderror
+                                    <select class="form-control @error('country') is-invalid @enderror" name="country"
+                                        id="country">
+                                        <option value="">Select Your Country</option>
+                                        @foreach ($countries as $country)
+                                            <option value="{{ $country->id }}"
+                                                {{ $user->country == $country->id ? 'selected' : '' }}>
+                                                {{ $country->country_name }}</option>
+                                            @error('country')
+                                                <div class="alert">
+                                                    <p class="text-danger">{{ $message }}</p>
+                                                </div>
+                                            @enderror
                                 </div>
                                 <div class="col-6">
                                     <select id="state" class="form-control @error('state') is-invalid @enderror"
-                                            name="state">
-                                        @foreach ($states as $s => $v)
-                                            <option value="{{ $v->id }}"
-                                                {{ $user->state == $v->id ? 'selected' : '' }}>
-                                                {{ $v->state_name }}</option>
-                                        @endforeach
+                                        name="state">
+                                        <option value="">Select Your state</option>
                                     </select>
                                     @error('state')
-                                    <div class="alert">
-                                        <p class="text-danger">{{ $message }}</p>
-                                    </div>
+                                        <div class="alert">
+                                            <p class="text-danger">{{ $message }}</p>
+                                        </div>
                                     @enderror
                                 </div>
                                 <div class="col-6">
                                     <input type="text"
-                                           class="form-control shadow-none @error('zipcode') is-invalid @enderror"
-                                           value="{{ $user->zipcode }}" id="zipcode" name="zipcode"
-                                           placeholder="Zipcode">
+                                        class="form-control shadow-none @error('zipcode') is-invalid @enderror"
+                                        value="{{ $user->zipcode }}" id="zipcode" name="zipcode" placeholder="Zipcode">
                                     @error('zipcode')
-                                    <div class="alert">
-                                        <p class="text-danger">{{ $message }}</p>
-                                    </div>
+                                        <div class="alert">
+                                            <p class="text-danger">{{ $message }}</p>
+                                        </div>
                                     @enderror
                                 </div>
                                 <div class="col-6">
                                     <input type="text"
-                                           class="form-control shadow-none @error('city') is-invalid @enderror"
-                                           value="{{ $user->city }}" id="city" name="city" placeholder="Town/City">
+                                        class="form-control shadow-none @error('city') is-invalid @enderror"
+                                        value="{{ $user->city }}" id="city" name="city" placeholder="Town/City">
                                     @error('city')
-                                    <div class="alert">
-                                        <p class="text-danger">{{ $message }}</p>
-                                    </div>
+                                        <div class="alert">
+                                            <p class="text-danger">{{ $message }}</p>
+                                        </div>
                                     @enderror
                                 </div>
                                 <div class="col-6">
                                     <input type="text"
-                                           class="form-control shadow-none @error('phone') is-invalid @enderror"
-                                           value="{{ $user->phone }}" id="inputAddress2" name="phone"
-                                           placeholder="Phone">
+                                        class="form-control shadow-none @error('phone') is-invalid @enderror"
+                                        value="{{ $user->phone }}" id="inputAddress2" name="phone"
+                                        placeholder="Phone">
                                     @error('phone')
-                                    <div class="alert">
-                                        <p class="text-danger">{{ $message }}</p>
-                                    </div>
+                                        <div class="alert">
+                                            <p class="text-danger">{{ $message }}</p>
+                                        </div>
                                     @enderror
                                 </div>
                                 <div class="col-md-12">
                                     <input type="email"
-                                           class="form-control shadow-none @error('email') is-invalid @enderror"
-                                           value="{{ $user->email }}" id="inputEmail4" name="email"
-                                           placeholder="Email">
+                                        class="form-control shadow-none @error('email') is-invalid @enderror"
+                                        value="{{ $user->email }}" id="inputEmail4" name="email"
+                                        placeholder="Email">
                                     @error('email')
-                                    <div class="alert">
-                                        <p class="text-danger">{{ $message }}</p>
-                                    </div>
+                                        <div class="alert">
+                                            <p class="text-danger">{{ $message }}</p>
+                                        </div>
                                     @enderror
                                 </div>
                                 <div class="col-md-6">
                                     <input type="password"
-                                           class="form-control shadow-none @error('password') is-invalid @enderror"
-                                           id="inputPassword" name="password" placeholder="Password">
+                                        class="form-control shadow-none @error('password') is-invalid @enderror"
+                                        id="inputPassword" name="password" placeholder="Password">
                                     @error('password')
-                                    <div class="alert">
-                                        <p class="text-danger">{{ $message }}</p>
-                                    </div>
+                                        <div class="alert">
+                                            <p class="text-danger">{{ $message }}</p>
+                                        </div>
                                     @enderror
                                 </div>
                                 <div class="col-md-6">
                                     <input type="password"
-                                           class="form-control shadow-none @error('password_confirmation') is-invalid @enderror"
-                                           id="confirmPassword" name="confirmPassword" placeholder="Confirm Password">
+                                        class="form-control shadow-none @error('password_confirmation') is-invalid @enderror"
+                                        id="confirmPassword" name="confirmPassword" placeholder="Confirm Password">
                                     @error('password_confirmation')
-                                    <div class="alert">
-                                        <p class="text-danger">{{ $message }}</p>
-                                    </div>
+                                        <div class="alert">
+                                            <p class="text-danger">{{ $message }}</p>
+                                        </div>
                                     @enderror
                                 </div>
 
                                 <div class="col-md-6">
                                     <select name="timezones" id="timezone-offset"
-                                            class="span5 @error('timezones') is-invalid @enderror">
+                                        class="span5 @error('timezones') is-invalid @enderror">
                                         @foreach ($timezones as $timezone)
                                             <option value="{{ $timezone->id }}"
                                                 {{ $user->timezone_id == $timezone->id ? 'selected' : '' }}>
@@ -174,21 +168,35 @@
                                         @endforeach
                                     </select>
                                     @error('timezones')
-                                    <div class="alert">
-                                        <p class="text-danger">{{ $message }}</p>
-                                    </div>
+                                        <div class="alert">
+                                            <p class="text-danger">{{ $message }}</p>
+                                        </div>
                                     @enderror
                                 </div>
                                 <div class="col-6">
-                                    <input type="text" class="form-control shadow-none" name="primary_address"
-                                           value="{{ $user->primary_address }}" id="address" placeholder="Address">
+                                    <input type="text" name="secondary_address"
+                                        class="form-control shadow-none @error('secondary_address') is-invalid @enderror"
+                                        id="secondary_address" placeholder="Street Address"
+                                        value="{{ $user->secondary_address }}">
+                                    @error('secondary_address')
+                                        <div class="alert">
+                                            <p class="text-danger">{{ $message }}</p>
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-12">
+                                    <textarea name="user_bio" class="form-control shadow-none @error('user_bio') is-invalid @enderror" id=""
+                                        cols="68">{{ $user->user_bio }}</textarea>
+                                    @error('user_bio')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <div class="col-md-6">
                                     <img id="output" style="width: 150px;"
-                                         src="{{ URL::to('images/user/' . $user->user_profile) }}"/>
+                                        src="{{ URL::to('images/user/' . $user->user_profile) }}" />
                                     <input type="file" class="form-control shadow-none" name="user_profile"
-                                           id="files" placeholder="Upload Image" onchange="loadFile(event)">
+                                        id="files" placeholder="Upload Image" onchange="loadFile(event)">
 
                                 </div>
 
@@ -206,33 +214,18 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="heading-1">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
+                                data-bs-target="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
                                 Service 1
                             </button>
                         </h2>
                         <div id="collapse-1" class="accordion-collapse collapse show" aria-labelledby="heading-1"
-                             data-bs-parent="#accordionExample">
+                            data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <div class="row mb-3">
                                     <div class="col-2">
                                         <button type="button" class="btn sub-active">Active</button>
                                         <!-- <button type="button" class="btn sub-hold">Hold</button>
-                                                                                                    <button type="button" class="btn sub-disable">Canceled</button> -->
-                                    </div>
-                                    <div class="col-9">
-                                        <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong>
-                                        </p>
-                                    </div>
-                                    <div class="col-1">
-                                        <a href="{{ route('account-service', 1) }}" type="button"
-                                           class="btn btn-default">View</a>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-2">
-                                        <button type="button" class="btn sub-active">Active</button>
-                                        <!-- <button type="button" class="btn sub-hold">Hold</button>
-                                                                                                    <button type="button" class="btn sub-disable">Canceled</button> -->
+                                                                                                            <button type="button" class="btn sub-disable">Canceled</button> -->
                                     </div>
                                     <div class="col-9">
                                         <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong>
@@ -247,7 +240,7 @@
                                     <div class="col-2">
                                         <button type="button" class="btn sub-active">Active</button>
                                         <!-- <button type="button" class="btn sub-hold">Hold</button>
-                                                                                                    <button type="button" class="btn sub-disable">Canceled</button> -->
+                                                                                                            <button type="button" class="btn sub-disable">Canceled</button> -->
                                     </div>
                                     <div class="col-9">
                                         <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong>
@@ -255,7 +248,22 @@
                                     </div>
                                     <div class="col-1">
                                         <a href="{{ route('account-service', 1) }}" type="button"
-                                           class="btn btn-default">View</a>
+                                            class="btn btn-default">View</a>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-2">
+                                        <button type="button" class="btn sub-active">Active</button>
+                                        <!-- <button type="button" class="btn sub-hold">Hold</button>
+                                                                                                            <button type="button" class="btn sub-disable">Canceled</button> -->
+                                    </div>
+                                    <div class="col-9">
+                                        <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong>
+                                        </p>
+                                    </div>
+                                    <div class="col-1">
+                                        <a href="{{ route('account-service', 1) }}" type="button"
+                                            class="btn btn-default">View</a>
                                     </div>
                                 </div>
                             </div>
@@ -266,18 +274,18 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="heading-2">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapse-2" aria-expanded="true" aria-controls="collapse-2">
+                                data-bs-target="#collapse-2" aria-expanded="true" aria-controls="collapse-2">
                                 Service 1
                             </button>
                         </h2>
                         <div id="collapse-2" class="accordion-collapse collapse show" aria-labelledby="heading-2"
-                             data-bs-parent="#accordionExample">
+                            data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <div class="row mb-3">
                                     <div class="col-2">
                                         <button type="button" class="btn sub-active">Active</button>
                                         <!-- <button type="button" class="btn sub-hold">Hold</button>
-                                                                                                    <button type="button" class="btn sub-disable">Canceled</button> -->
+                                                                                                            <button type="button" class="btn sub-disable">Canceled</button> -->
                                     </div>
                                     <div class="col-9">
                                         <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong>
@@ -285,14 +293,14 @@
                                     </div>
                                     <div class="col-1">
                                         <a href="{{ route('account-service', 1) }}" type="button"
-                                           class="btn btn-default">View</a>
+                                            class="btn btn-default">View</a>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-2">
                                         <button type="button" class="btn sub-active">Active</button>
                                         <!-- <button type="button" class="btn sub-hold">Hold</button>
-                                                                                                    <button type="button" class="btn sub-disable">Canceled</button> -->
+                                                                                                            <button type="button" class="btn sub-disable">Canceled</button> -->
                                     </div>
                                     <div class="col-9">
                                         <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong>
@@ -300,14 +308,14 @@
                                     </div>
                                     <div class="col-1">
                                         <a href="{{ route('account-service', 1) }}" type="button"
-                                           class="btn btn-default">View</a>
+                                            class="btn btn-default">View</a>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-2">
                                         <button type="button" class="btn sub-active">Active</button>
                                         <!-- <button type="button" class="btn sub-hold">Hold</button>
-                                                                                                    <button type="button" class="btn sub-disable">Canceled</button> -->
+                                                                                                            <button type="button" class="btn sub-disable">Canceled</button> -->
                                     </div>
                                     <div class="col-9">
                                         <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong>
@@ -315,7 +323,7 @@
                                     </div>
                                     <div class="col-1">
                                         <a href="{{ route('account-service', 1) }}" type="button"
-                                           class="btn btn-default">View</a>
+                                            class="btn btn-default">View</a>
                                     </div>
                                 </div>
                             </div>
@@ -335,33 +343,33 @@
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <thead class="text-uppercase fw-bold">
-                                                <tr>
-                                                    <th scope="col">Order</th>
-                                                    <th scope="col">Date</th>
-                                                    <th scope="col">Status</th>
-                                                    <th scope="col">Total</th>
-                                                </tr>
+                                                    <tr>
+                                                        <th scope="col">Order</th>
+                                                        <th scope="col">Date</th>
+                                                        <th scope="col">Status</th>
+                                                        <th scope="col">Total</th>
+                                                    </tr>
                                                 </thead>
 
                                                 <tbody class="user-data">
-                                                <tr>
-                                                    <td scope="row">#260</td>
-                                                    <td scope="row"><span></span> Jul 13 2022</td>
-                                                    <td scope="row" class="pendingPayment">Pending Payment</td>
-                                                    <td scope="row"><a href="#">$10.00</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row">#261</td>
-                                                    <td scope="row">Jul 23 2022</td>
-                                                    <td scope="row" class="pendingPayment">Pending Payment</td>
-                                                    <td scope="row"><a href="#">$10.00</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row">#262</td>
-                                                    <td scope="row">Jul 31 2022</td>
-                                                    <td scope="row" class="processingPayment">Processing</td>
-                                                    <td scope="row"><a href="#">$10.00</a></td>
-                                                </tr>
+                                                    <tr>
+                                                        <td scope="row">#260</td>
+                                                        <td scope="row"><span></span> Jul 13 2022</td>
+                                                        <td scope="row" class="pendingPayment">Pending Payment</td>
+                                                        <td scope="row"><a href="#">$10.00</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">#261</td>
+                                                        <td scope="row">Jul 23 2022</td>
+                                                        <td scope="row" class="pendingPayment">Pending Payment</td>
+                                                        <td scope="row"><a href="#">$10.00</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">#262</td>
+                                                        <td scope="row">Jul 31 2022</td>
+                                                        <td scope="row" class="processingPayment">Processing</td>
+                                                        <td scope="row"><a href="#">$10.00</a></td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                             <div class="col-12">
@@ -370,18 +378,18 @@
                                                         <ul class="pagination justify-content-end my-0">
                                                             <li class="page-item">
                                                                 <a class="page-link" href="#"
-                                                                   aria-label="Previous">
+                                                                    aria-label="Previous">
                                                                     <span aria-hidden="true">&laquo;</span>
                                                                 </a>
                                                             </li>
                                                             <li class="page-item"><a class="page-link"
-                                                                                     href="#">1</a>
+                                                                    href="#">1</a>
                                                             </li>
                                                             <li class="page-item"><a class="page-link"
-                                                                                     href="#">2</a>
+                                                                    href="#">2</a>
                                                             </li>
                                                             <li class="page-item"><a class="page-link"
-                                                                                     href="#">3</a>
+                                                                    href="#">3</a>
                                                             </li>
                                                             <li class="page-item">
                                                                 <a class="page-link" href="#" aria-label="Next">
@@ -432,7 +440,7 @@
                                         policy</a> .
                                 </p>
                                 <input class="btn btn-success border rounded-1 login-button" type="submit"
-                                       value="Update">
+                                    value="Update">
                             </div>
                         </form>
                     </div>
@@ -483,9 +491,9 @@
         }
     </script>
     <script>
-        var loadFile = function (event) {
+        var loadFile = function(event) {
             var reader = new FileReader();
-            reader.onload = function () {
+            reader.onload = function() {
                 var output = document.getElementById('output');
                 output.src = reader.result;
             };

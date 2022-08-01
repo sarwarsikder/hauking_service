@@ -78,9 +78,10 @@ Route::post('/user-logout/', [LoginUserController::class, 'logout'])->name('user
 
 #my user login
 Route::get('/user-register/', [RegisterUserController::class, 'index'])->name('user-register');
+Route::post('/user-register/', [RegisterUserController::class, 'store'])->name('user-register');
 
 
-Route::get('/reset-password/', [ForgetPasswordController::class, 'index'])->name('reset-password');
+Route::get('/forget-password/', [ForgetPasswordController::class, 'index'])->name('forget-password');
 
 
 Route::get('/admin-login/', [LoginUserController::class, 'index'])->name('admin-login');
