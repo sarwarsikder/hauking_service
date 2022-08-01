@@ -104,15 +104,15 @@ class PayPalPaymentController extends Controller
 
         $data['invoice_id'] = date('YmdHis');
         $data['invoice_description'] = "Order #{$data['invoice_id']} Invoice";
-        $data['return_url'] = route('service-checkout-payment-success');
-        $data['cancel_url'] = route('payment.cancel');
+        $data['return_url'] = route('paypal-payment-success');
+        $data['cancel_url'] = route('paypal-payment-cancel');
         $data['total'] = json_decode($info['cart']['subscription_type'])->amount;
 
         $provider = new ExpressCheckout;
         
        
         $response = $provider->setExpressCheckout($data);
-
+       
         $response = $provider->setExpressCheckout($data, true);
 
         // $startdate = Carbon::now()->toAtomString();
@@ -166,7 +166,7 @@ class PayPalPaymentController extends Controller
     }
 
     public function paymentCancel(){
-        
+
     }
 
     /**
@@ -192,7 +192,7 @@ class PayPalPaymentController extends Controller
         $response = PayPal::getProvider()->doExpressCheckoutPayment($data, $response['TOKEN'], $response['PAYERID']);
 
         $data = [
-            'CURRENCYCODE' => 'EUR',
+            'CURRENCYCODE' => 'USD',
             'PROFILESTARTDATE' => \Carbon\Carbon::now()->addDays(14)->toAtomString(),
             'DESC' => 4,
             'BILLINGPERIOD' => 'Month', // Can be 'Day', 'Week', 'SemiMonth', 'Month', 'Year'

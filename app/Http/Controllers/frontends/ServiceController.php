@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\FrontendRequest\BillingRequest;
 use App\Models\Frequency;
 use App\Models\Service;
+use App\Models\ServiceOrders;
+use App\Models\Timezone;
+use App\Models\ServiceSubscriptions;
 use App\Models\Order;
 use App\Models\Cart;
 use Illuminate\Support\Facades\Session;
@@ -100,10 +103,36 @@ class ServiceController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($order_id)
+    public function edit(Request $request, $order_id)
+    {
+        $service_orders = ServiceOrders::where('order_id',$order_id)->with('service')->first();
+   
+        $this->data['timezones'] = Timezone::all();
+        $this->data['frequency'] = Frequency::all();
+        $this->data['service'] = $service_orders;
+        
+        // return $this->data;
+        return view('frontends.services.service_update',$this->data);
+    }
+    
+    
+    public function update(Request $request, $id)
     {
 
-        return view('frontends.services.service_update');
+        $service_orders = ServiceOrders::where('id',$id)->first();
+   
+        if($service_orders!=''){
+            $service_orders->hawkin_scale = json_encode([$request->hawkin_scale]);
+            $service_orders->default_value_day = json_encode(array("day_time" => $request->default_value_day_time, "value" => $request->default_value_day_value));
+            $service_orders->default_value_night = json_encode(array("day_time" => $request->default_value_night_time, "value" => $request->default_value_night_value));
+            $service_orders->default_value_booster = json_encode(array("day_time" => $request->default_value_booster_time, "value" => $request->default_value_booster_value));
+            $service_orders->default_special_feq = json_encode($request->default_special_feq);
+            
+            $service_orders->save();
+            return redirect("service-update/".$service_orders->order_id);
+        }
+        
+        return redirect()->back()->with('redirect-message', 'Something wrong!');
     }
 
     /**
@@ -162,14 +191,58 @@ class ServiceController extends Controller
 
     public function checkoutPaymentSuccess(Request $request){
         $cartData = Cart::where('session_id',$request->session_id)->first();
+        // echo "<pre>";
+        // print_r($cartData);
+        // die;
         if($cartData){
+
+            /**
+             * Create Order
+            */
             $order = new Order();
             $order->user_id = $cartData->user_id;
-            $order->payment_status = "Complete Payment";
+            $order->payment_status = "complete";
             $order->payment_method = $request->payment_method;
             $order->payment_type = "sadasd";
             $order->total_amount = json_decode($cartData->subscription_type)->amount;
             $order->save();
+
+            $order_id = $order->id;
+
+            /**
+             * Create Service Order 
+             */
+            $newServiceOrders = new ServiceOrders();
+            $newServiceOrders->service_id = $cartData->service_id;
+            $newServiceOrders->order_id = $order_id;
+            $newServiceOrders->hawkin_scale = $cartData->hawkin_scale;
+            $newServiceOrders->data_fields = $cartData->data_fields;
+            $newServiceOrders->default_value_day = $cartData->default_value_day;
+            $newServiceOrders->default_value_night = $cartData->default_value_night;
+            $newServiceOrders->default_value_booster = $cartData->default_value_booster;
+            $newServiceOrders->default_special_feq = $cartData->default_special_feq;
+            $newServiceOrders->created_by = $cartData->user_id;
+            $newServiceOrders->updated_by = $cartData->user_id;
+            $newServiceOrders->save();
+
+            /**
+             * Create Service Subscription 
+             */
+            $newServiceSubscription = new ServiceSubscriptions();
+            $newServiceSubscription->service_id = $cartData->service_id;
+            $newServiceSubscription->order_id = $order_id;
+            $newServiceSubscription->status = "active";
+            $newServiceSubscription->payments_status = "completed";
+            $newServiceSubscription->created_by = $cartData->user_id;
+            $newServiceSubscription->monthly_amount = json_decode($cartData->subscription_type)->amount;
+            // $newServiceSubscription->start_date = $cartData->default_value_day;
+            // $newServiceSubscription->end_date = $cartData->default_value_night;
+            // $newServiceSubscription->trial_end_date = $cartData->default_value_booster;
+            // $newServiceSubscription->next_payment_date = $cartData->default_special_feq;
+            // $newServiceSubscription->over_payment_date = $cartData->default_special_feq;
+            // return $newServiceSubscription;
+            $newServiceSubscription->save();
+
             return redirect('/');
         }
         else{

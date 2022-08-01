@@ -200,128 +200,56 @@
                     </form>
                 </div>
             </div>
+            
+
             <div id="Subscriptons" class="tabcontent col-9">
                 <h3>Subscriptons</h3>
+                <?php
+                $listedIndex=[];
+                ?>
+                @foreach($user_service as $k=>$v)
+                @if(!in_array($k, $listedIndex))
                 <div class="accordion mb-3" id="accordionExample">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="heading-1">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
-                                Service 1
+                                {{$v['service']->service_name}}
                             </button>
                         </h2>
                         <div id="collapse-1" class="accordion-collapse collapse show" aria-labelledby="heading-1"
                              data-bs-parent="#accordionExample">
                             <div class="accordion-body">
+                                @foreach($user_service as $m=>$n)
+                                @if($n->service_id==$v->service_id)
                                 <div class="row mb-3">
                                     <div class="col-2">
-                                        <button type="button" class="btn sub-active">Active</button>
+                                        <button type="button" class="btn sub-active">{{$n->status}}</button>
                                         <!-- <button type="button" class="btn sub-hold">Hold</button>
                                                                                                     <button type="button" class="btn sub-disable">Canceled</button> -->
                                     </div>
                                     <div class="col-9">
-                                        <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong>
+                                        <p class="m-2"><strong><a href=""> {{$n['service']->service_name}}</a></strong>
                                         </p>
                                     </div>
                                     <div class="col-1">
-                                        <a href="{{ route('account-service', 1) }}" type="button"
+                                        <a href="{{ route('account-service', $n->order_id) }}" type="button"
                                            class="btn btn-default">View</a>
                                     </div>
                                 </div>
-                                <div class="row mb-3">
-                                    <div class="col-2">
-                                        <button type="button" class="btn sub-active">Active</button>
-                                        <!-- <button type="button" class="btn sub-hold">Hold</button>
-                                                                                                    <button type="button" class="btn sub-disable">Canceled</button> -->
-                                    </div>
-                                    <div class="col-9">
-                                        <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong>
-                                        </p>
-                                    </div>
-                                    <div class="col-1">
-                                        <a href="{{ route('account-service', 1) }}" type="button"
-                                            class="btn btn-default">View</a>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-2">
-                                        <button type="button" class="btn sub-active">Active</button>
-                                        <!-- <button type="button" class="btn sub-hold">Hold</button>
-                                                                                                    <button type="button" class="btn sub-disable">Canceled</button> -->
-                                    </div>
-                                    <div class="col-9">
-                                        <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong>
-                                        </p>
-                                    </div>
-                                    <div class="col-1">
-                                        <a href="{{ route('account-service', 1) }}" type="button"
-                                           class="btn btn-default">View</a>
-                                    </div>
-                                </div>
+                                <?php
+                                    array_push($listedIndex,$m);
+                                ?>
+                                @endif
+                                @endforeach
+                                
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="accordion mb-3" id="accordionExample">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="heading-2">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapse-2" aria-expanded="true" aria-controls="collapse-2">
-                                Service 1
-                            </button>
-                        </h2>
-                        <div id="collapse-2" class="accordion-collapse collapse show" aria-labelledby="heading-2"
-                             data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <div class="row mb-3">
-                                    <div class="col-2">
-                                        <button type="button" class="btn sub-active">Active</button>
-                                        <!-- <button type="button" class="btn sub-hold">Hold</button>
-                                                                                                    <button type="button" class="btn sub-disable">Canceled</button> -->
-                                    </div>
-                                    <div class="col-9">
-                                        <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong>
-                                        </p>
-                                    </div>
-                                    <div class="col-1">
-                                        <a href="{{ route('account-service', 1) }}" type="button"
-                                           class="btn btn-default">View</a>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-2">
-                                        <button type="button" class="btn sub-active">Active</button>
-                                        <!-- <button type="button" class="btn sub-hold">Hold</button>
-                                                                                                    <button type="button" class="btn sub-disable">Canceled</button> -->
-                                    </div>
-                                    <div class="col-9">
-                                        <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong>
-                                        </p>
-                                    </div>
-                                    <div class="col-1">
-                                        <a href="{{ route('account-service', 1) }}" type="button"
-                                           class="btn btn-default">View</a>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-2">
-                                        <button type="button" class="btn sub-active">Active</button>
-                                        <!-- <button type="button" class="btn sub-hold">Hold</button>
-                                                                                                    <button type="button" class="btn sub-disable">Canceled</button> -->
-                                    </div>
-                                    <div class="col-9">
-                                        <p class="m-2"><strong><a href="">1st Data Field, Service 1</a></strong>
-                                        </p>
-                                    </div>
-                                    <div class="col-1">
-                                        <a href="{{ route('account-service', 1) }}" type="button"
-                                           class="btn btn-default">View</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endif
+                @endforeach
+            
             </div>
             <div id="Transactions" class="tabcontent col-9">
                 <h3>Transactions</h3>
@@ -344,24 +272,15 @@
                                                 </thead>
 
                                                 <tbody class="user-data">
+                                                @foreach($user_subscription as $k=>$v)
                                                 <tr>
-                                                    <td scope="row">#260</td>
-                                                    <td scope="row"><span></span> Jul 13 2022</td>
-                                                    <td scope="row" class="pendingPayment">Pending Payment</td>
-                                                    <td scope="row"><a href="#">$10.00</a></td>
+                                                    <td scope="row">#{{$v->order_id}}</td>
+                                                    <td scope="row"><span></span> {{$v->created_at}}</td>
+                                                    <td scope="row" class="pendingPayment">{{$v->payments_status}} Payment</td>
+                                                    <td scope="row"><a href="#">{{$v->monthly_amount}}</a></td>
                                                 </tr>
-                                                <tr>
-                                                    <td scope="row">#261</td>
-                                                    <td scope="row">Jul 23 2022</td>
-                                                    <td scope="row" class="pendingPayment">Pending Payment</td>
-                                                    <td scope="row"><a href="#">$10.00</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row">#262</td>
-                                                    <td scope="row">Jul 31 2022</td>
-                                                    <td scope="row" class="processingPayment">Processing</td>
-                                                    <td scope="row"><a href="#">$10.00</a></td>
-                                                </tr>
+                                                @endforeach
+                                                
                                                 </tbody>
                                             </table>
                                             <div class="col-12">

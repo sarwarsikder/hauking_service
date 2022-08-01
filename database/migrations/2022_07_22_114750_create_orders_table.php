@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->enum('payment_status', ['Pending Payment', 'Processing Payment', 'Cancel Payment', 'Complete Payment'])->nullable();
+            $table->enum('payment_status', ['pending', 'processing', 'cancel', 'complete'])->nullable();
             $table->enum('payment_method', ['stripe', 'paypal']);
             $table->string('payment_type');
             $table->double('total_amount', 8, 2);

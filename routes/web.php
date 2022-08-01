@@ -62,6 +62,7 @@ Route::get('/paypal/payment/cancel', [PayPalPaymentController::class, 'paymentCa
 Route::get('/checkout/payment/success', [ServiceController::class, 'checkoutPaymentSuccess'])->name('service-checkout-payment-success');
 Route::get('/checkout/payment/canceled', [ServiceController::class, 'checkoutPaymentCancelled'])->name('service-checkout-payment-cancelled');
 Route::get('/service-update/{order_id}', [ServiceController::class, 'edit'])->name('account-service');
+Route::post('/service-update/{id}', [ServiceController::class, 'update'])->name('account-service-update');
 Route::get('/stripe-webhook/checkout/payment', [ServiceController::class, 'stripeWebhook'])->name('stripe-webhook');
 #my Account
 Route::get('/profile/', [UserAccountController::class, 'index'])->name('user-account');

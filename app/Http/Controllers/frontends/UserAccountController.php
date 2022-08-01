@@ -7,9 +7,12 @@ use App\Http\Requests\FrontendRequest\UserProfileRequest;
 use App\Models\Country;
 use App\Models\State;
 use App\Models\Timezone;
+use App\Models\ServiceSubscriptions;
+use App\Models\ServiceOrders;
 use App\Models\User;
 use Illuminate\Http\Request;
 use PHPUnit\Exception;
+use Auth;
 
 class UserAccountController extends Controller
 {
@@ -21,8 +24,13 @@ class UserAccountController extends Controller
     public function index()
     {
         try {
-            $user_id = 2; # Auth::id(); will be change later.
+            $user_id = Auth::user()->id; # Auth::id(); will be change later.
+            $user_service = ServiceOrders::where('created_by',$user_id)->with('service')->get();
+            $user_subscription = ServiceSubscriptions::where('created_by',$user_id)->get();
+            // return $user_subscription;
             $this->data['user'] = User::where('id', $user_id)->first();
+            $this->data['user_service'] = $user_service;
+            $this->data['user_subscription'] = $user_subscription;
             $this->data['countries'] = Country::all();
             $this->data['states'] = State::all();
             $this->data['timezones'] = Timezone::all();
