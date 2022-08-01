@@ -76,7 +76,7 @@ class ServiceController extends Controller
 
         return view('frontends.services.service_details',$this->data);
 
-     
+
     }
 
     /**
@@ -89,7 +89,7 @@ class ServiceController extends Controller
     {
         $session_id = Session::getId();
         $checkCart = Cart::where('session_id',$session_id)->first();
-        
+
         $this->data['checkCart'] = $checkCart;
         return view('frontends.services.service_checkout', $this->data);
     }
@@ -102,7 +102,7 @@ class ServiceController extends Controller
      */
     public function edit($order_id)
     {
-        
+
         return view('frontends.services.service_update');
     }
 
@@ -127,7 +127,7 @@ class ServiceController extends Controller
             if(Auth::user()){
                 $newCart->user_id = Auth::user()->id;
             }
-             
+
             $newCart->session_id = $session_id;
             $newCart->service_id = $id;
             $newCart->service_name = $service->service_name;
@@ -146,7 +146,7 @@ class ServiceController extends Controller
         }else{
             return redirect()->back()->with('redirect-message', 'Something wrong!');
         }
-        
+
     }
 
     /**
@@ -158,12 +158,9 @@ class ServiceController extends Controller
     public function destroy($id)
     {
         //
-    } 
-    
-    public function checkoutPaymentSuccess(Request $request){   
-        echo "<pre>";
-        print_r($request->all());
-        die;
+    }
+
+    public function checkoutPaymentSuccess(Request $request){
         $cartData = Cart::where('session_id',$request->session_id)->first();
         if($cartData){
             $order = new Order();
@@ -178,9 +175,9 @@ class ServiceController extends Controller
         else{
             return redirect('checkout')->with('redirect-message', 'Something wrong!');
         }
-        
+
     }
-    
+
     public function checkoutPayment(BillingRequest $request)
     {
         $session_id = Session::getId();
@@ -204,8 +201,8 @@ class ServiceController extends Controller
             $url = $stripeController->payment($this->data);
             return redirect()->to($url);
         }
-        
 
-        
+
+
     }
 }
