@@ -59,43 +59,42 @@
                     </div>
         </section>
     @endif
+    <form action="{{ route('service-checkout-payment') }}" method="post">
+    @csrf
+        <section id="checkout-form" class="mt-5">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Have A Coupon?
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
 
-    <section id="checkout-form" class="mt-5">
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Have A Coupon?
-                </button>
-            </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                 data-bs-parent="#accordionExample">
-                <div class="accordion-body">
+                        <div class="wrapper">
+                            <div class="row  pt-4 pb-4  " data-aos="fade-up">
+                                <div class="col-md-12">
+                                    
+                                        <div class="col-12">
+                                            <p>If you have a coupon code, please apply it below.</p>
+                                            <input type="text" placeholder="Coupon Code" value="" id="couponCode" name="coupon_code"/>
+                                            <span id="couponCodeText"></span>
+                                            <input class="btn btn-success border rounded-1 login-button" type="button"
+                                                value="Apply" id="couponCodeSubmit">
+                                        </div>
+                                 
+                                </div>
 
-                    <div class="wrapper">
-                        <div class="row  pt-4 pb-4  " data-aos="fade-up">
-                            <div class="col-md-12">
-                                <form action="#">
-                                    <div class="col-12">
-                                        <p>If you have a coupon code, please apply it below.</p>
-                                        <input type="text" placeholder="Coupon Code"/>
-                                        <span>Coupon applied!!!</span>
-                                        <input class="btn btn-success border rounded-1 login-button" type="submit"
-                                               value="Apply">
-                                    </div>
-                                </form>
                             </div>
-
                         </div>
                     </div>
+
                 </div>
-
             </div>
-        </div>
-    </section>
+        </section>
 
-    <form action="{{ route('service-checkout-payment') }}" method="post">
-        @csrf
         <section id="checkout-form" class="mt-5">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingThree">
@@ -113,16 +112,22 @@
 
                                     <h5>Billing Details</h5>
                                     <div class="col-12">
-                                        <input type="text" name="first_name" placeholder="First Name"/>
-                                        <input type="text" name="last_name" placeholder="Last Name"/>
-                                        <input type="text" name="street_address" placeholder="Street Address"/>
-                                        <input type="text" name="city" placeholder="Town/City"/>
-                                        <input type="text" name="state" placeholder="State"/>
+                                        <input type="text" name="first_name" value="{{old('first_name')}}" placeholder="First Name"/>
+                                        <input type="text" name="last_name" value="{{old('last_name')}}" placeholder="Last Name"/>
+                                        <input type="text" name="street_address" value="{{old('street_address')}}" placeholder="Street Address"/>
+                                        <input type="text" name="city" value="{{old('city')}}" placeholder="Town/City"/>
+                                        <select name="state" id="billinState">
+                                            <option value="">Choose Your State</option>
+                                            @foreach($state  as $k=>$v)
+                                                <option value="{{$v->id}}">{{$v->state_name}}</option>
+                                            @endforeach
+                                        </select>
                                         <input type="text" name="zipcode" placeholder="Zipcode"/>
                                         <select name="country" id="">
                                             <option value="">Choose Your Country</option>
-                                            <option value="BD">Bangladesh</option>
+                                            <option value="US" selected>USA</option>
                                         </select>
+                                        
                                     </div>
 
                                 </div>
@@ -147,14 +152,17 @@
                                                 / {{json_decode($checkCart->subscription_type)->duration}} Month
                                             </td>
                                             </tr>
+                                            <th>Coupon</th>
+                                            <td id="couponAmount">$0</td>
+                                            </tr>
                                             <th>Sub Total</th>
-                                            <td>${{json_decode($checkCart->subscription_type)->amount}}</td>
+                                            <td id="subTotalAmount">${{json_decode($checkCart->subscription_type)->amount}}</td>
                                             </tr>
                                             <th>Tax</th>
-                                            <td>$15.00</td>
+                                            <td id="taxAmount">$0</td>
                                             </tr>
                                             <th>Total</th>
-                                            <td>$115.00</td>
+                                            <td id="totalAmount">${{json_decode($checkCart->subscription_type)->amount}}</td>
                                             </tr>
                                             <tr>
 
@@ -167,7 +175,6 @@
                 </div>
             </div>
         </section>
-
 
         <section id="checkout-form" class="mt-5">
             <div class="accordion-item">
@@ -225,10 +232,103 @@
 @endsection
 @push('scripts')
     <script>
+        var originalPrice="<?php echo json_decode($checkCart->subscription_type)->amount ?>";
+        var couponInfo={};
+        var taxInfo={};
+
+        function calculatePrice(){
+            console.log("I am here")
+            console.log(couponInfo)
+            console.log(taxInfo)
+            
+            var total = 0;
+            var subTotal = parseFloat(originalPrice);
+            var tax = 0;
+            var couponAmount = 0;
+            if(couponInfo && couponInfo.coupon_type){
+                console.log(couponInfo)
+                if(couponInfo.coupon_type=="fixed"){
+                    couponAmount = parseFloat(couponInfo.coupon_value);
+                    subTotal = parseFloat(parseFloat(originalPrice) - couponAmount)
+                }else{
+                    couponAmount = parseFloat((couponInfo.coupon_value/100)*originalPrice);
+                    subTotal = parseFloat(parseFloat(originalPrice) - couponAmount)
+                }
+            }
+
+            if(taxInfo && taxInfo.tax_rate){
+                tax = parseFloat(taxInfo.tax_rate);
+            }
+            total = parseFloat(parseFloat(subTotal) - parseFloat(tax));
+
+            $("#couponAmount").html(couponAmount)
+            $("#subTotalAmount").html(subTotal)
+            $("#taxAmount").html(tax)
+            $("#totalAmount").html(total)
+        }
+
         $(".payment-method").change(function () {
             $(".payment-method").prop('checked', false);
             $(this).prop('checked', true);
         });
+
+        $('#couponCodeSubmit').on("click",function () {
+                    var code = $("#couponCode").val();
+                    couponInfo={};
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: "POST",
+                        dataType: "json",
+                        url: '/check-coupon-code',
+                        data: {'code': code},
+                        success: function (data) {
+                            // console.log(data.success)
+                            if (data.status == true) {
+                                $("#couponCodeText").html(data.message)
+                                couponInfo = data.data;
+                                calculatePrice();
+                                // toastr.success(data.message);
+                            } else {
+                                $("#couponCodeText").html(data.message)
+                                calculatePrice();
+                                // toastr.error(data.message);
+                            }
+                        },
+                        error: function (err) {
+                            toastr.error(data.message);
+                        }
+                    });
+                });
+                $('#billinState').change(function () {
+                    var state = $("#billinState").val();
+                    taxInfo={};
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: "POST",
+                        dataType: "json",
+                        url: '/check-state-tax',
+                        data: {'state': state},
+                        success: function (data) {
+                            // console.log(data.success)
+                            if (data.status == true) {
+                                taxInfo = data.data;
+                                calculatePrice();
+                                // toastr.success(data.message);
+                            } else {
+                                taxInfo ={}
+                                calculatePrice();
+                                // toastr.error(data.message);
+                            }
+                        },
+                        error: function (err) {
+                            toastr.error(data.message);
+                        }
+                    });
+                });
     </script>
 @endpush
 
