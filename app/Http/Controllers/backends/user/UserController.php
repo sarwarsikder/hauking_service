@@ -5,7 +5,10 @@ namespace App\Http\Controllers\backends\user;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Models\Frequency;
 use App\Models\ProductsRegister;
+use App\Models\ServiceOrder;
+use App\Models\Timezone;
 use App\Models\User;
 use App\Models\Country;
 use App\Models\State;
@@ -124,8 +127,7 @@ class UserController extends Controller
      */
     public function edit(Request $request, $id)
     {
-
-        $user = User::where('id',$id)->first();
+        $user = User::where('id', $id)->with('service_orders')->with('service_orders.service')->first();
         $countries = Country::all();
         $states = State::all();
         $this->data['user'] = $user;
@@ -145,7 +147,7 @@ class UserController extends Controller
     {
         try {
 
-            $userObject = User::where('id',$id)->first();
+            $userObject = User::where('id', $id)->first();
 
             $userObject->first_name = $request['first_name'];
             $userObject->last_name = $request['last_name'];
@@ -157,7 +159,7 @@ class UserController extends Controller
             $userObject->country = $request['country'];
             $userObject->email = $request['email'];
             $userObject->phone = $request['phone'];
-            if($request['password']){
+            if ($request['password']) {
                 $userObject->password = Hash::make($request['password']);
             }
 
@@ -234,5 +236,13 @@ class UserController extends Controller
             'data' => [],
             'message' => 'User deleted successfully!'
         ), 200);
+    }
+
+    function editUserService($serviceId)
+    {
+        $this->data['frequency'] = Frequency::all();
+        $this->data['timezones'] = Timezone::all();
+        ServiceOrder::where('id', $serviceId)->with('')->first();
+        return view("backends.user.edit_service", $this->data);
     }
 }

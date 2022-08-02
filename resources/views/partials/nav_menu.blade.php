@@ -1,7 +1,7 @@
 <div class="sidebar-menu">
     <div class="sidebar-header">
         <div class="logo">
-            <a href="index.html"> <img src="{{asset('assets/dashboard/img/dash_image.png')}}" alt=""></a>
+            <a href="{{route('dashboard')}}"> <img src="{{asset('assets/dashboard/img/dash_image.png')}}" alt=""></a>
         </div>
     </div>
     <div class="header-text">
@@ -19,8 +19,7 @@
                         </a>
 
                         <ul class="collapse  {{ (Request::segment(2)=='services')?"show":"" }}" id="Service">
-                            <li><a href="service1.html"> Service 1</a></li>
-                            <li><a href="service2.html"> Service 2</a></li>
+                            <li><a href="{{ route('service-create') }}"> Create Service</a></li>
                         </ul>
                     </li>
                     <li id="user">

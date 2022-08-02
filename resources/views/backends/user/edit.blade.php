@@ -16,7 +16,8 @@
                     </div>
                 @endif
                 <div class="user-data-setting shadow ">
-                    <form class="row g-3 adduserform" action="{{URL::to('admin/users/update/'.$user->id)}}" method="post" enctype="multipart/form-data">
+                    <form class="row g-3 adduserform" action="{{URL::to('admin/users/update/'.$user->id)}}"
+                          method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="col-md-6">
                             <input type="text"
@@ -47,7 +48,8 @@
                             @enderror
                         </div>
                         <div class="col-6">
-                            <input type="text" class="form-control shadow-none @error('city') is-invalid @enderror" id="city"
+                            <input type="text" class="form-control shadow-none @error('city') is-invalid @enderror"
+                                   id="city"
                                    name="city" placeholder="Town/City" value="{{$user->city}}">
 
                             @error('city')
@@ -55,12 +57,14 @@
                             @enderror
                         </div>
                         <div class="col-6">
-                            <select class="form-control shadow-none @error('state') is-invalid @enderror" id="state" name="state">
+                            <select class="form-control shadow-none @error('state') is-invalid @enderror" id="state"
+                                    name="state">
                                 <option value="">Select Your State</option>
                                 @foreach($states as $k=>$v)
-                                    <option value="{{$v->id}}" {{ $user->state == $v->id ? "selected" : "" }}>{{$v->state_name}}</option>
+                                    <option
+                                        value="{{$v->id}}" {{ $user->state == $v->id ? "selected" : "" }}>{{$v->state_name}}</option>
                                 @endforeach
-                                
+
                             </select>
                             <!-- <input type="text" class="form-control shadow-none @error('state') is-invalid @enderror" id="state" name="state"
                                    placeholder="State" value="{{old('state')}}"> -->
@@ -69,54 +73,62 @@
                             @enderror
                         </div>
                         <div class="col-6">
-                            <input type="text" class="form-control shadow-none @error('zipcode') is-invalid @enderror" id="zipcode" name="zipcode"
+                            <input type="text" class="form-control shadow-none @error('zipcode') is-invalid @enderror"
+                                   id="zipcode" name="zipcode"
                                    placeholder="Zipcode" value="{{$user->zipcode}}">
                             @error('zipcode')
                             <div class="alert"><p class="text-danger">{{ $message }}</p></div>
                             @enderror
                         </div>
                         <div class="col-6">
-                            <select class="form-control shadow-none @error('country') is-invalid @enderror" id="country" name="country" value="{{old('country')}}">
+                            <select class="form-control shadow-none @error('country') is-invalid @enderror" id="country"
+                                    name="country" value="{{old('country')}}">
                                 <option value="">Select Your Country</option>
                                 @foreach($countries as $k=>$v)
-                                    <option value="{{$v->country_code}}" {{ $user->country == $v->country_code ? "selected" : "" }}>{{$v->country_name}}</option>
+                                    <option
+                                        value="{{$v->country_code}}" {{ $user->country == $v->country_code ? "selected" : "" }}>{{$v->country_name}}</option>
                                 @endforeach
-                                
+
                             </select>
                             @error('country')
                             <div class="alert"><p class="text-danger">{{ $message }}</p></div>
                             @enderror
                         </div>
                         <div class="col-6">
-                            <input type="number" class="form-control shadow-none @error('phone') is-invalid @enderror" id="inputAddress2"
+                            <input type="number" class="form-control shadow-none @error('phone') is-invalid @enderror"
+                                   id="inputAddress2"
                                    name="phone" placeholder="Phone" value="{{$user->phone}}">
                             @error('phone')
                             <div class="alert"><p class="text-danger">{{ $message }}</p></div>
                             @enderror
                         </div>
                         <div class="col-md-12">
-                            <input type="email" class="form-control shadow-none @error('email') is-invalid @enderror" name="email" id="inputEmail4"
+                            <input type="email" class="form-control shadow-none @error('email') is-invalid @enderror"
+                                   name="email" id="inputEmail4"
                                    placeholder="Email" value="{{$user->email}}">
                             @error('email')
                             <div class="alert"><p class="text-danger">{{ $message }}</p></div>
                             @enderror
                         </div>
                         <div class="col-md-6">
-                            <input type="password" class="form-control shadow-none @error('password') is-invalid @enderror" name="password" id="inputPassword"
+                            <input type="password"
+                                   class="form-control shadow-none @error('password') is-invalid @enderror"
+                                   name="password" id="inputPassword"
                                    placeholder="Password" value="{{$user->password}}">
                             @error('password')
                             <div class="alert"><p class="text-danger">{{ $message }}</p></div>
                             @enderror
                         </div>
                         <div class="col-md-6">
-                            <input type="password" class="form-control shadow-none @error('password_confirmation') is-invalid @enderror" name="password_confirmation"
+                            <input type="password"
+                                   class="form-control shadow-none @error('password_confirmation') is-invalid @enderror"
+                                   name="password_confirmation"
                                    id="confirmPassword" value="{{$user->password_confirmation}}"
                                    placeholder="Confirm Password">
                             @error('password_confirmation')
                             <div class="alert"><p class="text-danger">{{ $message }}</p></div>
                             @enderror
                         </div>
-
 
 
                         <div class="col-md-6">
@@ -127,58 +139,39 @@
                         <div class="col-md-6">
                             <input type="file" class="form-control shadow-none" name="user_profile" id="files"
                                    placeholder="Upload Image" onchange="loadFile(event)">
-                            <img id="output" style="width: 150px;" src="{{URL::to('images/user/'.$user->user_profile)}}"/>
+                            <img id="output" style="width: 150px;"
+                                 src="{{URL::to('images/user/'.$user->user_profile)}}"/>
                         </div>
-
-                        <!-- <div class="col-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="service1">
-                                <label class="form-check-label" for="service1">Service 1 </label>
+                        @foreach ($user->service_orders as $service)
+                            <div class="col-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           value="{{$service->id}}"
+                                           data-url="{{route('user-service-update', $service->id)}}"
+                                           data-name="{{$service->service->service_name}}"
+                                           data-id="{{$service->id}}">
+                                    <label class="form-check-label"
+                                           for="service1">{{$service->service->service_name}}</label>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="col-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="service2">
-                                <label class="form-check-label" for="service2">Service 2 </label>
-                            </div>
-                        </div>
-
-                        <div class="col-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="service3">
-                                <label class="form-check-label" for="service3">Service 3 </label>
-                            </div>
-                        </div>
-
-                        <div class="col-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="service4">
-                                <label class="form-check-label" for="service4">Service 4</label>
-                            </div>
-                        </div>
-
-                        <div class="col-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="service5">
-                                <label class="form-check-label" for="service5">Service 5 </label>
-                            </div>
-                        </div>
-
-                        <div class="col-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="service6">
-                                <label class="form-check-label" for="service6">Service 6 </label>
-                            </div>
-                        </div>-->
+                        @endforeach
 
                         <div class=" text-center user-data-btn">
                             <button type="submit">Submit</button>
-                        </div> 
+                        </div>
                     </form>
                 </div>
             </div>
 
+            <div class="col-md-4 add-user-card ">
+                <div class="subscriptions addUserSub  shadow bg-white mb-3 w-100 rounded pt-4 pb-4">
+                    <p>Trail Usages</p>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
 
             <div class="col-md-4 add-user-card ">
 
@@ -186,14 +179,40 @@
         </div>
     </div>
 
-<script>
-  var loadFile = function(event) {
-    var reader = new FileReader();
-    reader.onload = function(){
-      var output = document.getElementById('output');
-      output.src = reader.result;
-    };
-    reader.readAsDataURL(event.target.files[0]);
-  };
-</script>
+@endsection
+
+@section('scripts')
+    <script>
+        var loadFile = function (event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('output');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        };
+
+        let formCheckInput = document.querySelectorAll(".form-check-input");
+        for (let i = 0; i < formCheckInput.length; i++) {
+            formCheckInput[i].addEventListener("click", (event) => {
+                let service_order_url = event.target.getAttribute('data-url');
+                let service_name = event.target.getAttribute('data-name');
+                let service_id = event.target.getAttribute('data-id');
+                let addUserCard = document.querySelector(".add-user-card");
+
+                let userCard = `<div class="card-${i + 1}  service-bottom-edit shadow" data-aos="fade-up">
+                                <h3>${service_name}</h3>
+                                <a href="${service_order_url}"><span><i class="bi bi-pencil-fill"></i></span></a>
+                                </div>`;
+
+                if (formCheckInput[i].getAttribute("checked") == null) {
+                    addUserCard.innerHTML += userCard;
+                    formCheckInput[i].setAttribute("checked", "");
+                } else {
+                    formCheckInput[i].removeAttribute("checked");
+                    document.querySelector(`.card-${i + 1}`).remove();
+                }
+            });
+        }
+    </script>
 @endsection

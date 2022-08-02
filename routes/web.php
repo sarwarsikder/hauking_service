@@ -120,6 +120,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
         Route::post('/users/delete', [UserController::class, 'destroy'])->name('users-delete');
         Route::get('/users/update/{id}', [UserController::class, 'edit'])->name('users-edit');
         Route::post('/users/update/{id}', [UserController::class, 'update'])->name('users-update');
+        Route::get('/users/update-service/{service_id}', [UserController::class, 'editUserService'])->name('user-service-update');
 
         /**
          * Frequency start
