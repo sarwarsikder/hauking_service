@@ -45,6 +45,7 @@ class RegisterUserController extends Controller
 
             $userObject->first_name = $request['first_name'];
             $userObject->last_name = $request['last_name'];
+            $userObject->name = 'TEST';
             $userObject->email = $request['email'];
             $userObject->password = Hash::make($request['password']);
             if ($userObject->save()) {

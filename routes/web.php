@@ -82,7 +82,9 @@ Route::post('/user-register/', [RegisterUserController::class, 'store'])->name('
 
 
 Route::get('/forget-password/', [ForgetPasswordController::class, 'index'])->name('forget-password');
-
+Route::post('forget-password', [ForgetPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
+Route::get('reset-password/{token}', [ForgetPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+// Route::post('reset-password', [ForgetPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
 Route::get('/admin-login/', [LoginUserController::class, 'index'])->name('admin-login');
 
