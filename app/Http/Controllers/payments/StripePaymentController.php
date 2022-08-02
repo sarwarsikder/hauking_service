@@ -127,7 +127,7 @@ class StripePaymentController extends Controller
         $price_id = $price->id;
         $url  = url('/');
         $stripe_session = Stripe\Checkout\Session::create([
-            'success_url' => $url.'/checkout/payment/success?payment_method=stripe&session_id='.$data['paymentToken'],
+            'success_url' => $url.'/checkout/payment/success?payment_method=stripe&payment_token='.$data['paymentToken'].'&session_id='.$data['cart']['session_id'],
             'cancel_url' => $url.'/checkout/payment/canceled',
             'mode' => 'subscription',
             'line_items' => [[

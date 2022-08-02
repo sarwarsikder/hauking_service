@@ -276,9 +276,13 @@ class ServiceController extends Controller
 
     public function checkoutPaymentSuccess(Request $request)
     {
-        $order = Order::where('session_id', $request->session_id)->first();
+    
+        $order = Order::where('payment_token', $request->payment_token)->first();
+        $cartData = Cart::where('session_id', $request->session_id)->first();
+        
         if ($order) {
-
+            $order->payment_status = "complete";
+            $order->save();
             $order_id = $order->id;
 
             /**
@@ -295,6 +299,7 @@ class ServiceController extends Controller
             $newServiceOrders->default_special_feq = $cartData->default_special_feq;
             $newServiceOrders->created_by = $cartData->user_id;
             $newServiceOrders->updated_by = $cartData->user_id;
+            
             $newServiceOrders->save();
 
             /**
@@ -314,8 +319,8 @@ class ServiceController extends Controller
             // $newServiceSubscription->over_payment_date = $cartData->default_special_feq;
             // return $newServiceSubscription;
             $newServiceSubscription->save();
-
-            return redirect('/');
+            $cartData->delete();
+            return redirect('/')->with('redirect-message', 'Service Purchased Successfully');
         } else {
             return redirect('checkout')->with('redirect-message', 'Something wrong!');
         }
@@ -325,6 +330,7 @@ class ServiceController extends Controller
     public function checkoutPayment(BillingRequest $request)
     {
         $session_id = Session::getId();
+        $couponId = '';
         $checkCart = Cart::where('session_id', $session_id)->first();
         $paymentAmount = json_decode($checkCart->subscription_type)->amount;
         
@@ -337,15 +343,18 @@ class ServiceController extends Controller
         $billingAddress->state = $request->state;
         $billingAddress->zipcode = $request->zipcode;
         $billingAddress->country = $request->country;
-        // $billingAddress->save();
+        $billingAddress->save();
         $tax = Tax::where("state_id",$request->state)->first();
+        $taxRate = 0;
         if($tax!=''){
+            $taxRate = $tax->tax_rate;
             $paymentAmount = $paymentAmount - $tax->tax_rate;
         }
         if($request->coupon_code){
             $coupon = Coupon::where("coupon_code",$request->coupon_code)->first();
             
             if($coupon!=''){
+                $couponId = $coupon->id;
                 if($coupon->coupon_type=="fixed"){
                     $paymentAmount = $paymentAmount - $coupon->coupon_value;
                 }else{
@@ -387,9 +396,11 @@ class ServiceController extends Controller
                 $order->tax = $tax;
                 $order->payment_token = $paymentToken;
                 $order->payment_url = $url;
+                $order->coupon_id = $couponId;
+                $order->service_id = $cartData->service_id;
                 $order->save();
 
-                $checkCart->delete();
+                // $checkCart->delete();
                 return redirect()->to($url);
 
             }else{
@@ -400,7 +411,31 @@ class ServiceController extends Controller
         } elseif ($request->payment_method == "stripe") {
             $stripeController = new StripePaymentController();
             $url = $stripeController->payment($this->data);
-            return redirect()->to($url);
+            if($url){
+                /**
+                 * Create Order
+                 */
+                
+                $order = new Order();
+                $order->user_id = $checkCart->user_id;
+                $order->payment_status = "pending";
+                $order->payment_method = $request->payment_method;
+                $order->payment_type = "sadasd";
+                $order->total_amount = $paymentAmount;
+                $order->tax = $taxRate;
+                $order->payment_token = $paymentToken;
+                $order->payment_url = $url;
+                $order->coupon_id = $couponId;
+                $order->service_id = $checkCart->service_id;
+
+                $order->save();
+
+                // $checkCart->delete();
+                return redirect()->to($url);
+
+            }else{
+                return redirect("/");
+            }
         }
 
 
