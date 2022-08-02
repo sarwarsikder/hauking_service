@@ -91,7 +91,13 @@ class ServiceController extends Controller
     public function checkout()
     {
         if (Auth::check()) {
-            $this->data['checkCart'] = Cart::where('user_id', Auth::id())->first();
+           /* $user_id = Auth::id();
+            $session_id = Session::getId();
+            $this->data['checkCart'] = Cart::where(function ($query) use ($user_id, $session_id) {
+                $query->where('user_id', '=', $user_id)
+                    ->orWhere('session_id', '=', $session_id);
+            })->first();*/
+            $this->data['checkCart'] = Cart::where('session_id', Session::getId())->first();
         } else {
             $this->data['checkCart'] = Cart::where('session_id', Session::getId())->first();
         }
