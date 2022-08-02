@@ -39,7 +39,7 @@ AOS.init({
 //       }
 //     }
 //   }
-  
+
 // };
 
 
@@ -61,31 +61,31 @@ AOS.init({
 //     let input = document.createElement("input");
 //     input.setAttribute("type", "text");
 
-//     let tr = document.createElement("tr");  
-//     let th = document.createElement("th");  
-//     let td = document.createElement("td");  
+//     let tr = document.createElement("tr");
+//     let th = document.createElement("th");
+//     let td = document.createElement("td");
 
 //     let data = document.querySelector(".data");
-    
+
 //     if(requiredFields.value == "required"){
 //       input.setAttribute("required", "");
 //       var tableRow = data.innerHTML += ` <td>${inputDataFields} *</td>`;
 //     } else {
 //       input.removeAttribute("required");
 //       data.innerHTML += `<span>${inputDataFields}  </span>`;
-//     } 
+//     }
 
 
 //     if(dataFields.value == "text"){
 //       input.setAttribute("type", "text");
 //     }
-//      else if(dataFields.value == "date"){ 
+//      else if(dataFields.value == "date"){
 //       input.setAttribute("type", "date");
 //     }
-//      else if(dataFields.value == "number"){ 
+//      else if(dataFields.value == "number"){
 //       input.setAttribute("type", "number");
 
-//     }else if(dataFields.value == "textarea"){ 
+//     }else if(dataFields.value == "textarea"){
 //       input.setAttribute("class", "textarea");
 
 //     }
@@ -102,24 +102,6 @@ AOS.init({
 
 // Add user
 
-let formCheckInput = document.querySelectorAll(".form-check-input");
-for(let i = 0; i < formCheckInput.length; i++){
-  formCheckInput[i].addEventListener("click", ()=>{
-    let addUserCard = document.querySelector(".add-user-card");
-    let userCard = `<div class=" card-${i+1}  service-bottom-edit shadow" data-aos="fade-up">
-    <h3>Service ${i+1}</h3>
-    <a href="service2.html"><span><i class="bi bi-pencil-fill"></i></span></a>
-    </div>`;
-    if(formCheckInput[i].getAttribute("checked") == null ){
-      addUserCard.innerHTML += userCard;
-      formCheckInput[i].setAttribute("checked", "");
-    }else{
-      formCheckInput[i].removeAttribute("checked");
-      document.querySelector(`.card-${i+1}`).remove();
-    }
-
-  });
-};
 
 
 
@@ -137,7 +119,6 @@ for(let i = 0; i < formCheckInput.length; i++){
 
 
 
- 
 
 
 

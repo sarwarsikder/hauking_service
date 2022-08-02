@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Service extends Model
+class ServiceSubscriptions extends Model
 {
+    protected $table = "service_subscriptions";
     use HasApiTokens, HasFactory, Notifiable;
 }

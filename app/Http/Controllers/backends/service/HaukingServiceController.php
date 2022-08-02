@@ -78,7 +78,7 @@ class HaukingServiceController extends Controller
             $serviceObject->trial_period = $request->trial_period;
             $serviceObject->hawkin_scale = json_encode($request->hawkin_scale);
             $serviceObject->data_fields = $request->dataField_form_input_value;
-            $serviceObject->default_value_day = $age = json_encode(array("time" => $request->default_value_day_time, "value" => $request->default_value_day_value));
+            $serviceObject->default_value_day = json_encode(array("time" => $request->default_value_day_time, "value" => $request->default_value_day_value));
             $serviceObject->default_value_night = json_encode(array("time" => $request->default_value_night_time, "value" => $request->default_value_night_value));
             $serviceObject->default_value_booster = json_encode(array("time" => $request->default_value_booster_time, "value" => $request->default_value_booster_value));
             $serviceObject->default_special_feq = $request->default_special_feq;
