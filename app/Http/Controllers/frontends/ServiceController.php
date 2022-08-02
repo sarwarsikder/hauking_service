@@ -14,9 +14,14 @@ use App\Models\ServiceOrders;
 use App\Models\Timezone;
 use App\Models\ServiceSubscriptions;
 use App\Models\Order;
+use App\Models\Coupon;
+use App\Models\Tax;
+use App\Models\State;
 use App\Models\Cart;
+use App\Models\BillingAddress;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Response;
 
 class ServiceController extends Controller
 {
@@ -90,23 +95,32 @@ class ServiceController extends Controller
      */
     public function checkout()
     {
-        if (Auth::check()) {
-           /* $user_id = Auth::id();
-            $session_id = Session::getId();
-            $this->data['checkCart'] = Cart::where(function ($query) use ($user_id, $session_id) {
-                $query->where('user_id', '=', $user_id)
-                    ->orWhere('session_id', '=', $session_id);
-            })->first();*/
-            $this->data['checkCart'] = Cart::where('session_id', Session::getId())->first();
-        } else {
-            $this->data['checkCart'] = Cart::where('session_id', Session::getId())->first();
+        $checkCart = Cart::where('session_id', Session::getId())->first();
+        if($checkCart){
+            $this->data['checkCart'] = $checkCart;
+            $this->data['state'] = State::all();
+            return view('frontends.services.service_checkout', $this->data);
+        }else{
+            return redirect('/')->with('page_message', 'Cart id empty!');
         }
+//         if (Auth::check()) {
+//            /* $user_id = Auth::id();
+//             $session_id = Session::getId();
+//             $this->data['checkCart'] = Cart::where(function ($query) use ($user_id, $session_id) {
+//                 $query->where('user_id', '=', $user_id)
+//                     ->orWhere('session_id', '=', $session_id);
+//             })->first();*/
+//             $this->data['checkCart'] = 
+           
+//         } else {
+//             $this->data['checkCart'] = Cart::where('session_id', Session::getId())->first();
+//         }
+//         $this->data['state'] = State::all();
+// //        if (count($this->data['checkCart']) == 0) {
+// //            return redirect('/')->with('page_message', 'Cart id empty!');
+// //        }
 
-//        if (count($this->data['checkCart']) == 0) {
-//            return redirect('/')->with('page_message', 'Cart id empty!');
-//        }
-
-        return view('frontends.services.service_checkout', $this->data);
+//         return view('frontends.services.service_checkout', $this->data);
     }
 
     /**
@@ -125,6 +139,65 @@ class ServiceController extends Controller
 
         // return $this->data;
         return view('frontends.services.service_update', $this->data);
+    }
+
+    public function checkCouponCode(Request $request){
+        try {
+            if ($request->ajax()) {
+                // print_r("adad");
+                $coupon = Coupon::where("coupon_code",$request->code)->first();
+                if($coupon){
+                    return Response::json(array(
+                        'status' => true,
+                        'data' => $coupon,
+                        "message" =>"Coupon added successfully"
+                    ), 200);
+                }else{
+                    return Response::json(array(
+                        'status' => false,
+                        "message" =>"Invalid coupon code"
+                    ), 200);
+                }
+            }
+        } catch (\Exception $exception) {
+            return Response::json(array(
+                'status' => false,
+                'data' => [],
+                'message' => 'Something went wrong!'
+            ), 400);
+        }
+
+        
+    }
+    
+    
+    public function checkStateTax(Request $request){
+        try {
+            if ($request->ajax()) {
+                // print_r("adad");
+                $tax = Tax::where("state_id",$request->state)->first();
+                if($tax){
+                    return Response::json(array(
+                        'status' => true,
+                        'data' => $tax,
+                        "message" =>"tax value found successfully"
+                    ), 200);
+                }else{
+                    return Response::json(array(
+                        'status' => false,
+                        "message" =>"Invalid state"
+                    ), 200);
+                }
+            }
+        } catch (\Exception $exception) {
+            return Response::json(array(
+                'status' => false,
+                'data' => [],
+                'message' => 'Something went wrong!'
+            ), 400);
+        }
+
+        
     }
 
 
@@ -203,22 +276,8 @@ class ServiceController extends Controller
 
     public function checkoutPaymentSuccess(Request $request)
     {
-        $cartData = Cart::where('session_id', $request->session_id)->first();
-        // echo "<pre>";
-        // print_r($cartData);
-        // die;
-        if ($cartData) {
-
-            /**
-             * Create Order
-             */
-            $order = new Order();
-            $order->user_id = $cartData->user_id;
-            $order->payment_status = "complete";
-            $order->payment_method = $request->payment_method;
-            $order->payment_type = "sadasd";
-            $order->total_amount = json_decode($cartData->subscription_type)->amount;
-            $order->save();
+        $order = Order::where('session_id', $request->session_id)->first();
+        if ($order) {
 
             $order_id = $order->id;
 
@@ -267,6 +326,36 @@ class ServiceController extends Controller
     {
         $session_id = Session::getId();
         $checkCart = Cart::where('session_id', $session_id)->first();
+        $paymentAmount = json_decode($checkCart->subscription_type)->amount;
+        
+        $billingAddress = new BillingAddress();
+        $billingAddress->first_name = $request->first_name;
+        $billingAddress->last_name = $request->last_name;
+        $billingAddress->email = Auth::user()->email;
+        $billingAddress->primary_address = $request->street_address;
+        $billingAddress->city = $request->city;
+        $billingAddress->state = $request->state;
+        $billingAddress->zipcode = $request->zipcode;
+        $billingAddress->country = $request->country;
+        // $billingAddress->save();
+        $tax = Tax::where("state_id",$request->state)->first();
+        if($tax!=''){
+            $paymentAmount = $paymentAmount - $tax->tax_rate;
+        }
+        if($request->coupon_code){
+            $coupon = Coupon::where("coupon_code",$request->coupon_code)->first();
+            
+            if($coupon!=''){
+                if($coupon->coupon_type=="fixed"){
+                    $paymentAmount = $paymentAmount - $coupon->coupon_value;
+                }else{
+                    $paymentAmount = $paymentAmount - ($coupon->coupon_value/100)*$paymentAmount;
+                }
+            }
+        }
+
+        $paymentToken=md5(microtime(true).mt_Rand());
+
         $this->data['first_name'] = $request->first_name;
         $this->data['last_name'] = $request->last_name;
         $this->data['street_address'] = $request->street_address;
@@ -275,12 +364,39 @@ class ServiceController extends Controller
         $this->data['zipcode'] = $request->zipcode;
         $this->data['country'] = $request->country;
         $this->data['cart'] = Cart::where('session_id', $session_id)->first();
+        $this->data['coupon_code'] = $request->coupon_code;
         $this->data['user'] = Auth::user();
-        // return $this->data;
+        $this->data['paymentAmount'] = $paymentAmount;
+        $this->data['paymentToken'] = $paymentToken;
+
         if ($request->payment_method == "paypal") {
             $paypalController = new PayPalPaymentController();
             $url = $paypalController->payment($this->data);
-            return $url;
+
+            if($url){
+                /**
+                 * Create Order
+                 */
+                
+                $order = new Order();
+                $order->user_id = $cartData->user_id;
+                $order->payment_status = "pending";
+                $order->payment_method = $request->payment_method;
+                $order->payment_type = "sadasd";
+                $order->total_amount = $paymentAmount;
+                $order->tax = $tax;
+                $order->payment_token = $paymentToken;
+                $order->payment_url = $url;
+                $order->save();
+
+                $checkCart->delete();
+                return redirect()->to($url);
+
+            }else{
+                return redirect("/");
+            }
+            
+            
         } elseif ($request->payment_method == "stripe") {
             $stripeController = new StripePaymentController();
             $url = $stripeController->payment($this->data);

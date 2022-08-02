@@ -116,7 +116,7 @@ class StripePaymentController extends Controller
         $product_id = $product->id;
         
         $priceData = array(
-                'unit_amount' => json_decode($data['cart']['subscription_type'])->amount*100,
+                'unit_amount' => $data['paymentAmount']*100,
                 'currency' => 'usd',
                 'recurring' => ['interval' => 'month','interval_count' => json_decode($data['cart']['subscription_type'])->duration],
                 'product' => $product_id,
@@ -127,7 +127,7 @@ class StripePaymentController extends Controller
         $price_id = $price->id;
         $url  = url('/');
         $stripe_session = Stripe\Checkout\Session::create([
-            'success_url' => $url.'/checkout/payment/success?payment_method=stripe&session_id='.$data['cart']['session_id'],
+            'success_url' => $url.'/checkout/payment/success?payment_method=stripe&session_id='.$data['paymentToken'],
             'cancel_url' => $url.'/checkout/payment/canceled',
             'mode' => 'subscription',
             'line_items' => [[

@@ -19,13 +19,16 @@ return new class extends Migration {
             $table->enum('payment_status', ['pending', 'processing', 'cancel', 'complete'])->nullable();
             $table->enum('payment_method', ['stripe', 'paypal']);
             $table->string('payment_type');
+            $table->double('tax', 8, 2);
+            $table->string('payment_token')->nullable();
+            $table->string('payment_url');
             $table->double('total_amount', 8, 2);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('coupon_id')->references('id')->on('coupons');
+            // $table->foreign('coupon_id')->references('id')->on('coupons');
             $table->index('user_id');
-            $table->index('coupon_id');
+            // $table->index('coupon_id');
         });
     }
 
