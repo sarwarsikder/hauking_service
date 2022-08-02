@@ -240,9 +240,16 @@ class UserController extends Controller
 
     function editUserService($serviceId)
     {
-        $this->data['frequency'] = Frequency::all();
-        $this->data['timezones'] = Timezone::all();
-        ServiceOrder::where('id', $serviceId)->with('')->first();
-        return view("backends.user.edit_service", $this->data);
+
+        try {
+            $this->data['frequency'] = Frequency::all();
+            $this->data['timezones'] = Timezone::all();
+            $this->data['user_service'] = ServiceOrder::where('id', $serviceId)->first();
+            return view("backends.user.edit_service", $this->data);
+
+        } catch (\Exception $exception) {
+            dd($exception->getMessage());
+        }
+
     }
 }

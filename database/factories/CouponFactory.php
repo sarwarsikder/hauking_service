@@ -17,12 +17,14 @@ class CouponFactory extends Factory
      */
     public function definition()
     {
-        $value_array = array("fixed", "percent", "days");
+        $value_array = array("fixed", "percent");
         $rand_day_value = array_rand($value_array);
 
         return [
             'coupon_name' => fake()->name(),
+            'coupon_code' => fake()->unique()->word,
             'coupon_type' => $value_array[$rand_day_value],
+            'exp_day' => rand(5, 30),
             'coupon_value' => rand(10, 50),
         ];
     }
