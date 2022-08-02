@@ -12,7 +12,7 @@
                 <div class="recentUser">
                     <div class="card shadow">
                         <div class="card-body">
-                            <div class="row pt-3">
+                            {{-- <div class="row pt-3">
 
                                 <div class="col-md-10">
                                     <div class="table-left pb-4">
@@ -61,7 +61,7 @@
                                         </nav>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="single-table">
                                 <div class="table-responsive">
@@ -69,49 +69,38 @@
                                         <thead class="text-uppercase fw-bold">
                                         <tr>
                                             <th scope="col"><input type="checkbox"></th>
-                                            <th scope="col">Order</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Status</th>
+                                            <th scope="col">Id</th>
+                                            <th scope="col">User</th>
+                                            <th scope="col">Coupons</th>
+                                            <th scope="col">Payment Status</th>
+                                            <th scope="col">Payment Method</th>
+                                            {{-- <th scope="col">Payment Type</th> --}}
                                             <th scope="col">Total</th>
+                                            <th scope="col">Status</th>
                                         </tr>
                                         </thead>
 
                                         <tbody class="user-data">
+                                        @foreach ($orders as $order)
                                         <tr>
                                             <td scope="row"><input type="checkbox"></td>
-                                            <td scope="row">#260</td>
-                                            <td scope="row"> <span></span> Jul 3 2022</td>
-                                            <td  scope="row" class="pendingPayment">Pending Payment</td>
-                                            <td scope="row"><a href="#">$10.00</a></td>
+                                            <td scope="row">{{$order->id}}</td>
+                                            <td scope="row">{{$order->user_id}}</td>
+                                            <td scope="row">{{$order->coupon_id}}</td>
+                                            <td scope="row">{{$order->payment_status}}</td>
+                                            <td scope="row">{{$order->payment_method}}</td>
+                                            {{-- <td scope="row">{{$order->payment_type}}</td> --}}
+                                            <td scope="row">{{$order->total_amount}}</td>
+                                            <td scope="row">
+                                                <label class="switch">
+                                                    <input type="checkbox"
+                                                           {{($order->status==true)?"checked":""}}  data-id="{{$order->id}}"
+                                                           class="toggle-class">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </td>
                                         </tr>
-                                        <tr>
-                                            <td scope="row"><input type="checkbox"></td>
-                                            <td scope="row">#260</td>
-                                            <td scope="row">Jul 3 2022</td>
-                                            <td scope="row" class="pendingPayment">Pending Payment</td>
-                                            <td scope="row"><a href="#">$10.00</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row"><input type="checkbox"></td>
-                                            <td scope="row">#260</td>
-                                            <td scope="row">Jul 3 2022</td>
-                                            <td scope="row" class="processingPayment">Processing</td>
-                                            <td scope="row"><a href="#">$10.00</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row"><input type="checkbox"></td>
-                                            <td scope="row">#260</td>
-                                            <td scope="row">Jul 3 2022</td>
-                                            <td scope="row" class="processingPayment">Processing</td>
-                                            <td scope="row"><a href="#">$10.00</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row"><input type="checkbox"></td>
-                                            <td scope="row">#260</td>
-                                            <td scope="row">Jul 3 2022</td>
-                                            <td scope="row" class="completePayment">Complete</td>
-                                            <td scope="row"><a href="#">$10.00</a></td>
-                                        </tr>
+                                        @endforeach
                                         </tbody>
                                     </table>
 

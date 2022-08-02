@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('coupon_name');
             $table->string('coupon_code')->unique();
             $table->enum('coupon_type', ['fixed', 'percent']);
-            $table->integer('exp_day');
+            $table->date('exp_day');
             $table->double('coupon_value', 8, 2);
             $table->boolean('status')->default(0);
 

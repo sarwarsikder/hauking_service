@@ -24,14 +24,17 @@ return new class extends Migration {
             $table->string('payment_token')->nullable();
             $table->text('payment_url');
             $table->double('total_amount', 8, 2);
-            $table->timestamps();
-
             $table->foreign('user_id')->references('id')->on('users');
             /*            $table->foreign('coupon_id')->references('id')->on('coupons');*/
             $table->foreign('service_id')->references('id')->on('services');
-            $table->index('user_id');
+            $table->boolean('status')->default(0);
+            
+            $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            
             $table->index('service_id');
-            // $table->index('coupon_id');
+            $table->index('user_id');
+            $table->index('coupon_id');
         });
     }
 

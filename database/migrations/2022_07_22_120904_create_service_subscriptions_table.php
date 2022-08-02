@@ -34,6 +34,7 @@ return new class extends Migration {
             $table->index('order_id');
             $table->index('service_id');
             $table->index('user_id');
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

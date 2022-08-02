@@ -36,7 +36,9 @@
                                             <th class="text-nowrap" scope="col">Coupon ID</th>
                                             <th class="text-nowrap" scope="col">Coupon Name</th>
                                             <th class="text-nowrap" scope="col">Type</th>
+                                            <th class="text-nowrap" scope="col">Coupon Code</th>
                                             <th class="text-nowrap" scope="col">Discounts</th>
+                                            <th class="text-nowrap" scope="col">Expiry Date</th>
                                             <th scope="col">Status</th>
                                             <th scope="col">Action</th>
                                         </tr>
@@ -48,7 +50,9 @@
                                                 <td scope="row">{{$coupon->id}}</td>
                                                 <td scope="row">{{$coupon->coupon_name}}</td>
                                                 <td scope="row">{{ $coupon->coupon_type }}</td>
+                                                <td scope="row">{{ $coupon->coupon_code }}</td>
                                                 <td scope="row">{{ $coupon->coupon_value }}%</td>
+                                                <td scope="row">{{ $coupon->exp_day }}</td>
                                                 <td scope="row">
                                                     <label class="switch">
                                                         <input type="checkbox"
@@ -156,7 +160,7 @@
                                 },
                                 type: "POST",
                                 dataType: "json",
-                                url: '/admin/coupons/delete/',
+                                url: '/admin/settings/coupons/delete/',
                                 data: {
                                     'id': coupon_id
                                 },
