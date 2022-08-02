@@ -7,6 +7,8 @@ use App\Http\Requests\FrontendRequest\UserProfileRequest;
 use App\Models\Country;
 use App\Models\State;
 use App\Models\Timezone;
+use App\Models\ServiceSubscriptions;
+use App\Models\ServiceOrders;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -24,8 +26,14 @@ class UserAccountController extends Controller
     public function index()
     {
         try {
-            $user_id = 101; # Auth::id(); will be change later.
+
+            $user_id = Auth::user()->id; # Auth::id(); will be change later.
+            $user_service = ServiceOrders::where('created_by', $user_id)->with('service')->get();
+            $user_subscription = ServiceSubscriptions::where('user_id', $user_id)->get();
+            // return $user_subscription;
             $this->data['user'] = User::where('id', $user_id)->first();
+            $this->data['user_service'] = $user_service;
+            $this->data['user_subscription'] = $user_subscription;
             $this->data['countries'] = Country::all();
             $this->data['states'] = State::all();
             $this->data['timezones'] = Timezone::all();
@@ -82,6 +90,7 @@ class UserAccountController extends Controller
             echo $exception->getMessage();
         }
     }
+
     /**
      * Show the form for editing the specified resource.
      *

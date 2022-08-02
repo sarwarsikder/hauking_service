@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->json('default_value_night');
             $table->json('default_value_booster');
             $table->json('default_special_feq');
-
+            $table->enum('status', ['active', 'pending', 'cancel', 'expired'])->default('active');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
 

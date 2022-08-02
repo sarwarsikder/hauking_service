@@ -16,7 +16,8 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('order_id')->nullable();
             $table->unsignedBigInteger('service_id')->nullable();
-            $table->enum('status', ['Active', 'On Hold', 'Cancel', 'Expired']);
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->enum('status', ['active', 'pending', 'cancel', 'expired'])->default('pending');
             $table->string('payments_status');
             $table->double('monthly_amount', 8, 2);
             $table->date('start_date')->nullable();
@@ -28,9 +29,11 @@ return new class extends Migration {
 
             $table->foreign('order_id')->references('id')->on('orders');
             $table->foreign('service_id')->references('id')->on('services');
+            $table->foreign('user_id')->references('id')->on('users');
 
             $table->index('order_id');
             $table->index('service_id');
+            $table->index('user_id');
         });
     }
 
