@@ -65,6 +65,8 @@ Route::get('/checkout/payment/canceled', [ServiceController::class, 'checkoutPay
 Route::get('/service-update/{order_id}', [ServiceController::class, 'edit'])->name('account-service');
 Route::post('/service-update/{id}', [ServiceController::class, 'update'])->name('account-service-update');
 Route::get('/stripe-webhook/checkout/payment', [ServiceController::class, 'stripeWebhook'])->name('stripe-webhook');
+Route::post('/check-coupon-code', [ServiceController::class, 'checkCouponCode'])->name('check-coupon-code');
+Route::post('/check-state-tax', [ServiceController::class, 'checkStateTax'])->name('check-state-tax');
 #my Account
 Route::get('/profile/', [UserAccountController::class, 'index'])->name('user-account');
 Route::post('/profile/{id}/update', [UserAccountController::class, 'UpdateUserProfile'])->name('user-account-update');
