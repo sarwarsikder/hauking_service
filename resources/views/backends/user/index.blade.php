@@ -20,7 +20,8 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="table-left">
-                                        <a href="{{route('users-create')}}" class="add-user"> <span><i class="bi bi-person-plus"></i></span> Add
+                                        <a href="{{route('users-create')}}" class="add-user"> <span><i
+                                                    class="bi bi-person-plus"></i></span> Add
                                             User</a>
                                     </div>
                                 </div>
@@ -38,15 +39,16 @@
                                             <th scope="col">Active</th>
                                         </tr>
                                         </thead>
-
                                         <tbody class="user-data">
                                         @foreach ($users as $user)
                                             <tr>
-                                                <td scope="row">{{$user->id}}</td>
-                                                <td scope="row">{{$user->first_name}}</td>
-                                                <td scope="row">{{$user->last_name}}</td>
-                                                <td scope="row">{{$user->email}}</td>
-                                                <td scope="row"><a href="#">{{$user->id}}</a></td>
+                                                <td scope="row">{{@$user->id}}</td>
+                                                <td scope="row">{{@$user->first_name}}</td>
+                                                <td scope="row">{{@$user->last_name}}</td>
+                                                <td scope="row">{{@$user->email}}</td>
+                                                <td scope="row"><a
+                                                        href="#">{{($user->service_orders!=null)?count($user->service_orders):0}}</a>
+                                                </td>
                                                 <td scope="row">
                                                     <label class="switch">
                                                         <input type="checkbox"
@@ -57,12 +59,14 @@
                                                 </td>
                                                 <td>
                                                     <div class="add-userTable-btn">
-                                                        <a href="{{URL::to('admin/users/update/'.$user->id)}}" class="edit-btn"><i
-                                                        <a href="{{route('users-edit', $user->id)}}" class="edit-btn"><i
-                                                                class="bi bi-pencil-square"></i></a>
-                                                        <a href="javascrit:void()" class="del-btn"
-                                                           data-id="{{$user->id}}"><i
-                                                                class="bi bi-trash"></i></a>
+                                                        <a href="{{URL::to('admin/users/update/'.$user->id)}}"
+                                                           class="edit-btn"><i
+                                                            <a href="{{route('users-edit', $user->id)}}"
+                                                               class="edit-btn"><i
+                                                                    class="bi bi-pencil-square"></i></a>
+                                                            <a href="javascrit:void()" class="del-btn"
+                                                               data-id="{{$user->id}}"><i
+                                                                    class="bi bi-trash"></i></a>
                                                     </div>
                                                 </td>
                                             </tr>

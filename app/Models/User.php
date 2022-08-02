@@ -50,8 +50,24 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+
     public function timezone()
     {
         return $this->belongsTo(Timezone::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function service_orders()
+    {
+        return $this->hasMany(ServiceOrder::class);
+    }
+
+    public function serviceCount()
+    {
+        return $this->services()->count();
     }
 }
