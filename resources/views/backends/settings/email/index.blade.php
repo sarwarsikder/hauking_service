@@ -30,39 +30,47 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead class="text-uppercase">
-                                            <tr>
-                                                <th class="text-nowrap" scope="col">E-mail ID</th>
-                                                <th class="text-nowrap" scope="col">E-Mail Type</th>
-                                                <th class="text-nowrap" scope="col">E-Mail Subject</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Action</th>
-                                            </tr>
+                                        <tr>
+                                            <th class="text-nowrap" scope="col">E-mail ID</th>
+                                            <th class="text-nowrap" scope="col">E-Mail Type</th>
+                                            <th class="text-nowrap" scope="col">E-Mail Subject</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
                                         </thead>
 
                                         <tbody class="user-data">
-                                            @foreach ($emails as $email)
-                                                <tr>
-                                                    <td scope="row">{{ $email->id }}</td>
-                                                    <td scope="row">{{ $email->mail_type }}</td>
-                                                    <td scope="row">{{ $email->email_subject }}</td>
-                                                    <td scope="row">
-                                                        <label class="switch">
-                                                            <input type="checkbox" {{ $email->status == '1' ? 'checked' : '' }}
-                                                                data-id="{{ $email->id }}" class="toggle-class">
-                                                            <span class="slider round"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="add-userTable-btn">
-                                                            <a href="{{ route('emails-edit', $email->id) }}" class="edit-btn"><i
-                                                                    class="bi bi-pencil-square"></i></a>
-                                                            <a href="javascrit:void()" class="del-btn"
-                                                               data-id="{{$email->id}}"><i
-                                                                    class="bi bi-trash"></i></a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
+                                        @foreach ($emails as $email)
+                                            <tr>
+                                                <td scope="row">{{ $email->id }}</td>
+                                                @if($email->mail_type==1)
+                                                    <td scope="row">Sign up</td>
+                                                @elseif($email->mail_type==1)
+                                                    <td scope="row">Checkout</td>
+                                                @else
+                                                    <td scope="row">Password Reset</td>
+                                                @endif
+                                                <td scope="row">{{ $email->email_subject }}</td>
+                                                <td scope="row">
+                                                    <label class="switch">
+                                                        <input type="checkbox"
+                                                               {{ $email->status == '1' ? 'checked' : '' }}
+                                                               data-id="{{ $email->id }}" class="toggle-class">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <div class="add-userTable-btn">
+                                                        <a href="{{ route('emails-edit', $email->id) }}"
+                                                           class="edit-btn"><i
+                                                                class="bi bi-pencil-square"></i></a>
+                                                        <a href="javascrit:void()" class="del-btn"
+                                                           data-id="{{$email->id}}"><i
+                                                                class="bi bi-trash"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
 
                                         </tbody>
                                     </table>
@@ -83,92 +91,93 @@
     @push('css-styles')
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     @endpush
-@section('scripts')
-    @parent
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
-    <script>
-        $(function() {
-            $('.toggle-class').change(function() {
-                var status = $(this).prop('checked') == true ? 1 : 0;
-                var email_id = $(this).data('id');
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    type: "POST",
-                    dataType: "json",
-                    url: '/admin/settings/emails/status/',
-                    data: {
-                        'status': status,
-                        'id': email_id
-                    },
-                    success: function(data) {
-                        console.log(data.success)
-                        if (data.status == true) {
-                            toastr.success(data.message);
-                        } else {
-                            toastr.error(data.message);
-                        }
-                    },
-                    error: function(err) {
-                        toastr.error(err.message);
-                    }
-                });
-            });
-
-            $('.del-btn').on('click', function(e) {
-                e.preventDefault();
-                var button = $(this);
-                var email_id = $(this).data('id');
-
-                bootbox.confirm({
-                    title: "Are you sure?",
-                    message: "Your about to delete this user!",
-                    buttons: {
-                        confirm: {
-                            label: 'Yes',
-                            className: 'btn-success'
+    @section('scripts')
+        @parent
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script type="text/javascript"
+                src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+        <script>
+            $(function () {
+                $('.toggle-class').change(function () {
+                    var status = $(this).prop('checked') == true ? 1 : 0;
+                    var email_id = $(this).data('id');
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        cancel: {
-                            label: 'No',
-                            className: 'btn-danger'
+                        type: "POST",
+                        dataType: "json",
+                        url: '/admin/settings/emails/status/',
+                        data: {
+                            'status': status,
+                            'id': email_id
+                        },
+                        success: function (data) {
+                            console.log(data.success)
+                            if (data.status == true) {
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        },
+                        error: function (err) {
+                            toastr.error(err.message);
                         }
-                    },
-                    callback: function(result) {
-                        if (result) {
-                            $.ajax({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                        'content')
-                                },
-                                type: "POST",
-                                dataType: "json",
-                                url: '/admin/settings/emails/delete',
-                                data: {
-                                    'id': email_id
-                                },
-                                success: function(data) {
-                                    if (data.status == true) {
-                                        toastr.success(data.message);
-                                        setInterval(function() {
-                                            window.location.reload();
-                                        }, 5000);
-                                    } else {
+                    });
+                });
+
+                $('.del-btn').on('click', function (e) {
+                    e.preventDefault();
+                    var button = $(this);
+                    var email_id = $(this).data('id');
+
+                    bootbox.confirm({
+                        title: "Are you sure?",
+                        message: "Your about to delete this user!",
+                        buttons: {
+                            confirm: {
+                                label: 'Yes',
+                                className: 'btn-success'
+                            },
+                            cancel: {
+                                label: 'No',
+                                className: 'btn-danger'
+                            }
+                        },
+                        callback: function (result) {
+                            if (result) {
+                                $.ajax({
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                            'content')
+                                    },
+                                    type: "POST",
+                                    dataType: "json",
+                                    url: '/admin/settings/emails/delete',
+                                    data: {
+                                        'id': email_id
+                                    },
+                                    success: function (data) {
+                                        if (data.status == true) {
+                                            toastr.success(data.message);
+                                            setInterval(function () {
+                                                window.location.reload();
+                                            }, 5000);
+                                        } else {
+                                            toastr.error(data.message);
+                                        }
+                                    },
+                                    error: function (err) {
                                         toastr.error(data.message);
                                     }
-                                },
-                                error: function(err) {
-                                    toastr.error(data.message);
-                                }
-                            });
+                                });
 
+                            }
                         }
-                    }
+                    });
                 });
-            });
 
-        });
-    </script>
-@endsection
+            });
+        </script>
+    @endsection
 @endsection
