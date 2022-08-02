@@ -96,9 +96,9 @@ class ServiceController extends Controller
             $this->data['checkCart'] = Cart::where('session_id', Session::getId())->first();
         }
 
-        if (count($this->data['checkCart']) == 0) {
-            return redirect('/')->with('page_message', 'Cart id empty!');
-        }
+//        if (count($this->data['checkCart']) == 0) {
+//            return redirect('/')->with('page_message', 'Cart id empty!');
+//        }
 
         return view('frontends.services.service_checkout', $this->data);
     }
