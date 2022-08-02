@@ -10,6 +10,4 @@ use Laravel\Sanctum\HasApiTokens;
 class Service extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
-
-  
 }
