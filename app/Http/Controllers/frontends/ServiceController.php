@@ -91,12 +91,12 @@ class ServiceController extends Controller
     public function checkout()
     {
         if (Auth::check()) {
-           /* $user_id = Auth::id();
-            $session_id = Session::getId();
-            $this->data['checkCart'] = Cart::where(function ($query) use ($user_id, $session_id) {
-                $query->where('user_id', '=', $user_id)
-                    ->orWhere('session_id', '=', $session_id);
-            })->first();*/
+            /* $user_id = Auth::id();
+             $session_id = Session::getId();
+             $this->data['checkCart'] = Cart::where(function ($query) use ($user_id, $session_id) {
+                 $query->where('user_id', '=', $user_id)
+                     ->orWhere('session_id', '=', $session_id);
+             })->first();*/
             $this->data['checkCart'] = Cart::where('session_id', Session::getId())->first();
         } else {
             $this->data['checkCart'] = Cart::where('session_id', Session::getId())->first();
@@ -228,6 +228,7 @@ class ServiceController extends Controller
             $newServiceOrders = new ServiceOrders();
             $newServiceOrders->service_id = $cartData->service_id;
             $newServiceOrders->order_id = $order_id;
+            $newServiceOrders->user_id = Auth::user()->id;
             $newServiceOrders->hawkin_scale = $cartData->hawkin_scale;
             $newServiceOrders->data_fields = $cartData->data_fields;
             $newServiceOrders->default_value_day = $cartData->default_value_day;

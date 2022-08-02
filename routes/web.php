@@ -16,6 +16,7 @@ use App\Http\Controllers\backends\user\UserController;
 use App\Http\Controllers\frontends\ForgetPasswordController;
 use App\Http\Controllers\frontends\LoginUserController;
 use App\Http\Controllers\frontends\RegisterUserController;
+use App\Http\Controllers\frontends\ResetPasswordController;
 use App\Http\Controllers\frontends\ServiceController;
 use App\Http\Controllers\frontends\UserAccountController;
 use App\Http\Controllers\payments\StripePaymentController;
@@ -83,6 +84,10 @@ Route::post('/user-register/', [RegisterUserController::class, 'store'])->name('
 
 
 Route::get('/forget-password/', [ForgetPasswordController::class, 'index'])->name('forget-password');
+Route::post('/forget-password/', [ForgetPasswordController::class, 'postEmail'])->name('forget-password-send');
+
+Route::get('/reset-password-token/{token}', [ResetPasswordController::class, 'getPassword'])->name('get-forget-password');
+Route::post('/reset-password-token', [ResetPasswordController::class, 'updatePassword'])->name('post-forget-password');
 
 
 Route::get('/admin-login/', [LoginUserController::class, 'index'])->name('admin-login');

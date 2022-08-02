@@ -24,7 +24,7 @@ class SubscriberController extends Controller
      */
     public function index()
     {
-        return view("dashboard.order.subscriber.subscriber");
+        return view("dashboard.order.subscriber");
     }
 
     /**
