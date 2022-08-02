@@ -3,10 +3,16 @@
 namespace App\Http\Controllers\backends\order;
 
 use App\Http\Controllers\Controller;
+use App\Service\OrdersService;
 use Illuminate\Http\Request;
+use App\Traits\Statusable;
+use Response;
 
 class OrderController extends Controller
 {
+    use Statusable;
+
+    private array $data = [];
     /**
      * Create a new controller instance.
      *
@@ -21,9 +27,18 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view("backends.order.index");
+        try {
+            $order_service = new OrdersService($request->toArray());
+            $this->data['orders'] = $order_service->get();
+            // dd($this->data);
+        } catch (\Exception $exception) {
+
+            return back()->withError($exception->getMessage())->withInput();
+        }
+
+        return view("backends.order.index", $this->data);
     }
 
     /**

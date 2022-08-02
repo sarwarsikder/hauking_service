@@ -31,7 +31,7 @@
                            aria-controls="Orders" aria-expanded="true"><i class="bi bi-cart"></i><span>Orders </span>
                         </a>
                         <ul class="collapse {{ (Request::segment(2)=='orders')?"show":"" }}" id="orders">
-                            <li><a href="subscriber.html">Subscriber </a></li>
+                            <li><a href="{{ route('subscriber')}}">Subscriber </a></li>
                         </ul>
                     </li>
                     <li>

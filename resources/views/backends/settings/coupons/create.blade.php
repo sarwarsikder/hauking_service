@@ -45,6 +45,17 @@
                                         @enderror
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th>Value:</th>
+                                    <td>
+
+                                        <input type="date" class="@error('exp_day') is-invalid @enderror"
+                                            name="exp_day" value="{{ old('exp_day') }}">
+                                        @error('exp_day')
+                                            <p class="text-danger">{{ $message }}</p>
+                                        @enderror
+                                    </td>
+                                </tr>
                                 <th>Status:</th>
                                 <td>
                                     <label class="switch">

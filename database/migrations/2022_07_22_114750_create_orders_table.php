@@ -22,10 +22,13 @@ return new class extends Migration {
             $table->double('total_amount', 8, 2);
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('coupon_id')->references('id')->on('coupons');
+            // $table->foreign('user_id')->references('id')->on('users');
+            // $table->foreign('coupon_id')->references('id')->on('coupons');
             $table->index('user_id');
             $table->index('coupon_id');
+
+            $table->boolean('status')->default(0);
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

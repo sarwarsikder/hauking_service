@@ -57,7 +57,17 @@ class CouponsController extends Controller
     {
         return view("backends.settings.coupons.create", $this->data);
     }
-
+    protected function random_string($length) {
+        $key = '';
+        $keys = array_merge(range(0, 9), range('a', 'z'));
+    
+        for ($i = 0; $i < $length; $i++) {
+            $key .= $keys[array_rand($keys)];
+        }
+    
+        return $key;
+    }
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -70,9 +80,10 @@ class CouponsController extends Controller
         try {
 
             $couponObject = new Coupons();
-
             $couponObject->coupon_name = $request['coupon_name'];
             $couponObject->coupon_type = $request['coupon_type'];
+            $couponObject->coupon_code = $this->random_string(6);
+            $couponObject->exp_day = $request['exp_day'];
             $couponObject->coupon_value = $request['coupon_value'];
             $couponObject->status = !empty($request['status']) == 'on' ? true : false;
 

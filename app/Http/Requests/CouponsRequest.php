@@ -17,7 +17,7 @@ class CouponsRequest extends FormRequest
         return [
             'coupon_name' => 'required|string|min:4|max:50',
             'coupon_type' => 'required',
-            'coupon_value' => 'required',
+            'coupon_value' => 'required|max:6',
 
         ];
     }
@@ -29,6 +29,7 @@ class CouponsRequest extends FormRequest
             'coupon_name.required' => 'Coupon Name is required!',
             'coupon_type.required' => 'Coupon Type is required!',
             'coupon_value.required' => 'Coupon Value is required!',
+            'coupon_value.max' => 'Max value is 6',
         ];
     }
 

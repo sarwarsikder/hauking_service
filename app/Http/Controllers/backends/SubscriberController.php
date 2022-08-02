@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\backends;
 
 use App\Http\Controllers\Controller;
+use App\Service\ServiceSubscribtionService;
 use Illuminate\Http\Request;
-
+use Response;
 class SubscriberController extends Controller
 {
+    private array $data = [];
     /**
      * Create a new controller instance.
      *
@@ -22,9 +24,17 @@ class SubscriberController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view("dashboard.order.subscriber.subscriber");
+        try {
+            $orderSubscribers_service = new ServiceSubscribtionService($request->toArray());
+            $this->data['orderSubscribers'] = $orderSubscribers_service->get();
+        } catch (\Exception $exception) {
+
+            return back()->withError($exception->getMessage())->withInput();
+        }
+
+        return view("backends.order.subscriber.index", $this->data);
     }
 
     /**
